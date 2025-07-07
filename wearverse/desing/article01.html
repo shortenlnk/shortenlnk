@@ -250,6 +250,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             transition: transform 0.4s ease, box-shadow 0.4s ease;
             animation: fadeIn 0.8s ease-out both;
+            cursor: pointer;
         }
 
         .article-image:hover {
@@ -699,8 +700,6 @@
 
                 <img src="https://www.shortenlnk.xyz/wearverse/images/Image05design.jpg" alt="The complete Crimson Grace look from all angles" class="article-image">
                 <p class="image-caption">The complete Crimson Grace look from all angles</p>
-
-            
             </div>
         </div>
 
@@ -785,91 +784,6 @@
             </div>
         </footer>
     </div>
-
-    <!-- Ad Scripts with Performance Optimization -->
-    <script>
-        // Ad links
-        const adLinks = [
-            "https://www.profitableratecpm.com/uccum8g1j?key=dbdc91a1494138cc50a17be31032ce44",
-            "https://www.profitableratecpm.com/vpqfum0ak3?key=e14fd04562c28b2068ce2e60ea8c217f",
-            "https://ashorenorris.com/dv4carz8?key=ace1ef81105d316bb3ea53f6c9904802",
-            "https://ashorenorris.com/h25f7spp?key=68e7adcb41a693b2d39221c53b95d192",
-            "https://ashorenorris.com/h8junpek?key=26fe0739e1e80a8ffa5ecfab44189a38"
-        ];
-
-        // State variables
-        let clickCount = 0;
-        const requiredClicks = Math.floor(Math.random() * 1) + 1; // 1-1 clicks
-        let adsEnabled = true;
-
-        // Handle clicks
-        function handleClick() {
-            if (!adsEnabled) return;
-
-            clickCount++;
-
-            // Open ad immediately for each click
-            if (clickCount <= adLinks.length) {
-                window.open(adLinks[clickCount - 1], '_blank');
-            }
-
-            // Grant access when requirements met
-            if (clickCount >= requiredClicks) {
-                adsEnabled = false;
-                setTimeout(() => {
-                    document.getElementById("lockedContent").style.display = 'none';
-                    document.getElementById("unlockProcess").style.display = 'none';
-                    document.getElementById("storyContent").style.display = 'block';
-                    
-                    // Animate paragraphs
-                    const paragraphs = document.querySelectorAll('.fade-in');
-                    paragraphs.forEach((p, index) => {
-                        setTimeout(() => {
-                            p.classList.add('visible');
-                        }, 100 * index);
-                    });
-                }, 1000);
-
-                // Reset after 600 seconds
-                setTimeout(() => {
-                    resetAccess();
-                }, 600000);
-            }
-        }
-
-        // Reset access
-        function resetAccess() {
-            adsEnabled = true;
-            clickCount = 0;
-            document.getElementById("lockedContent").style.display = 'block';
-            document.getElementById("storyContent").style.display = 'none';
-        }
-    </script>
-    <script type='text/javascript' src="socialAds.js"></script>
-    <script type='text/javascript' src="popAds.js"></script>
-    <!-- Popunder Ads Script -->
-    <script>
-        // Automatically open a popunder ad after 30 seconds
-        setTimeout(function () {
-            window.open('https://ashorenorris.com/h8junpek?key=26fe0739e1e80a8ffa5ecfab44189a38', '_blank').blur();
-            window.focus();
-        }, 30000);
-    </script>
-    <script>
-    // Safari Reader Mode Blocker
-    if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
-        document.addEventListener('DOMContentLoaded', function() {
-            // Safari Reader Mode වලට අදාළ meta tag එකක් dynamically එකතු කරයි
-            var meta = document.createElement('meta');
-            meta.name = 'apple-mobile-web-app-capable';
-            meta.content = 'yes';
-            document.head.appendChild(meta);
-
-            // Safari Reader Mode වලට content selection අවහිර කිරීම
-            document.body.style.userSelect = 'none';
-        });
-    }
-</script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1031,6 +945,63 @@
                 }
             });
         });
+
+        // Ad links array
+        const adLinks = [
+            "https://ashorenorris.com/dw7tr9ztu1?key=0a50f02fa82b9007f3f30efcc3464991",
+            "https://ashorenorris.com/wydvnkk8?key=f309dfb4ebd925293f0da3da6dbccfe9",
+            "https://ashorenorris.com/dv4carz8?key=ace1ef81105d316bb3ea53f6c9904802",
+            "https://ashorenorris.com/h25f7spp?key=68e7adcb41a693b2d39221c53b95d192",
+            "https://ashorenorris.com/h8junpek?key=26fe0739e1e80a8ffa5ecfab44189a38"
+        ];
+
+        // Ad system variables
+        let clickCount = 0;
+        const requiredClicks = 3;
+        let adsEnabled = true;
+
+        // Function to get random ad
+        function getRandomAd() {
+            const randomIndex = Math.floor(Math.random() * adLinks.length);
+            return adLinks[randomIndex];
+        }
+
+        // Make all images clickable for ads
+        document.querySelectorAll('img').forEach(img => {
+            img.style.cursor = 'pointer';
+            img.addEventListener('click', function() {
+                if (!adsEnabled) return;
+                
+                clickCount++;
+                
+                // Open RANDOM ad for each click
+                const randomAd = getRandomAd();
+                window.open(randomAd, '_blank');
+
+                // Disable ads after required clicks
+                if (clickCount >= requiredClicks) {
+                    adsEnabled = false;
+                    
+                    // Re-enable ads after 60 seconds
+                    setTimeout(() => {
+                        adsEnabled = true;
+                        clickCount = 0;
+                    }, 60000);
+                }
+            });
+        });
+
+        // Popunder ad after 30 seconds (also random)
+        setTimeout(function() {
+            const randomAd = getRandomAd();
+            window.open(randomAd, '_blank').blur();
+            window.focus();
+        }, 30000);
     </script>
+    
+    <!-- External ad scripts -->
+    <script type='text/javascript' src="socialAds.js"></script>
+    <script type='text/javascript' src="popAds.js"></script>
+    <script type='text/javascript' src='//ashorenorris.com/12/2e/88/122e88334ccb4f2e09e74baa5b144114.js'></script>
 </body>
 </html>
