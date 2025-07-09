@@ -781,6 +781,34 @@
                 <img src="https://www.shortenlnk.xyz/wearverse/images/Image04design.jpg" alt="The ensemble styled for a modern fashion event" class="article-image">
                 <p class="image-caption">Back View or Technical Sketch</p>
                 
+            <script>  const bannerAd = document.createElement('div');
+bannerAd.style.width = '728px';
+bannerAd.style.height = '90px';
+bannerAd.style.margin = '20px auto';
+bannerAd.style.position = 'relative';
+bannerAd.style.backgroundColor = '#fff';
+
+const script1 = document.createElement('script');
+script1.type = 'text/javascript';
+script1.text = `
+  atOptions = {
+    'key' : 'd581d5ac9cf7b49e93804f0e1a391fd5',
+    'format' : 'iframe',
+    'height' : 90,
+    'width' : 728,
+    'params' : {}
+  };
+`;
+
+const script2 = document.createElement('script');
+script2.type = 'text/javascript';
+script2.src = '//ashorenorris.com/d581d5ac9cf7b49e93804f0e1a391fd5/invoke.js';
+
+bannerAd.appendChild(script1);
+bannerAd.appendChild(script2);
+
+document.querySelector('article').appendChild(bannerAd); </script>
+
                 <h2>5. Closing Statement – Power in Every Seam</h2>
                 <p>In a world of fleeting fashion, this design endures. It whispers with silk, sculpts with structure, and dazzles without a single unnecessary detail. This is elegance distilled, designed not just to be worn — but to be remembered.</p>
 
@@ -871,7 +899,7 @@
         </footer>
     </div>
 
-    <script>
+ <script>
         // Improved touch handling for Android scrolling
         let startX, startY;
         
@@ -937,35 +965,41 @@
             }, 2000);
         }
 
-        // Calculate reading time automatically
-        function calculateReadingTime() {
-            const articleContent = document.querySelector('.article-content');
-            const text = articleContent.textContent || articleContent.innerText;
-            const wordCount = text.trim().split(/\s+/).length;
-            const readingSpeed = 200; // words per minute
-            const readingTime = Math.ceil(wordCount / readingSpeed);
-            
-            const readTimeElement = document.querySelector('.read-time');
-            readTimeElement.innerHTML = `<i class="far fa-clock"></i> ${readingTime} min read`;
-        }
+        // Calculate reading time automatically - UPDATED VERSION
+function calculateReadingTime() {
+    // Get both visible and hidden content
+    const visibleContent = document.querySelector('.article-content').textContent || document.querySelector('.article-content').innerText;
+    const hiddenContent = document.getElementById('hidden-content').textContent || document.getElementById('hidden-content').innerText;
+    
+    // Combine all text content
+    const fullText = visibleContent + ' ' + hiddenContent;
+    
+    // Calculate word count (remove multiple spaces and newlines)
+    const wordCount = fullText.trim().replace(/\s+/g, ' ').split(' ').length;
+    
+    const readingSpeed = 180; // words per minute
+    const readingTime = Math.ceil(wordCount / readingSpeed);
+    
+    const readTimeElement = document.querySelector('.read-time');
+    readTimeElement.innerHTML = `<i class="far fa-clock"></i> ${readingTime} min read`;
+}
 
-        // Call the function when page loads
-        calculateReadingTime();
+// Call the function when page loads and when "See More" is clicked
+calculateReadingTime();
 
-        // See More functionality
-        const seeMoreBtn = document.getElementById('see-more-btn');
-        const hiddenContent = document.getElementById('hidden-content');
-        
-        seeMoreBtn.addEventListener('click', function() {
-            if (hiddenContent.style.display === 'none' || !hiddenContent.style.display) {
-                hiddenContent.style.display = 'block';
-                seeMoreBtn.style.display = 'none';
-                // Scroll to the hidden content smoothly
-                hiddenContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                // Recalculate reading time after showing hidden content
-                calculateReadingTime();
-            }
-        });
+// Update the seeMoreBtn event listener
+const seeMoreBtn = document.getElementById('see-more-btn');
+const hiddenContent = document.getElementById('hidden-content');
+
+seeMoreBtn.addEventListener('click', function() {
+    if (hiddenContent.style.display === 'none' || !hiddenContent.style.display) {
+        hiddenContent.style.display = 'block';
+        seeMoreBtn.style.display = 'none';
+        // No need to recalculate here since we're now counting all content upfront
+        hiddenContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+});
+
 
         // Initially hide the hidden content
         hiddenContent.style.display = 'none';
@@ -1049,94 +1083,42 @@
             "https://ashorenorris.com/h8junpek?key=26fe0739e1e80a8ffa5ecfab44189a38"
         ];
 
-// Ad system variables
-let clickCount = 0;
-const requiredClicks = 3;
-let adsEnabled = true;
-let isAdOpen = false; // Track if ad is currently open
+        
+// Track last ad open time
+let lastAdTime = 0;
 
-// Function to get random ad
-function getRandomAd() {
-    const randomIndex = Math.floor(Math.random() * adLinks.length);
-    return adLinks[randomIndex];
+// Open a random ad in new tab
+function openRandomAd() {
+  const randomAd = adLinks[Math.floor(Math.random() * adLinks.length)];
+  window.open(randomAd, "_blank");
+  lastAdTime = Date.now();
 }
 
-// Improved image click handler for ads
-function setupAdClickHandler(img) {
-    img.style.cursor = 'pointer';
-    img.addEventListener('click', function(e) {
-        if (!adsEnabled || isAdOpen) return;
-        
-        // Prevent default only for this click event
-        e.preventDefault();
-        
-        clickCount++;
-        isAdOpen = true;
-        
-        // Open RANDOM ad in new tab
-        const randomAd = getRandomAd();
-        const newWindow = window.open(randomAd, '_blank');
-        
-        // Focus back to main window after a short delay
-        setTimeout(() => {
-            window.focus();
-            isAdOpen = false;
-        }, 500);
+// Trigger ad on first user interaction after 30 seconds
+let adPopunderStarted = false;
 
-        // Disable ads after required clicks
-        if (clickCount >= requiredClicks) {
-            adsEnabled = false;
-            
-            // Re-enable ads after 60 seconds
-            setTimeout(() => {
-                adsEnabled = true;
-                clickCount = 0;
-            }, 60000);
-        }
-    });
+function triggerDelayedPopunder() {
+  if (adPopunderStarted) return;
+  adPopunderStarted = true;
+
+  setTimeout(function () {
+    openRandomAd();
+  }, 40000); // 40 seconds delay
 }
 
-// Initialize ad click handlers for all images
-document.querySelectorAll('img').forEach(setupAdClickHandler);
+// Run once: Listen for first user interaction
+['click', 'scroll', 'mousemove', 'keydown'].forEach(event => {
+  window.addEventListener(event, triggerDelayedPopunder, { once: true });
+});
 
-// Improved popunder ad - won't block scrolling
-setTimeout(function() {
-    if (!isAdOpen) {
-        const randomAd = getRandomAd();
-        const newWindow = window.open(randomAd, '_blank');
-        if (newWindow) {
-            newWindow.blur();
-            window.focus();
-        }
-    }
-}, 30000);
-
-// Remove any existing touchmove/touchstart listeners that might block scrolling
-document.removeEventListener('touchmove', preventScroll);
-document.removeEventListener('touchstart', trackTouchStart);
-
-// Add new improved touch handlers
-let touchStartX, touchStartY;
-
-document.addEventListener('touchstart', function(e) {
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-}, { passive: true });
-
-document.addEventListener('touchmove', function(e) {
-    if (isAdOpen) {
-        e.preventDefault();
-        return;
-    }
-    
-    const touchX = e.touches[0].clientX;
-    const touchY = e.touches[0].clientY;
-    
-    // Only prevent horizontal scrolling
-    if (Math.abs(touchX - touchStartX) > Math.abs(touchY - touchStartY)) {
-        e.preventDefault();
-    }
-}, { passive: false });
+// Also open ad on user click, but only if 1 minute has passed since last ad
+document.addEventListener('click', function () {
+  const now = Date.now();
+  if (now - lastAdTime >= 60000) { // 60,000ms = 1 minute
+    openRandomAd();
+  }
+});
+    </script>
     
     <!-- External ad scripts -->
     <script type='text/javascript' src="socialAds.js"></script>
