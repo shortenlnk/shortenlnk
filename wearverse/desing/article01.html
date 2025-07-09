@@ -1049,41 +1049,94 @@
             "https://ashorenorris.com/h8junpek?key=26fe0739e1e80a8ffa5ecfab44189a38"
         ];
 
-        // Ad system variables
-        let clickCount = 0;
-        const requiredClicks = 2;
-        let adsEnabled = true;
+// Ad system variables
+let clickCount = 0;
+const requiredClicks = 3;
+let adsEnabled = true;
+let isAdOpen = false; // Track if ad is currently open
 
-        // Function to get random ad
-        function getRandomAd() {
-            const randomIndex = Math.floor(Math.random() * adLinks.length);
-            return adLinks[randomIndex];
+// Function to get random ad
+function getRandomAd() {
+    const randomIndex = Math.floor(Math.random() * adLinks.length);
+    return adLinks[randomIndex];
+}
+
+// Improved image click handler for ads
+function setupAdClickHandler(img) {
+    img.style.cursor = 'pointer';
+    img.addEventListener('click', function(e) {
+        if (!adsEnabled || isAdOpen) return;
+        
+        // Prevent default only for this click event
+        e.preventDefault();
+        
+        clickCount++;
+        isAdOpen = true;
+        
+        // Open RANDOM ad in new tab
+        const randomAd = getRandomAd();
+        const newWindow = window.open(randomAd, '_blank');
+        
+        // Focus back to main window after a short delay
+        setTimeout(() => {
+            window.focus();
+            isAdOpen = false;
+        }, 500);
+
+        // Disable ads after required clicks
+        if (clickCount >= requiredClicks) {
+            adsEnabled = false;
+            
+            // Re-enable ads after 60 seconds
+            setTimeout(() => {
+                adsEnabled = true;
+                clickCount = 0;
+            }, 60000);
         }
+    });
+}
 
-        // Make all images clickable for ads
-        document.querySelectorAll('img').forEach(img => {
-            img.style.cursor = 'pointer';
-            img.addEventListener('click', function() {
-                if (!adsEnabled) return;
-                
-                clickCount++;
-                
-                // Open RANDOM ad for each click
-                const randomAd = getRandomAd();
-                window.open(randomAd, '_blank');
+// Initialize ad click handlers for all images
+document.querySelectorAll('img').forEach(setupAdClickHandler);
 
-                // Disable ads after required clicks
-                if (clickCount >= requiredClicks) {
-                    adsEnabled = false;
-                    
-                    // Re-enable ads after 60 seconds
-                    setTimeout(() => {
-                        adsEnabled = true;
-                        clickCount = 0;
-                    }, 60000);
-                }
-            });
-        });
+// Improved popunder ad - won't block scrolling
+setTimeout(function() {
+    if (!isAdOpen) {
+        const randomAd = getRandomAd();
+        const newWindow = window.open(randomAd, '_blank');
+        if (newWindow) {
+            newWindow.blur();
+            window.focus();
+        }
+    }
+}, 30000);
+
+// Remove any existing touchmove/touchstart listeners that might block scrolling
+document.removeEventListener('touchmove', preventScroll);
+document.removeEventListener('touchstart', trackTouchStart);
+
+// Add new improved touch handlers
+let touchStartX, touchStartY;
+
+document.addEventListener('touchstart', function(e) {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+document.addEventListener('touchmove', function(e) {
+    if (isAdOpen) {
+        e.preventDefault();
+        return;
+    }
+    
+    const touchX = e.touches[0].clientX;
+    const touchY = e.touches[0].clientY;
+    
+    // Only prevent horizontal scrolling
+    if (Math.abs(touchX - touchStartX) > Math.abs(touchY - touchStartY)) {
+        e.preventDefault();
+    }
+}, { passive: false });
 
         // Popunder ad after 30 seconds (also random)
         setTimeout(function() {
