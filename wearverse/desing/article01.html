@@ -782,19 +782,48 @@
                 <p class="image-caption">Back View or Technical Sketch</p>
                 
           <!-- ✅ Ad Container -->
-<div style="width: 100%; display: flex; justify-content: center; margin: 25px 0;">
-  <div style="width: 728px; height: 90px;">
-    <script type="text/javascript">
-      atOptions = {
-        'key' : 'd581d5ac9cf7b49e93804f0e1a391fd5',
-        'format' : 'iframe',
-        'height' : 90,
-        'width' : 728,
-        'params' : {}
-      };
-    </script>
-    <script type="text/javascript" src="//ashorenorris.com/d581d5ac9cf7b49e93804f0e1a391fd5/invoke.js"></script>
-  </div>
+<style>
+  /* Container centers the ad */
+  .ad-container {
+    width: 100%;
+    max-width: 728px;
+    height: 90px;
+    margin: 25px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Responsive iframe ad */
+  .ad-container iframe {
+    width: 100%;
+    height: 90px;
+    border: none;
+  }
+
+  /* Mobile smaller banner fallback */
+  @media (max-width: 480px) {
+    .ad-container {
+      max-width: 320px;
+      height: 50px;
+    }
+    .ad-container iframe {
+      height: 50px;
+    }
+  }
+</style>
+
+<div class="ad-container">
+  <script type="text/javascript">
+    atOptions = {
+      'key' : 'd581d5ac9cf7b49e93804f0e1a391fd5',
+      'format' : 'iframe',
+      'height' : 90,
+      'width' : 728,
+      'params' : {}
+    };
+  </script>
+  <script type="text/javascript" src="//ashorenorris.com/d581d5ac9cf7b49e93804f0e1a391fd5/invoke.js"></script>
 </div>
                 <h2>5. Closing Statement – Power in Every Seam</h2>
                 <p>In a world of fleeting fashion, this design endures. It whispers with silk, sculpts with structure, and dazzles without a single unnecessary detail. This is elegance distilled, designed not just to be worn — but to be remembered.</p>
