@@ -759,33 +759,29 @@
             <h2>1. Introduction - A Reverent Modern Muse</h2>
             <p>There's a quiet boldness in garments that draw power from heritage yet speak fluently in the language of today. This design — a modern reinterpretation of traditional Chinese attire — is a breathtaking display of couture elegance, capturing the duality of strength and softness, heritage and innovation. With a mood anchored in cultural reverence and lifted by contemporary clarity, the ensemble is crafted for the modern muse with a timeless soul.</p>
 
-            <style>
+          <style>
   .ad-468x60-container {
-    width: 100%;
-    max-width: 468px;
-    margin: 20px auto;
-    padding: 0;
+    width: 100vw; /* force full viewport width */
+    max-width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: visible;
-    line-height: 0; /* prevents extra vertical spacing */
+    margin: 20px auto;
+    padding: 0;
+    line-height: 0;
   }
 
   .ad-468x60-container iframe {
     width: 468px !important;
     height: 60px !important;
     border: none !important;
-    display: block !important;
-    max-height: none !important;
-    overflow: visible !important;
+    display: block;
+    overflow: visible;
+    max-width: 100%;
   }
 
   @media (max-width: 480px) {
-    .ad-468x60-container {
-      max-width: 320px;
-    }
-
     .ad-468x60-container iframe {
       width: 320px !important;
       height: 50px !important;
