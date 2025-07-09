@@ -780,38 +780,35 @@
 
                 <img src="https://www.shortenlnk.xyz/wearverse/images/Image04design.jpg" alt="The ensemble styled for a modern fashion event" class="article-image">
                 <p class="image-caption">Back View or Technical Sketch</p>
-
-           <style>
-  .ad-fullview-container {
+<style>
+  .banner-ad-container {
     width: 100%;
     max-width: 728px;
     margin: 20px auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+    box-sizing: border-box;
+    overflow: visible !important;
   }
 
-  .ad-fullview-container iframe {
-    width: 100%;
-    min-height: 90px;
-    max-height: 100vh;
+  .banner-ad-container iframe {
+    width: 100% !important;
+    height: 90px !important;
+    min-height: 90px !important;
     border: none;
     display: block;
   }
 
   @media (max-width: 480px) {
-    .ad-fullview-container {
+    .banner-ad-container {
       max-width: 320px;
     }
-
-    .ad-fullview-container iframe {
-      min-height: 50px;
+    .banner-ad-container iframe {
+      height: 50px !important;
+      min-height: 50px !important;
     }
   }
 </style>
 
-<div class="ad-fullview-container">
+<div class="banner-ad-container">
   <script type="text/javascript">
     atOptions = {
       'key' : 'd581d5ac9cf7b49e93804f0e1a391fd5',
