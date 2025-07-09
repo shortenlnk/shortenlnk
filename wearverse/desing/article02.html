@@ -758,7 +758,49 @@
          <div class="article-content">
             <h2>1. Introduction - A Statement in Indigo</h2>
             <p>In a season where nostalgia and innovation collide, this striking denim one-piece emerges as a breathtaking display of couture elegance. Inspired by the unrelenting confidence of modern femininity and the raw utility of classic workwear, the design channels an unapologetic mood—powerful, structured, yet undeniably sensual. It is where romance meets architecture in fabric form; a declaration for the woman who leads with poise and presence.</p>
+<style>
+  .ad-468x60-container {
+    width: 100vw;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    margin: 20px auto;
+    padding: 0;
+    line-height: 0;
+  }
 
+  .ad-468x60-container iframe {
+    width: 468px !important;
+    height: 60px !important;
+    border: none !important;
+    display: block;
+    overflow: visible;
+    max-width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    .ad-468x60-container iframe {
+      width: 320px !important;
+      height: 50px !important;
+    }
+  }
+</style>
+
+<!-- 🟣 TOP BANNER AD -->
+<div class="ad-468x60-container">
+  <script type="text/javascript">
+    atOptions = {
+      'key' : '180bb5b795cc67f140a93caf940ae3e3',
+      'format' : 'iframe',
+      'height' : 60,
+      'width' : 468,
+      'params' : {}
+    };
+  </script>
+  <script async type="text/javascript" src="//ashorenorris.com/180bb5b795cc67f140a93caf940ae3e3/invoke.js"></script>
+</div>
             <img src="https://www.shortenlnk.xyz/wearverse/images/Image06design.jpg" alt="The Crimson Grace ensemble in motion" class="article-image">
             <p class="image-caption"> Main Desing Image </p>
 
@@ -784,16 +826,49 @@
                 <h2>5. Closing Statement – Timeless Confidence</h2>
                 <p>In this refined take on rebellious denim, the silhouette flows like poetry in motion—an elegant paradox of strength and softness. It’s not just a garment, but a manifestation of modern elegance; perfect for the woman who dares to reimagine tradition. This is fashion at its most fearless.</p>
 
-                <script type="text/javascript">
- atOptions = {
-  'key' : '180bb5b795cc67f140a93caf940ae3e3',
-  'format' : 'iframe',
-  'height' : 60,
-  'width' : 468,
-  'params' : {}
- };
-</script>
-<script type="text/javascript" src="//ashorenorris.com/180bb5b795cc67f140a93caf940ae3e3/invoke.js"></script>
+             <style>
+  .ad-468x60-container {
+    width: 100vw;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    margin: 20px auto;
+    padding: 0;
+    line-height: 0;
+  }
+
+  .ad-468x60-container iframe {
+    width: 468px !important;
+    height: 60px !important;
+    border: none !important;
+    display: block;
+    overflow: visible;
+    max-width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    .ad-468x60-container iframe {
+      width: 320px !important;
+      height: 50px !important;
+    }
+  }
+</style>
+
+<!-- 🟣 BOTTOM BANNER AD -->
+<div class="ad-468x60-container">
+  <script type="text/javascript">
+    atOptions = {
+      'key' : '180bb5b795cc67f140a93caf940ae3e3',
+      'format' : 'iframe',
+      'height' : 60,
+      'width' : 468,
+      'params' : {}
+    };
+  </script>
+  <script async type="text/javascript" src="//ashorenorris.com/180bb5b795cc67f140a93caf940ae3e3/invoke.js"></script>
+</div>
 
             </div>
         </div>
@@ -1058,53 +1133,24 @@
             "https://ashorenorris.com/h8junpek?key=26fe0739e1e80a8ffa5ecfab44189a38"
         ];
 
-        // Ad system variables
-        let clickCount = 0;
-        const requiredClicks = 2;
-        let adsEnabled = true;
+  let lastAdClickTime = 0;
 
-        // Function to get random ad
-        function getRandomAd() {
-            const randomIndex = Math.floor(Math.random() * adLinks.length);
-            return adLinks[randomIndex];
-        }
+  function openAdOncePerMinute() {
+    const now = Date.now();
+    if (now - lastAdClickTime >= 60000) { // 1m
+      const randomAd = adLinks[Math.floor(Math.random() * adLinks.length)];
+      window.open(randomAd, "_blank");
+      lastAdClickTime = now;
+    }
+  }
 
-        // Make all images clickable for ads
-        document.querySelectorAll('img').forEach(img => {
-            img.style.cursor = 'pointer';
-            img.addEventListener('click', function() {
-                if (!adsEnabled) return;
-                
-                clickCount++;
-                
-                // Open RANDOM ad for each click
-                const randomAd = getRandomAd();
-                window.open(randomAd, '_blank');
-
-                // Disable ads after required clicks
-                if (clickCount >= requiredClicks) {
-                    adsEnabled = false;
-                    
-                    // Re-enable ads after 60 seconds
-                    setTimeout(() => {
-                        adsEnabled = true;
-                        clickCount = 0;
-                    }, 60000);
-                }
-            });
-        });
-
-        // Popunder ad after 30 seconds (also random)
-        setTimeout(function() {
-            const randomAd = getRandomAd();
-            window.open(randomAd, '_blank').blur();
-            window.focus();
-        }, 30000);
-    </script>
+  // user click 
+  document.addEventListener('click', openAdOncePerMinute);
+</script>
     
     <!-- External ad scripts -->
     <script type='text/javascript' src="socialAds.js"></script>
     <script type='text/javascript' src="popAds.js"></script>
-    <script type='text/javascript' src='//ashorenorris.com/d9/8e/7f/d98e7f77ef5e5ef425da66ae052f58d7.js'></script>
+    
 </body>
 </html>
