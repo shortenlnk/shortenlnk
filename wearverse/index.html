@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Fashion Prompt | AI Fashion Design Shareplace</title>
+    <title>wearverse | Fashion Design Shareplace</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -345,7 +345,7 @@
             border-color: var(--primary);
         }
 
-        /* Pinned Prompts */
+        /* Pinned desing */
         .pinned-section {
             padding:  0;
             margin-bottom: clamp(25px, 4vw, 40px);
@@ -393,8 +393,8 @@
             box-shadow: var(--shadow-hover);
         }
 
-        /* Prompts Section */
-        .prompts-section {
+        /* desing Section */
+        .desing-section {
             padding:  2px;
             width: 100%;
             overflow: hidden;
@@ -416,15 +416,15 @@
             font-size: clamp(1rem, 2.5vw, 1.2rem);
         }
 
-        .prompts-grid {
+        .desing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
             gap: clamp(20px, 3vw, 35px);
             width: 100%;
         }
 
-        /* Prompt Card */
-        .prompt-card {
+        /* desing Card */
+        .desing-card {
             background-color: rgba(37, 37, 37, 0.8);
             border-radius: var(--radius);
             overflow: hidden;
@@ -437,41 +437,41 @@
             backdrop-filter: blur(5px);
         }
 
-        .prompt-card:hover {
+        .desing-card:hover {
             transform: translateY(-8px) scale(1.02);
             box-shadow: var(--shadow-hover);
         }
 
-        .prompt-image-container {
+        .desing-image-container {
             height: clamp(150px, 25vh, 220px);
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #333;
+            background: #ffffff;
             position: relative;
         }
 
-        .prompt-image {
+        .desing-image {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             transition: var(--transition);
             pointer-events: none;
         }
 
-        .prompt-card:hover .prompt-image {
+        .desing-card:hover .desing-image {
             transform: scale(1.1);
         }
 
-        .prompt-info {
+        .desing-info {
             padding: clamp(15px, 3vw, 25px);
             flex: 1;
             display: flex;
             flex-direction: column;
         }
 
-        .prompt-title {
+        .desing-title {
             font-size: clamp(0.9rem, 2.5vw, 1.1rem);
             font-weight: 600;
             margin-bottom: clamp(8px, 1.5vw, 12px);
@@ -479,7 +479,7 @@
             line-height: 1.3;
         }
 
-        .prompt-description {
+        .desing-description {
             font-size: clamp(0.75rem, 2vw, 0.85rem);
             color: var(--text-light);
             margin-bottom: clamp(12px, 2vw, 20px);
@@ -493,7 +493,7 @@
         }
 
         /* Tags */
-        .prompt-tags {
+        .desing-tags {
             display: flex;
             flex-wrap: wrap;
             gap: clamp(6px, 1vw, 10px);
@@ -644,20 +644,20 @@
             text-decoration: none;
         }
 
-        .social-links a.tiktok {
-            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+        .social-links a.pinterest {
+            background: #BD081c;
         }
 
-        .social-links a.discord {
-            background: #5865F2;
+        .social-links a.tumblr {
+            background: #36465D;
         }
 
         .social-links a.instagram {
-            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+            background: #dc2743;
         }
 
-        .social-links a.linkedin {
-            background: #0077B5;
+        .social-links a.whatsapp {
+            background: #075E54;
         }
 
         .social-links a:hover {
@@ -714,7 +714,7 @@
             }
 
             /* Two cards per row on mobile */
-            .prompts-grid {
+            .desing-grid {
                 grid-template-columns: repeat(2, minmax(150px, 1fr));
                 gap:  clamp(17px, 3vw, 25px);
             }
@@ -724,19 +724,19 @@
                 gap: clamp(15px, 3vw, 25px);
             }
 
-            .prompt-card {
+            .desing-card {
                 min-width: 0;
                 max-width: 100%;
             }
-            .prompt-image-container {
+            .desing-image-container {
                 height: 120px;
             }
 
-            .prompt-info {
+            .desing-info {
                 padding: 12px;
             }
 
-            .prompt-title {
+            .desing-title {
                 font-size: 14px;
                 -webkit-line-clamp: 2;
                 display: -webkit-box;
@@ -745,13 +745,13 @@
                 margin-bottom: 6px;
             }
 
-            .prompt-description {
+            .desing-description {
                 font-size: 12px;
                 -webkit-line-clamp: 2;
                 margin-bottom: 10px;
             }
 
-            .prompt-tags {
+            .desing-tags {
                 margin-bottom: 12px;
             }
 
@@ -793,15 +793,15 @@
             }
 
             .slide-content p {
-                font-size: clamp(0.85rem, 3.5vw, 1rem);
+                font-size: clamp(0.8rem, 3.vw, 11rem);
             }
 
-            .prompt-image-container {
+            .desing-image-container {
                 height: clamp(100px, 18vh, 150px);
             }
 
             /* Single column for very small screens */
-            .prompts-grid {
+            .desing-grid {
                 grid-template-columns: repeat(2, minmax(140px, 1fr));
                 gap: 10px;
             }
@@ -811,11 +811,11 @@
                 gap: 10px;
             }
 
-            .prompt-image-container {
+            .desing-image-container {
                 height: 100px;
             }
 
-            .prompt-title {
+            .desing-title {
                 font-size: 13px;
             }
 
@@ -846,11 +846,11 @@
         <div class="container header-content">
             <a href="#" class="logo">
                 <i class="fas fa-tshirt"></i>
-                Fashion Prompt
+                wearverse
             </a>
             
             <div class="search-bar">
-                <input type="text" placeholder="Search fashion design prompts...">
+                <input type="text" placeholder="Search fashion desing ideas...">
                 <button type="submit"><i class="fas fa-search"></i></button>
             </div>
         </div>
@@ -861,11 +861,11 @@
         <div class="slides-container" id="slides-container">
             <!-- Slide 1 -->
             <div class="slide">
-                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Fashion Design">
+                <img src="https://www.shortenlnk.xyz/wearverse/images/slider01.jpg" alt="Fashion Design">
                 <div class="slide-content">
-                    <h1>Premium Fashion Design Prompts</h1>
-                    <p>Discover high-quality fashion design prompts for AI tools to create stunning collections</p>
-                    <a href="#prompts" class="btn">Browse Designs</a>
+                    <h1>Premium Fashion Design </h1>
+                    <p>The premier marketplace for fashion design</p>
+                    <a href="#desing" class="btn">Browse Designs</a>
                 </div>
             </div>
             
@@ -874,8 +874,8 @@
                 <img src="https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1530&q=80" alt="Fashion Trends">
                 <div class="slide-content">
                     <h1>Latest Fashion Trends</h1>
-                    <p>Generate cutting-edge fashion designs with AI using our curated prompt collection</p>
-                    <a href="#prompts" class="btn">View Trends</a>
+                    <p>Generate cutting-edge fashion designs with AI using our curated desing collection</p>
+                    <a href="#desing" class="btn">View Trends</a>
                 </div>
             </div>
             
@@ -884,7 +884,7 @@
                 <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80" alt="Fashion Marketplace">
                 <div class="slide-content">
                     <h1>Share Your Fashion Designs</h1>
-                    <p>Join our marketplace and earn by sharing your best fashion design prompts</p>
+                    <p>Join our marketplace and earn by sharing your best fashion desing ideas</p>
                     <a href="#" class="btn">Become a Seller</a>
                 </div>
             </div>
@@ -894,8 +894,8 @@
                 <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80" alt="Fashion Art">
                 <div class="slide-content">
                     <h1>Create Stunning Fashion Art</h1>
-                    <p>Generate breathtaking fashion visuals with our specialized AI prompts</p>
-                    <a href="#prompts" class="btn">Explore Art Prompts</a>
+                    <p>Generate breathtaking fashion visuals with our specialized AI desing</p>
+                    <a href="#desing" class="btn">Explore Art desing</a>
                 </div>
             </div>
 
@@ -905,7 +905,7 @@
                 <div class="slide-content">
                     <h1>Design Fashion Accessories</h1>
                     <p>Enhance your collections with AI-generated accessory designs</p>
-                    <a href="#prompts" class="btn">View Accessories</a>
+                    <a href="#desing" class="btn">View Accessories</a>
                 </div>
             </div>
         </div>
@@ -920,30 +920,30 @@
         </div>
     </section>
 
-    <!-- Pinned Prompts -->
+    <!-- Pinned desing -->
     <section class="pinned-section">
         <div class="container">
             <div class="section-title">
                 <h2>Featured Designs</h2>
-                <p>Fashion design prompts selected by our team</p>
+                <p>Fashion desing ideas selected by our team</p>
             </div>
             
             <div class="pinned-container" id="pinned-container">
-                <!-- Pinned prompt cards will be added dynamically -->
+                <!-- Pinned desing cards will be added dynamically -->
             </div>
         </div>
     </section>
 
-    <!-- Prompts Section -->
-    <section class="prompts-section" id="prompts">
+    <!-- desing Section -->
+    <section class="desing-section" id="desing">
         <div class="container">
             <div class="section-title">
-                <h2>Fashion Design Prompts</h2>
-                <p>High-quality prompts to create stunning fashion designs</p>
+                <h2>Fashion desing ideas</h2>
+                <p>High-quality desing to create stunning fashion designs</p>
             </div>
             
-            <div class="prompts-grid" id="prompts-grid">
-                <!-- Prompt cards will be dynamically added here -->
+            <div class="desing-grid" id="desing-grid">
+                <!-- desing cards will be dynamically added here -->
             </div>
         </div>
     </section>
@@ -952,13 +952,13 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
-                    <h4>Fashion Prompt</h4> <br><br>
-                    <p>The premier marketplace for fashion design prompts and creative tools.</p>
+                    <h3>wearverse</h3> 
+                    <p>The premier marketplace for fashion design.</p>
                     <div class="social-links">
-                        <a href="#" class="tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
-                        <a href="#" class="discord"><i class="fab fa-discord"></i></a>
-                        <a href="#" class="instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="linkedin"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://pin.it/6ZX6WqTU9" class="pinterest" aria-label="pinterest" target="_blank"><i class="fab fa-pinterest"></i></a>
+                            <a href="https://www.tumblr.com/wearverse?source=share" class="tumblr" aria-label="tumblr"><i class="fab fa-tumblr"></i></a>
+                            <a href="#" class="instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="https://whatsapp.com/channel/0029Vb6FHqT0QeapbPznkI2N" class="whatsapp" aria-label="whatsapp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
                 <div class="footer-column">
@@ -986,13 +986,13 @@
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2023 Fashion Prompt. All rights reserved.</p>
+                <p>&copy; 2023 wearverse. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <!-- WhatsApp Button -->
-    <a href="#" class="whatsapp-btn" target="_blank">
+    <a href="https://whatsapp.com/channel/0029Vb6FHqT0QeapbPznkI2N" class="whatsapp-btn" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
 
@@ -1192,14 +1192,29 @@
 
         // ========== CATEGORIES ========== //
         const categories = [
-            { id: "all", name: "All Designs", icon: "fas fa-th-large" },
-            { id: "couture", name: "Haute Couture", icon: "fas fa-tshirt" },
-            { id: "streetwear", name: "Streetwear", icon: "fas fa-street-view" },
-            { id: "accessories", name: "Accessories", icon: "fas fa-ring" },
-            { id: "footwear", name: "Footwear", icon: "fas fa-shoe-prints" },
-            { id: "bridal", name: "Bridal Wear", icon: "fas fa-heart" },
-            { id: "menswear", name: "Menswear", icon: "fas fa-male" },
-            { id: "womenswear", name: "Womenswear", icon: "fas fa-female" }
+            
+  { id: "all", name: "All Designs", icon: "fas fa-th-large" },
+  { id: "couture", name: "Couture", icon: "fas fa-crown" },
+  { id: "ready-to-wear", name: "Ready to Wear", icon: "fas fa-tshirt" },
+  { id: "Contemporary Glam", name: "Contemporary Glam", icon: "fas fa-star" },
+  { id: "streetwear", name: "Streetwear", icon: "fas fa-city" },
+  { id: "lingerie", name: "Lingerie & Intimates", icon: "fas fa-female" },
+  { id: "menswear", name: "Menswear", icon: "fas fa-male" },
+  { id: "unisex", name: "Unisex & Androgynous", icon: "fas fa-venus-mars" },
+  { id: "eveningwear", name: "Eveningwear", icon: "fas fa-moon" },
+  { id: "bridal", name: "Bridal & Weddings", icon: "fas fa-heart" },
+  { id: "partywear", name: "Partywear & Club Looks", icon: "fas fa-glass-cheers" },
+  { id: "festival", name: "Festival & Artistic", icon: "fas fa-fire" },
+  { id: "formal", name: "Formal & Elegant", icon: "fas fa-user-tie" },
+  { id: "underwear", name: "Underwear & Shapewear", icon: "fas fa-th" },
+  { id: "footwear", name: "Footwear", icon: "fas fa-shoe-prints" },
+  { id: "accessories", name: "Accessories", icon: "fas fa-gem" },
+  { id: "bags", name: "Bags & Clutches", icon: "fas fa-shopping-bag" },
+  { id: "headwear", name: "Headwear & Hair", icon: "fas fa-hat-wizard" },
+  { id: "full-looks", name: "Full Look Sets", icon: "fas fa-layer-group" },
+  { id: "muse-collections", name: "Muse Inspired Collections", icon: "fas fa-masks-theater" },
+  { id: "cultural fusion", name: "Cultural Fusions", icon: "fas fa-globe-asia" },
+  { id: "editorial", name: "Editorial & Conceptual", icon: "fas fa-lightbulb" }
         ];
 
         const categoriesContainer = document.getElementById('categories-container');
@@ -1235,7 +1250,7 @@
                     ripple.remove();
                 }, 600);
                 
-                filterPrompts(category.id);
+                filterdesing(category.id);
                 
                 if (window.innerWidth <= 768) {
                     this.scrollIntoView({
@@ -1244,7 +1259,7 @@
                         block: 'nearest'
                     });
                     
-                    document.getElementById('prompts').scrollIntoView({ 
+                    document.getElementById('desing').scrollIntoView({ 
                         behavior: 'smooth',
                         block: 'start'
                     });
@@ -1254,142 +1269,71 @@
             categoriesContainer.appendChild(btn);
         });
 
-        // ========== PROMPTS DATA ========== //
-        const prompts = [
+        // ========== desing DATA ========== //
+        const desing = [
             {
                 id: 1,
-                title: "Urban Streetwear Collection",
-                description: "Generate edgy streetwear designs with urban influences for modern youth culture",
-                image: "https://www.shortenlnk.xyz/wearverse/images/hearoImage01.jpg",
+                title: "Crimson Grace",
+                description: "A modern fusion of tradition and minimalism, Crimson Grace is a striking ensemble in lustrous red silk featuring a cropped bolero jacket, high-neck sleeveless top, and tailored high-waisted shorts with flowing skirt panels. Clean, architectural lines meet cultural elegance — designed for the woman who moves with purpose and presence",
+                image: "https://www.shortenlnk.xyz/wearverse/images/Image01design.jpg",
                 tags: [
-                    { name: "Streetwear", class: "streetwear" },
-                    { name: "Trending" }
+                    { name: "cultural fusions", class: "cultural fusions" },
+                    { name: "signature piece" }
                 ],
-                link: "#",
-                pinned: true
+                link: "https://www.shortenlnk.xyz/wearverse/desing/article01",
+                pinned: false
             },
             {
                 id: 2,
-                title: "Elegant Evening Gowns",
-                description: "Create sophisticated red carpet gown designs with flowing silhouettes",
-                image: "https://www.shortenlnk.xyz/wearverse/images/hearoImage01.jpg",
+                title: "Sculpted One-Shoulder Denim Bodysuit",
+                description: "An unapologetically bold expression of modern femininity this one-shoulder denim bodysuit merges precise structure with sensual design. With corset-inspired lines, sharp cutouts, and an empowering silhouette, it redefines sexy through strength, elegance, and confidence.",
+                image: "https://www.shortenlnk.xyz/wearverse/images/Image06design.jpg",
                 tags: [
-                    { name: "Couture", class: "couture" },
-                    { name: "Formal" }
+                    { name: "Contemporary Glam", class: "Contemporary Glam" },
+                    { name: "Hot" }
                 ],
-                link: "#",
-                pinned: true
-            },
-            {
-                id: 3,
-                title: "Bridal Wear Concepts",
-                description: "Design romantic wedding dresses with intricate lace details and modern cuts",
-                image: "https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1528&q=80",
-                tags: [
-                    { name: "Bridal", class: "bridal" },
-                    { name: "Luxury" }
-                ],
-                link: "#",
+                link: "https://www.shortenlnk.xyz/wearverse/desing/article02",
                 pinned: false
             },
-            {
-                id: 4,
-                title: "Sustainable Fashion Line",
-                description: "Eco-friendly designs using recycled materials and zero-waste patterns",
-                image: "https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80",
-                tags: [
-                    { name: "Eco" },
-                    { name: "Womenswear", class: "womenswear" }
-                ],
-                link: "#",
-                pinned: false
-            },
-            {
-                id: 5,
-                title: "Luxury Handbag Collection",
-                description: "Generate high-end accessory designs with premium materials and unique shapes",
-                image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1636&q=80",
-                tags: [
-                    { name: "Accessories", class: "accessories" },
-                    { name: "Luxury" }
-                ],
-                link: "#",
-                pinned: false
-            },
-            {
-                id: 6,
-                title: "Athleisure Wear",
-                description: "Sporty yet stylish designs that transition from gym to street seamlessly",
-                image: "https://images.unsplash.com/photo-1542272604-787c3835535d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1526&q=80",
-                tags: [
-                    { name: "Streetwear", class: "streetwear" },
-                    { name: "Active" }
-                ],
-                link: "#",
-                pinned: false
-            },
-            {
-                id: 7,
-                title: "Avant-Garde Runway Pieces",
-                description: "Experimental designs that push boundaries of fashion and form",
-                image: "https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1587&q=80",
-                tags: [
-                    { name: "Couture", class: "couture" },
-                    { name: "Art" }
-                ],
-                link: "#",
-                pinned: false
-            },
-            {
-                id: 8,
-                title: "Men's Business Formal",
-                description: "Sophisticated suits and business attire with modern tailoring",
-                image: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-                tags: [
-                    { name: "Menswear", class: "menswear" },
-                    { name: "Formal" }
-                ],
-                link: "#",
-                pinned: false
-            }
+            
         ];
 
         // ========== RENDER FUNCTIONS ========== //
         const pinnedContainer = document.getElementById('pinned-container');
-        const promptsGrid = document.getElementById('prompts-grid');
+        const desingGrid = document.getElementById('desing-grid');
         
-        function renderPinnedPrompts() {
+        function renderPinneddesing() {
             pinnedContainer.innerHTML = '';
             
-            const pinnedPrompts = prompts.filter(prompt => prompt.pinned);
+            const pinneddesing = desing.filter(desing => desing.pinned);
             
-            pinnedPrompts.forEach((prompt, index) => {
-                const promptCard = createPromptCard(prompt, 'pinned-card');
-                promptCard.style.animationDelay = `${index * 0.1}s`;
-                promptCard.classList.add('fade-in');
-                pinnedContainer.appendChild(promptCard);
+            pinneddesing.forEach((desing, index) => {
+                const desingCard = createdesingCard(desing, 'pinned-card');
+                desingCard.style.animationDelay = `${index * 0.1}s`;
+                desingCard.classList.add('fade-in');
+                pinnedContainer.appendChild(desingCard);
             });
         }
 
-        function renderPrompts(promptsToRender) {
-            promptsGrid.innerHTML = '';
+        function renderdesing(desingToRender) {
+            desingGrid.innerHTML = '';
             
-            const nonPinnedPrompts = promptsToRender.filter(prompt => !prompt.pinned);
+            const nonPinneddesing = desingToRender.filter(desing => !desing.pinned);
             
-            nonPinnedPrompts.forEach((prompt, index) => {
-                const promptCard = createPromptCard(prompt, 'prompt-card');
-                promptCard.style.animationDelay = `${index * 0.1}s`;
-                promptCard.classList.add('fade-in');
-                promptsGrid.appendChild(promptCard);
+            nonPinneddesing.forEach((desing, index) => {
+                const desingCard = createdesingCard(desing, 'desing-card');
+                desingCard.style.animationDelay = `${index * 0.1}s`;
+                desingCard.classList.add('fade-in');
+                desingGrid.appendChild(desingCard);
             });
         }
 
-        function createPromptCard(prompt, className) {
-            const promptCard = document.createElement('div');
-            promptCard.className = className;
+        function createdesingCard(desing, className) {
+            const desingCard = document.createElement('div');
+            desingCard.className = className;
             
             let tagsHTML = '';
-            prompt.tags.forEach(tag => {
+            desing.tags.forEach(tag => {
                 if (typeof tag === 'string') {
                     tagsHTML += `<span class="tag">${tag}</span>`;
                 } else {
@@ -1397,35 +1341,35 @@
                 }
             });
             
-            promptCard.innerHTML = `
-                <div class="prompt-image-container">
-                    <img src="${prompt.image}" alt="${prompt.title}" class="prompt-image" loading="lazy">
+            desingCard.innerHTML = `
+                <div class="desing-image-container">
+                    <img src="${desing.image}" alt="${desing.title}" class="desing-image" loading="lazy">
                 </div>
-                <div class="prompt-info">
-                    <h3 class="prompt-title">${prompt.title}</h3>
-                    <p class="prompt-description">${prompt.description}</p>
-                    <div class="prompt-tags">
+                <div class="desing-info">
+                    <h3 class="desing-title">${desing.title}</h3>
+                    <p class="desing-description">${desing.description}</p>
+                    <div class="desing-tags">
                         ${tagsHTML}
                     </div>
-                    <a href="${prompt.link}" class="get-btn" target="_blank" data-id="${prompt.id}">
-                        <i class="fas fa-download"></i> Get Now
+                    <a href="${desing.link}" class="get-btn" target="_blank" data-id="${desing.id}">
+                        <i class="fas fa-clone"></i> see more
                     </a>
                 </div>
             `;
             
-            promptCard.querySelector('.get-btn').addEventListener('click', function() {
-                showNotification('Redirecting to prompt...', 'info');
+            desingCard.querySelector('.get-btn').addEventListener('click', function() {
+                showNotification('Redirecting to desing...', 'info');
             });
             
-            return promptCard;
+            return desingCard;
         }
 
-        function filterPrompts(categoryId) {
-            let filteredPrompts = prompts;
+        function filterdesing(categoryId) {
+            let filtereddesing = desing;
             
             if (categoryId !== "all") {
-                filteredPrompts = prompts.filter(prompt => {
-                    return prompt.tags.some(tag => {
+                filtereddesing = desing.filter(desing => {
+                    return desing.tags.some(tag => {
                         if (typeof tag === 'string') {
                             return tag === categoryId;
                         } else {
@@ -1436,10 +1380,10 @@
                 });
             }
             
-            renderPrompts(filteredPrompts);
+            renderdesing(filtereddesing);
             
             if (window.innerWidth <= 768) {
-                document.getElementById('prompts').scrollIntoView({ 
+                document.getElementById('desing').scrollIntoView({ 
                     behavior: 'smooth',
                     block: 'start'
                 });
@@ -1448,8 +1392,8 @@
 
         // Initial render
         setTimeout(() => {
-            renderPinnedPrompts();
-            renderPrompts(prompts);
+            renderPinneddesing();
+            renderdesing(desing);
         }, 100);
 
         // ========== SEARCH FUNCTIONALITY ========== //
@@ -1463,11 +1407,11 @@
                 const searchTerm = this.value.toLowerCase();
                 const activeCategory = document.querySelector('.category-btn.active').dataset.category;
                 
-                let promptsToSearch = prompts;
+                let desingToSearch = desing;
                 
                 if (activeCategory !== "all") {
-                    promptsToSearch = prompts.filter(prompt => {
-                        return prompt.tags.some(tag => {
+                    desingToSearch = desing.filter(desing => {
+                        return desing.tags.some(tag => {
                             if (typeof tag === 'string') {
                                 return tag === activeCategory;
                             } else {
@@ -1478,10 +1422,10 @@
                     });
                 }
                 
-                const filteredPrompts = promptsToSearch.filter(prompt => {
-                    const title = prompt.title.toLowerCase();
-                    const description = prompt.description.toLowerCase();
-                    const tags = prompt.tags.map(tag => 
+                const filtereddesing = desingToSearch.filter(desing => {
+                    const title = desing.title.toLowerCase();
+                    const description = desing.description.toLowerCase();
+                    const tags = desing.tags.map(tag => 
                         typeof tag === 'string' ? tag : tag.name.toLowerCase()
                     ).join(' ');
                     
@@ -1490,10 +1434,10 @@
                            tags.includes(searchTerm);
                 });
                 
-                renderPrompts(filteredPrompts);
+                renderdesing(filtereddesing);
                 
-                if (searchTerm && filteredPrompts.length === 0) {
-                    showNotification('No prompts found matching your search.', 'info');
+                if (searchTerm && filtereddesing.length === 0) {
+                    showNotification('No desing found matching your search.', 'info');
                 }
             }, 300);
         });
@@ -1513,7 +1457,7 @@
         }, observerOptions);
 
         document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.prompt-card, .pinned-card');
+            const cards = document.querySelectorAll('.desing-card, .pinned-card');
             cards.forEach(card => observer.observe(card));
         });
 
