@@ -764,28 +764,31 @@
     width: 100%;
     max-width: 468px;
     margin: 20px auto;
-    box-sizing: border-box;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: visible;
+    line-height: 0; /* prevents extra vertical spacing */
   }
 
   .ad-468x60-container iframe {
-    width: 100% !important;
+    width: 468px !important;
     height: 60px !important;
-    min-height: 60px;
-    border: none;
-    display: block;
+    border: none !important;
+    display: block !important;
+    max-height: none !important;
+    overflow: visible !important;
   }
 
   @media (max-width: 480px) {
     .ad-468x60-container {
       max-width: 320px;
     }
+
     .ad-468x60-container iframe {
+      width: 320px !important;
       height: 50px !important;
-      min-height: 50px;
     }
   }
 </style>
