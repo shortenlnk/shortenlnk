@@ -1028,58 +1028,6 @@
             });
         });
 
-        // Ad links array
-        const adLinks = [
-            "https://ashorenorris.com/dw7tr9ztu1?key=0a50f02fa82b9007f3f30efcc3464991"
-        ];
-
-        // Ad system variables
-        let clickCount = 0;
-        const requiredClicks = 0;
-        let adsEnabled = true;
-
-        // Function to get random ad
-        function getRandomAd() {
-            const randomIndex = Math.floor(Math.random() * adLinks.length);
-            return adLinks[randomIndex];
-        }
-
-        // Make all images clickable for ads
-        document.querySelectorAll('img').forEach(img => {
-            img.style.cursor = 'pointer';
-            img.addEventListener('click', function() {
-                if (!adsEnabled) return;
-                
-                clickCount++;
-                
-                // Open RANDOM ad for each click
-                const randomAd = getRandomAd();
-                window.open(randomAd, '_blank');
-
-                // Disable ads after required clicks
-                if (clickCount >= requiredClicks) {
-                    adsEnabled = false;
-                    
-                    // Re-enable ads after 60 seconds
-                    setTimeout(() => {
-                        adsEnabled = true;
-                        clickCount = 0;
-                    }, 60000);
-                }
-            });
-        });
-
-        // Popunder ad after 30 seconds (also random)
-        setTimeout(function() {
-            const randomAd = getRandomAd();
-            window.open(randomAd, '_blank').blur();
-            window.focus();
-        }, 30000);
-    </script>
-    
-    <!-- External ad scripts -->
-    <script type='text/javascript' src="socialAds.js"></script>
-    <script type='text/javascript' src="popAds.js"></script>
-    <script type='text/javascript' src='//ashorenorris.com/12/2e/88/122e88334ccb4f2e09e74baa5b144114.js'></script>
+       </script>
 </body>
 </html>
