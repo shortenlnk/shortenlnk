@@ -31,11 +31,13 @@
             user-select: none;
         }
 
+        /* Improved scrolling for Android */
         html, body {
             width: 100%;
             height: 100%;
-            overflow-x: hidden; /* Disable horizontal scroll */
-            overflow-y: auto;  /* Enable vertical scroll */
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         body {
@@ -46,7 +48,8 @@
             padding: 0;
             margin: 0;
             position: relative;
-            touch-action: pan-y; /* Only allow vertical touch scrolling */
+            touch-action: pan-y;
+            overscroll-behavior-y: contain;
             -webkit-text-size-adjust: 100%;
             -ms-text-size-adjust: 100%;
             font-weight: 400;
@@ -869,156 +872,172 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Disable horizontal scroll but allow vertical
-            document.addEventListener('wheel', function(e) {
-                if (e.deltaX !== 0) e.preventDefault();
-            }, { passive: false });
+        // Improved touch handling for Android scrolling
+        let startX, startY;
+        
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length === 1) {
+                startX = e.touches[0].pageX;
+                startY = e.touches[0].pageY;
+            }
+        }, { passive: true });
 
-            // Content protection
-            document.addEventListener('contextmenu', function(e) {
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length === 1) {
+                const touch = e.touches[0];
+                const xDiff = Math.abs(touch.pageX - startX);
+                const yDiff = Math.abs(touch.pageY - startY);
+                
+                // Only prevent horizontal scrolling
+                if (xDiff > yDiff) {
+                    e.preventDefault();
+                }
+            }
+        }, { passive: false });
+
+        // Content protection
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            showProtectionMessage();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            // Disable Ctrl+S, Ctrl+C, Ctrl+P, etc.
+            if (e.ctrlKey && (e.keyCode === 83 || e.keyCode === 67 || e.keyCode === 80 || e.keyCode === 85)) {
                 e.preventDefault();
                 showProtectionMessage();
-            });
-
-            document.addEventListener('keydown', function(e) {
-                // Disable Ctrl+S, Ctrl+C, Ctrl+P, etc.
-                if (e.ctrlKey && (e.keyCode === 83 || e.keyCode === 67 || e.keyCode === 80 || e.keyCode === 85)) {
-                    e.preventDefault();
-                    showProtectionMessage();
-                }
-                
-                // Disable F12 key
-                if (e.keyCode === 123) {
-                    e.preventDefault();
-                    showProtectionMessage();
-                }
-                
-                // Disable Print Screen
-                if (e.keyCode === 44) {
-                    e.preventDefault();
-                    showProtectionMessage();
-                }
-            });
-
-            // Disable dragging images
-            document.addEventListener('dragstart', function(e) {
-                if (e.target.tagName === 'IMG') {
-                    e.preventDefault();
-                    showProtectionMessage();
-                }
-            });
-
-            function showProtectionMessage() {
-                const message = document.querySelector('.protection-message');
-                message.style.display = 'block';
-                setTimeout(function() {
-                    message.style.display = 'none';
-                }, 2000);
             }
-
-            // Calculate reading time automatically
-            function calculateReadingTime() {
-                const articleContent = document.querySelector('.article-content');
-                const text = articleContent.textContent || articleContent.innerText;
-                const wordCount = text.trim().split(/\s+/).length;
-                const readingSpeed = 200; // words per minute
-                const readingTime = Math.ceil(wordCount / readingSpeed);
-                
-                const readTimeElement = document.querySelector('.read-time');
-                readTimeElement.innerHTML = `<i class="far fa-clock"></i> ${readingTime} min read`;
-            }
-
-            // Call the function when page loads
-            calculateReadingTime();
-
-            // See More functionality
-            const seeMoreBtn = document.getElementById('see-more-btn');
-            const hiddenContent = document.getElementById('hidden-content');
             
-            seeMoreBtn.addEventListener('click', function() {
-                if (hiddenContent.style.display === 'none' || !hiddenContent.style.display) {
-                    hiddenContent.style.display = 'block';
-                    seeMoreBtn.style.display = 'none';
-                    // Scroll to the hidden content smoothly
-                    hiddenContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    // Recalculate reading time after showing hidden content
-                    calculateReadingTime();
-                }
-            });
-
-            // Initially hide the hidden content
-            hiddenContent.style.display = 'none';
-
-            // URL Copy functionality
-            const copyButton = document.getElementById('copy-button');
-            const copyNotification = document.getElementById('copy-notification');
+            // Disable F12 key
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                showProtectionMessage();
+            }
             
-            copyButton.addEventListener('click', function() {
-                const currentUrl = window.location.href;
-                
-                // Modern clipboard API
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(currentUrl).then(function() {
-                        showCopyNotification();
-                    }).catch(function() {
-                        fallbackCopy(currentUrl);
-                    });
-                } else {
-                    fallbackCopy(currentUrl);
-                }
-            });
-
-            function fallbackCopy(text) {
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                textarea.style.position = 'fixed';
-                document.body.appendChild(textarea);
-                textarea.select();
-                
-                try {
-                    document.execCommand('copy');
-                    showCopyNotification();
-                } catch (err) {
-                    console.error('Failed to copy text: ', err);
-                }
-                
-                document.body.removeChild(textarea);
+            // Disable Print Screen
+            if (e.keyCode === 44) {
+                e.preventDefault();
+                showProtectionMessage();
             }
+        });
 
-            function showCopyNotification() {
-                copyNotification.style.display = 'block';
-                setTimeout(function() {
-                    copyNotification.style.display = 'none';
-                }, 2000);
+        // Disable dragging images
+        document.addEventListener('dragstart', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+                showProtectionMessage();
             }
+        });
 
-            // Social sharing with current URL
+        function showProtectionMessage() {
+            const message = document.querySelector('.protection-message');
+            message.style.display = 'block';
+            setTimeout(function() {
+                message.style.display = 'none';
+            }, 2000);
+        }
+
+        // Calculate reading time automatically
+        function calculateReadingTime() {
+            const articleContent = document.querySelector('.article-content');
+            const text = articleContent.textContent || articleContent.innerText;
+            const wordCount = text.trim().split(/\s+/).length;
+            const readingSpeed = 200; // words per minute
+            const readingTime = Math.ceil(wordCount / readingSpeed);
+            
+            const readTimeElement = document.querySelector('.read-time');
+            readTimeElement.innerHTML = `<i class="far fa-clock"></i> ${readingTime} min read`;
+        }
+
+        // Call the function when page loads
+        calculateReadingTime();
+
+        // See More functionality
+        const seeMoreBtn = document.getElementById('see-more-btn');
+        const hiddenContent = document.getElementById('hidden-content');
+        
+        seeMoreBtn.addEventListener('click', function() {
+            if (hiddenContent.style.display === 'none' || !hiddenContent.style.display) {
+                hiddenContent.style.display = 'block';
+                seeMoreBtn.style.display = 'none';
+                // Scroll to the hidden content smoothly
+                hiddenContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Recalculate reading time after showing hidden content
+                calculateReadingTime();
+            }
+        });
+
+        // Initially hide the hidden content
+        hiddenContent.style.display = 'none';
+
+        // URL Copy functionality
+        const copyButton = document.getElementById('copy-button');
+        const copyNotification = document.getElementById('copy-notification');
+        
+        copyButton.addEventListener('click', function() {
             const currentUrl = window.location.href;
             
-            // Facebook Share
-            document.getElementById('facebook-share').addEventListener('click', function(e) {
-                e.preventDefault();
-                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`, 'facebook-share-dialog', 'width=800,height=600');
-            });
+            // Modern clipboard API
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(currentUrl).then(function() {
+                    showCopyNotification();
+                }).catch(function() {
+                    fallbackCopy(currentUrl);
+                });
+            } else {
+                fallbackCopy(currentUrl);
+            }
+        });
+
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            document.body.appendChild(textarea);
+            textarea.select();
             
-            // Twitter Share
-            document.getElementById('twitter-share').addEventListener('click', function(e) {
-                e.preventDefault();
-                const title = encodeURIComponent(document.querySelector('.article-title').textContent);
-                window.open(`https://twitter.com/intent/tweet?text=${title}&url=${encodeURIComponent(currentUrl)}`, 'twitter-share-dialog', 'width=800,height=600');
-            });
+            try {
+                document.execCommand('copy');
+                showCopyNotification();
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            }
             
-            // WhatsApp Share
-            document.getElementById('whatsapp-share').addEventListener('click', function(e) {
-                e.preventDefault();
-                const title = encodeURIComponent(document.querySelector('.article-title').textContent);
-                if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                    window.open(`whatsapp://send?text=${title}%20${encodeURIComponent(currentUrl)}`, '_blank');
-                } else {
-                    window.open(`https://web.whatsapp.com/send?text=${title}%20${encodeURIComponent(currentUrl)}`, '_blank');
-                }
-            });
+            document.body.removeChild(textarea);
+        }
+
+        function showCopyNotification() {
+            copyNotification.style.display = 'block';
+            setTimeout(function() {
+                copyNotification.style.display = 'none';
+            }, 2000);
+        }
+
+        // Social sharing with current URL
+        const currentUrl = window.location.href;
+        
+        // Facebook Share
+        document.getElementById('facebook-share').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`, 'facebook-share-dialog', 'width=800,height=600');
+        });
+        
+        // Twitter Share
+        document.getElementById('twitter-share').addEventListener('click', function(e) {
+            e.preventDefault();
+            const title = encodeURIComponent(document.querySelector('.article-title').textContent);
+            window.open(`https://twitter.com/intent/tweet?text=${title}&url=${encodeURIComponent(currentUrl)}`, 'twitter-share-dialog', 'width=800,height=600');
+        });
+        
+        // WhatsApp Share
+        document.getElementById('whatsapp-share').addEventListener('click', function(e) {
+            e.preventDefault();
+            const title = encodeURIComponent(document.querySelector('.article-title').textContent);
+            if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                window.open(`whatsapp://send?text=${title}%20${encodeURIComponent(currentUrl)}`, '_blank');
+            } else {
+                window.open(`https://web.whatsapp.com/send?text=${title}%20${encodeURIComponent(currentUrl)}`, '_blank');
+            }
         });
 
         // Ad links array
