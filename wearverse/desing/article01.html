@@ -34,7 +34,8 @@
         html, body {
             width: 100%;
             height: 100%;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Disable horizontal scroll */
+            overflow-y: auto;  /* Enable vertical scroll */
         }
 
         body {
@@ -45,7 +46,7 @@
             padding: 0;
             margin: 0;
             position: relative;
-            touch-action: pan-y;
+            touch-action: pan-y; /* Only allow vertical touch scrolling */
             -webkit-text-size-adjust: 100%;
             -ms-text-size-adjust: 100%;
             font-weight: 400;
@@ -64,7 +65,7 @@
             position: relative;
         }
 
-        /* New Header Styles */
+        /* Header Styles */
         .article-header {
             padding: 15px 20px;
             position: sticky;
@@ -566,20 +567,20 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .social-links a.pinterest {
-            background: #BD081c;
+        .social-links a.tiktok {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
         }
 
-        .social-links a.tumblr {
-            background: #36465D;
+        .social-links a.discord {
+            background: #5865F2;
         }
 
         .social-links a.instagram {
-            background: #dc2743;
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
         }
 
-        .social-links a.whatsapp {
-            background: #075E54;
+        .social-links a.linkedin {
+            background: #0077B5;
         }
 
         .copyright {
@@ -721,9 +722,9 @@
         <div class="protection-overlay"></div>
         <div class="protection-message">Content protection is enabled</div>
 
-        <!-- New Header -->
+        <!-- Header Section -->
         <header class="article-header">
-            <a href="https://www.shortenlnk.xyz/wearverse" class="back-button">
+            <a href="index.html" class="back-button">
                 <i class="fas fa-arrow-left"></i> Back
             </a>
             <a href="#" class="header-logo">Crimson Grace</a>
@@ -745,7 +746,7 @@
                 <img src="https://www.shortenlnk.xyz/wearverse/images/profile.jpg" alt="Author" class="author-avatar">
                 <div class="meta-text">
                     <span class="author-name">WearVerse By Shevin</span>
-                    <span class="publish-date">July 08, 2025</span>
+                    <span class="publish-date">June 15, 2024</span>
                 </div>
                 <span class="read-time"><i class="far fa-clock"></i> 8 min read</span>
             </div>
@@ -817,13 +818,13 @@
             <div class="footer-container">
                 <div class="footer-content">
                     <div class="footer-column">
-                        <h3>wearverse</h3>
+                        <h4>wearverse</h4>
                         <p>The premier marketplace for fashion design.</p>
                         <div class="social-links">
-                            <a href="https://pin.it/6ZX6WqTU9" class="pinterest" aria-label="pinterest" target="_blank"><i class="fab fa-pinterest"></i></a>
-                            <a href="https://www.tumblr.com/wearverse?source=share" class="tumblr" aria-label="tumblr"><i class="fab fa-tumblr"></i></a>
+                            <a href="#" class="tiktok" aria-label="TikTok" target="_blank"><i class="fab fa-tiktok"></i></a>
+                            <a href="#" class="discord" aria-label="Discord"><i class="fab fa-discord"></i></a>
                             <a href="#" class="instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                            <a href="https://whatsapp.com/channel/0029Vb6FHqT0QeapbPznkI2N" class="whatsapp" aria-label="whatsapp"><i class="fab fa-whatsapp"></i></a>
+                            <a href="#" class="linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
                         </div>
                     </div>
                     
@@ -869,17 +870,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Disable zooming
+            // Disable horizontal scroll but allow vertical
             document.addEventListener('wheel', function(e) {
-                if (e.ctrlKey) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
-
-            document.addEventListener('touchmove', function(e) {
-                if (e.scale !== 1) { 
-                    e.preventDefault(); 
-                }
+                if (e.deltaX !== 0) e.preventDefault();
             }, { passive: false });
 
             // Content protection
@@ -1028,6 +1021,62 @@
             });
         });
 
-       </script>
+        // Ad links array
+        const adLinks = [
+            "https://ashorenorris.com/dw7tr9ztu1?key=0a50f02fa82b9007f3f30efcc3464991",
+            "https://ashorenorris.com/wydvnkk8?key=f309dfb4ebd925293f0da3da6dbccfe9",
+            "https://ashorenorris.com/dv4carz8?key=ace1ef81105d316bb3ea53f6c9904802",
+            "https://ashorenorris.com/h25f7spp?key=68e7adcb41a693b2d39221c53b95d192",
+            "https://ashorenorris.com/h8junpek?key=26fe0739e1e80a8ffa5ecfab44189a38"
+        ];
+
+        // Ad system variables
+        let clickCount = 0;
+        const requiredClicks = 0;
+        let adsEnabled = true;
+
+        // Function to get random ad
+        function getRandomAd() {
+            const randomIndex = Math.floor(Math.random() * adLinks.length);
+            return adLinks[randomIndex];
+        }
+
+        // Make all images clickable for ads
+        document.querySelectorAll('img').forEach(img => {
+            img.style.cursor = 'pointer';
+            img.addEventListener('click', function() {
+                if (!adsEnabled) return;
+                
+                clickCount++;
+                
+                // Open RANDOM ad for each click
+                const randomAd = getRandomAd();
+                window.open(randomAd, '_blank');
+
+                // Disable ads after required clicks
+                if (clickCount >= requiredClicks) {
+                    adsEnabled = false;
+                    
+                    // Re-enable ads after 60 seconds
+                    setTimeout(() => {
+                        adsEnabled = true;
+                        clickCount = 0;
+                    }, 60000);
+                }
+            });
+        });
+
+        // Popunder ad after 30 seconds (also random)
+        setTimeout(function() {
+            const randomAd = getRandomAd();
+            window.open(randomAd, '_blank').blur();
+            window.focus();
+        }, 30000);
+    </script>
+    
+    <!-- External ad scripts -->
+    <script type='text/javascript' src="socialAds.js"></script>
+    <script type='text/javascript' src="popAds.js"></script>
+    <script type='text/javascript' src='//ashorenorris.com/12/2e/88/122e88334ccb4f2e09e74baa5b144114.js'></script>
 </body>
 </html>
