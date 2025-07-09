@@ -761,7 +761,48 @@
 
             <img src="https://www.shortenlnk.xyz/wearverse/images/Image01design.jpg" alt="The Crimson Grace ensemble in motion" class="article-image">
             <p class="image-caption">Main Desing Image</p>
+<style>
+  .ad-468x60-container {
+    width: 100vw; /* force full viewport width */
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    margin: 20px auto;
+    padding: 0;
+    line-height: 0;
+  }
 
+  .ad-468x60-container iframe {
+    width: 468px !important;
+    height: 60px !important;
+    border: none !important;
+    display: block;
+    overflow: visible;
+    max-width: 100%;
+  }
+
+  @media (max-width: 480px) {
+    .ad-468x60-container iframe {
+      width: 320px !important;
+      height: 50px !important;
+    }
+  }
+</style>
+
+<div class="ad-468x60-container">
+  <script type="text/javascript">
+    atOptions = {
+      'key' : '180bb5b795cc67f140a93caf940ae3e3',
+      'format' : 'iframe',
+      'height' : 60,
+      'width' : 468,
+      'params' : {}
+    };
+  </script>
+  <script async type="text/javascript" src="//ashorenorris.com/180bb5b795cc67f140a93caf940ae3e3/invoke.js"></script>
+</div>
             <div id="hidden-content" class="hidden-content">
                 <h2>2. Design Features – Where Precision Meets Symbolism</h2>
                 <p>The silhouette flows like poetry in motion, refined into a minimalist vision that honors every structural element. Shiny red silk, unmistakably luxurious and fluid, becomes the canvas for the design's architectural clarity. The short-sleeved bolero jacket introduces the look with sculptural grace, while a sleeveless high-neck crop top lies sleek beneath — a masterstroke in layering. High-waisted shorts, structured yet soft, are veiled by skirt panels that fall delicately on each side, giving the illusion of movement even in stillness. Gold accents — subtle, not overstated — nod to prosperity, while the deep red speaks of power and passion. Every line is intentional; every piece in harmony.</p>
@@ -780,50 +821,47 @@
 
                 <img src="https://www.shortenlnk.xyz/wearverse/images/Image04design.jpg" alt="The ensemble styled for a modern fashion event" class="article-image">
                 <p class="image-caption">Back View or Technical Sketch</p>
-                
-          <!-- ✅ Ad Container -->
-<style>
-  /* Container centers the ad */
-  .ad-container {
-    width: 100%;
-    max-width: 728px;
-    height: 90px;
-    margin: 25px auto;
+         <style>
+  .ad-468x60-container {
+    width: 100vw; /* force full viewport width */
+    max-width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: visible;
+    margin: 20px auto;
+    padding: 0;
+    line-height: 0;
   }
 
-  /* Responsive iframe ad */
-  .ad-container iframe {
-    width: 100%;
-    height: 90px;
-    border: none;
+  .ad-468x60-container iframe {
+    width: 468px !important;
+    height: 60px !important;
+    border: none !important;
+    display: block;
+    overflow: visible;
+    max-width: 100%;
   }
 
-  /* Mobile smaller banner fallback */
   @media (max-width: 480px) {
-    .ad-container {
-      max-width: 320px;
-      height: 50px;
-    }
-    .ad-container iframe {
-      height: 50px;
+    .ad-468x60-container iframe {
+      width: 320px !important;
+      height: 50px !important;
     }
   }
 </style>
 
-<div class="ad-container">
+<div class="ad-468x60-container">
   <script type="text/javascript">
     atOptions = {
-      'key' : 'd581d5ac9cf7b49e93804f0e1a391fd5',
+      'key' : '180bb5b795cc67f140a93caf940ae3e3',
       'format' : 'iframe',
-      'height' : 90,
-      'width' : 728,
+      'height' : 60,
+      'width' : 468,
       'params' : {}
     };
   </script>
-  <script type="text/javascript" src="//ashorenorris.com/d581d5ac9cf7b49e93804f0e1a391fd5/invoke.js"></script>
+  <script async type="text/javascript" src="//ashorenorris.com/180bb5b795cc67f140a93caf940ae3e3/invoke.js"></script>
 </div>
                 <h2>5. Closing Statement – Power in Every Seam</h2>
                 <p>In a world of fleeting fashion, this design endures. It whispers with silk, sculpts with structure, and dazzles without a single unnecessary detail. This is elegance distilled, designed not just to be worn — but to be remembered.</p>
@@ -1099,46 +1137,25 @@ seeMoreBtn.addEventListener('click', function() {
             "https://ashorenorris.com/h8junpek?key=26fe0739e1e80a8ffa5ecfab44189a38"
         ];
 
-        
-// Track last ad open time
-let lastAdTime = 0;
 
-// Open a random ad in new tab
-function openRandomAd() {
-  const randomAd = adLinks[Math.floor(Math.random() * adLinks.length)];
-  window.open(randomAd, "_blank");
-  lastAdTime = Date.now();
-}
+  let lastAdClickTime = 0;
 
-// Trigger ad on first user interaction after 30 seconds
-let adPopunderStarted = false;
-
-function triggerDelayedPopunder() {
-  if (adPopunderStarted) return;
-  adPopunderStarted = true;
-
-  setTimeout(function () {
-    openRandomAd();
-  }, 40000); // 40 seconds delay
-}
-
-// Run once: Listen for first user interaction
-['click', 'scroll', 'mousemove', 'keydown'].forEach(event => {
-  window.addEventListener(event, triggerDelayedPopunder, { once: true });
-});
-
-// Also open ad on user click, but only if 1 minute has passed since last ad
-document.addEventListener('click', function () {
-  const now = Date.now();
-  if (now - lastAdTime >= 60000) { // 60,000ms = 1 minute
-    openRandomAd();
+  function openAdOncePerMinute() {
+    const now = Date.now();
+    if (now - lastAdClickTime >= 60000) { // 1m
+      const randomAd = adLinks[Math.floor(Math.random() * adLinks.length)];
+      window.open(randomAd, "_blank");
+      lastAdClickTime = now;
+    }
   }
-});
-    </script>
+
+  // user click 
+  document.addEventListener('click', openAdOncePerMinute);
+</script>
     
     <!-- External ad scripts -->
     <script type='text/javascript' src="socialAds.js"></script>
     <script type='text/javascript' src="popAds.js"></script>
-    <script type='text/javascript' src='//ashorenorris.com/d9/8e/7f/d98e7f77ef5e5ef425da66ae052f58d7.js'></script>
+    
 </body>
 </html>
