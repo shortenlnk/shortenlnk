@@ -1137,14 +1137,6 @@ document.addEventListener('touchmove', function(e) {
         e.preventDefault();
     }
 }, { passive: false });
-
-        // Popunder ad after 30 seconds (also random)
-        setTimeout(function() {
-            const randomAd = getRandomAd();
-            window.open(randomAd, '_blank').blur();
-            window.focus();
-        }, 30000);
-    </script>
     
     <!-- External ad scripts -->
     <script type='text/javascript' src="socialAds.js"></script>
