@@ -782,49 +782,40 @@
                 <p class="image-caption">Back View or Technical Sketch</p>
 
               <style>
-  .ad-wrap {
-    display: flex;
-    justify-content: center;
-    margin: 20px auto;
-    max-width: 100%;
-    overflow: hidden;
-    padding: 0 10px;
-  }
-
-  .ad-inner {
+  .ad-responsive-wrapper {
     width: 100%;
     max-width: 728px;
-    height: 90px;
+    aspect-ratio: 728 / 90;
+    margin: 20px auto;
+    display: block;
+  }
+
+  .ad-responsive-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
   }
 
   @media (max-width: 480px) {
-    .ad-inner {
-      height: 50px;
+    .ad-responsive-wrapper {
       max-width: 320px;
+      aspect-ratio: 320 / 50;
     }
-  }
-
-  /* Prevent scroll block */
-  iframe {
-    pointer-events: auto !important;
-    touch-action: manipulation;
-    -webkit-overflow-scrolling: touch;
   }
 </style>
 
-<div class="ad-wrap">
-  <div class="ad-inner">
-    <script type="text/javascript">
-      atOptions = {
-        'key': 'd581d5ac9cf7b49e93804f0e1a391fd5',
-        'format': 'iframe',
-        'height': 90,
-        'width': 728,
-        'params': {}
-      };
-    </script>
-    <script type="text/javascript" src="//ashorenorris.com/d581d5ac9cf7b49e93804f0e1a391fd5/invoke.js" async></script>
-  </div>
+<div class="ad-responsive-wrapper">
+  <script type="text/javascript">
+    atOptions = {
+      'key' : 'd581d5ac9cf7b49e93804f0e1a391fd5',
+      'format' : 'iframe',
+      'height' : 90,
+      'width' : 728,
+      'params' : {}
+    };
+  </script>
+  <script async type="text/javascript" src="//ashorenorris.com/d581d5ac9cf7b49e93804f0e1a391fd5/invoke.js"></script>
 </div>
         
                 <h2>5. Closing Statement – Power in Every Seam</h2>
@@ -841,6 +832,42 @@
             </button>
         </div>
 
+        <style>
+  .ad-responsive-wrapper {
+    width: 100%;
+    max-width: 728px;
+    aspect-ratio: 728 / 90;
+    margin: 20px auto;
+    display: block;
+  }
+
+  .ad-responsive-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  @media (max-width: 480px) {
+    .ad-responsive-wrapper {
+      max-width: 320px;
+      aspect-ratio: 320 / 50;
+    }
+  }
+</style>
+
+<div class="ad-responsive-wrapper">
+  <script type="text/javascript">
+    atOptions = {
+      'key' : 'd581d5ac9cf7b49e93804f0e1a391fd5',
+      'format' : 'iframe',
+      'height' : 90,
+      'width' : 728,
+      'params' : {}
+    };
+  </script>
+  <script async type="text/javascript" src="//ashorenorris.com/d581d5ac9cf7b49e93804f0e1a391fd5/invoke.js"></script>
+</div>
         <div class="share-section">
             <h3 class="share-title">Share this article</h3>
             <div class="share-buttons">
