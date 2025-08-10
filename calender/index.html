@@ -6,12 +6,9 @@
     <title>Hotel Bookings Dashboard</title>
     <style>
         :root {
-            --primary: #87CEEB;  /* Sky blue */
+            --skyblue: #87CEEB;
             --white: #FFFFFF;
             --black: #000000;
-            --light-gray: #F5F5F5;
-            --border-gray: #E0E0E0;
-            --success: #28a745; /* Green for breakfast included */
         }
         
         * {
@@ -22,10 +19,9 @@
         }
         
         body {
-            background-color: var(--light-gray);
+            background-color: var(--white);
             color: var(--black);
             line-height: 1.5;
-            -webkit-tap-highlight-color: transparent;
         }
         
         .container {
@@ -38,43 +34,40 @@
         }
         
         header {
-            background: linear-gradient(135deg, var(--primary), #6BB9F0);
+            background-color: var(--skyblue);
             color: var(--black);
-            padding: 18px 20px;
+            padding: 20px;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 10;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         h1 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
         }
         
         h2 {
             color: var(--black);
             margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--primary);
+            padding: 0 15px 10px;
+            border-bottom: 2px solid var(--skyblue);
             font-size: 1.2rem;
-            font-weight: 600;
-            padding: 0 15px;
         }
         
         .app-body {
             flex: 1;
             overflow-y: auto;
-            padding-bottom: 20px;
+            padding-bottom: 70px;
         }
         
         .date-display {
             text-align: right;
-            margin: 10px 15px 15px;
+            margin: 15px;
             color: var(--black);
-            opacity: 0.8;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
         
         .bookings-section {
@@ -83,141 +76,106 @@
         
         .booking-card {
             background-color: var(--white);
-            border-radius: 12px;
-            border: 1px solid var(--border-gray);
-            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
             margin: 0 15px 15px;
-            transition: all 0.3s ease;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         
         .booking-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
+            margin-bottom: 10px;
             padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-gray);
+            border-bottom: 1px solid #f0f0f0;
         }
         
         .booking-id {
             font-weight: 600;
             color: var(--black);
             font-size: 0.85rem;
-            background-color: rgba(135, 206, 235, 0.2);
-            padding: 3px 8px;
-            border-radius: 12px;
         }
         
         .platform {
-            background-color: var(--primary);
+            background-color: var(--skyblue);
             color: var(--black);
-            padding: 4px 10px;
+            padding: 3px 10px;
             border-radius: 12px;
             font-size: 0.8rem;
             font-weight: 600;
         }
         
-        .detail-grid {
+        .booking-details {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 10px;
+            margin-top: 10px;
         }
         
         .detail-item {
-            display: flex;
-            flex-direction: column;
-            padding: 8px;
-            background-color: rgba(135, 206, 235, 0.05);
-            border-radius: 8px;
-        }
-        
-        .detail-item.highlight {
-            background-color: rgba(135, 206, 235, 0.1);
-            border-left: 3px solid var(--primary);
+            margin-bottom: 8px;
         }
         
         .detail-label {
             font-weight: 600;
             color: var(--black);
-            opacity: 0.7;
             font-size: 0.75rem;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
+            opacity: 0.7;
         }
         
         .detail-value {
             font-size: 0.9rem;
-            font-weight: 500;
         }
         
         .guest-name {
             font-size: 1.1rem;
             font-weight: 700;
             color: var(--black);
+            margin-bottom: 5px;
         }
         
         .dates-container {
             display: grid;
             grid-template-columns: 1fr;
             gap: 10px;
-            margin-top: 5px;
+            margin-top: 10px;
         }
         
         .date-box {
             background-color: rgba(135, 206, 235, 0.1);
             padding: 10px;
-            border-radius: 8px;
-            border: 1px solid var(--border-gray);
+            border-radius: 6px;
         }
         
         .breakfast-info {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
+            display: inline-block;
             padding: 4px 8px;
             border-radius: 12px;
             font-size: 0.8rem;
             font-weight: 600;
-            margin-top: 5px;
-        }
-        
-        .breakfast-yes {
-            background-color: rgba(40, 167, 69, 0.1);
-            color: var(--success);
-        }
-        
-        .breakfast-no {
-            background-color: rgba(220, 53, 69, 0.1);
-            color: #dc3545;
+            margin-top: 8px;
+            background-color: rgba(135, 206, 235, 0.2);
         }
         
         .no-bookings {
             text-align: center;
-            padding: 25px 15px;
-            background-color: var(--white);
-            border-radius: 8px;
+            padding: 30px;
             color: var(--black);
             opacity: 0.7;
-            border: 1px dashed var(--border-gray);
-            margin: 0 15px;
         }
         
         .refresh-btn {
-            background-color: var(--primary);
+            background-color: var(--skyblue);
             color: var(--black);
             border: none;
             padding: 10px 15px;
-            border-radius: 25px;
-            cursor: pointer;
-            margin: 10px 15px 15px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            border-radius: 20px;
+            margin: 15px;
             font-weight: 600;
-            font-size: 0.9rem;
+            cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
@@ -226,48 +184,33 @@
             justify-content: space-around;
             background-color: var(--white);
             padding: 12px 0;
-            border-top: 1px solid var(--border-gray);
-            position: sticky;
+            border-top: 1px solid #e0e0e0;
+            position: fixed;
             bottom: 0;
+            width: 100%;
         }
         
         .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            text-align: center;
+            font-size: 0.7rem;
             color: var(--black);
             opacity: 0.6;
-            font-size: 0.7rem;
-            gap: 4px;
         }
         
         .nav-item.active {
             opacity: 1;
-            color: var(--primary);
+            color: var(--skyblue);
         }
         
-        .nav-icon {
-            font-size: 1.2rem;
-        }
-
-        /* Tablet and Desktop */
         @media (min-width: 768px) {
             .container {
                 max-width: 800px;
                 margin: 20px auto;
-                border-radius: 15px;
+                border-radius: 10px;
                 overflow: hidden;
-                box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
                 min-height: auto;
                 height: 90vh;
-            }
-            
-            header {
-                border-radius: 15px 15px 0 0;
-            }
-            
-            .app-body {
-                padding-bottom: 0;
             }
             
             .dates-container {
@@ -284,10 +227,6 @@
         
         <div class="app-body">
             <button class="refresh-btn" id="refresh-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-                </svg>
                 Refresh
             </button>
             
@@ -311,29 +250,82 @@
         </div>
         
         <div class="bottom-nav">
-            <div class="nav-item active">
-                <span class="nav-icon">📅</span>
-                <span>Bookings</span>
-            </div>
-            <div class="nav-item">
-                <span class="nav-icon">🏨</span>
-                <span>Rooms</span>
-            </div>
-            <div class="nav-item">
-                <span class="nav-icon">👤</span>
-                <span>Profile</span>
-            </div>
-        </div>
+          
     </div>
 
     <script>
-        // Sample booking data with breakfast information
+        // Booking data as provided
         const bookings = [
             {
-                id: "5701492782",
+                id: "5335770554",
+                platform: "Booking.com",
+                roomName: "Deluxe Triple Room",
+                guestName: "Ms Paulie",
+                checkIn: "2025-08-10",
+                checkOut: "2025-08-11",
+                totalGuests: 2,
+                roomPrice: 115.88,
+                currency: "USD",
+                nights: 1,
+                breakfastIncluded: true
+            },
+            {
+                id: "HMW22K8ZZ3",
+                platform: "Airbnb",
+                roomName: "Deluxe Double Room",
+                guestName: "Xanne Koldewijn",
+                checkIn: "2025-08-10",
+                checkOut: "2025-08-11",
+                totalGuests: 2,
+                roomPrice: 23280.00,
+                currency: "LKR",
+                nights: 1,
+                breakfastIncluded: true
+            },
+            {
+                id: "HMH9QT2KZ3",
+                platform: "Airbnb",
+                roomName: "Deluxe Double Room",
+                guestName: "Cyril Zambaux",
+                checkIn: "2025-08-11",
+                checkOut: "2025-08-12",
+                totalGuests: 2,
+                roomPrice: 24832.00,
+                currency: "LKR",
+                nights: 1,
+                breakfastIncluded: true
+            },
+            {
+                id: "6939540431",
+                platform: "Booking.com",
+                roomName: "Deluxe Triple Room",
+                guestName: "Sara Albiol",
+                checkIn: "2025-08-11",
+                checkOut: "2025-08-13",
+                totalGuests: 2,
+                roomPrice: 231.77,
+                currency: "USD",
+                nights: 2,
+                breakfastIncluded: true
+            },
+            {
+                id: "5602609329",
                 platform: "Booking.com",
                 roomName: "Deluxe Double Room",
-                guestName: "Hansaka",
+                guestName: "Gonzalo Sánchez",
+                checkIn: "2025-08-12",
+                checkOut: "2025-08-13",
+                totalGuests: 2,
+                roomPrice: 94.13,
+                currency: "USD",
+                nights: 1,
+                breakfastIncluded: true
+            },
+            {
+                id: "5660082025",
+                platform: "Booking.com",
+                roomName: "Deluxe Triple Room",
+                guestName: "Dwight van Leuven",
                 checkIn: "2025-08-16",
                 checkOut: "2025-08-19",
                 totalGuests: 3,
@@ -343,41 +335,92 @@
                 breakfastIncluded: true
             },
             {
-                id: "BK001",
-                platform: "Agoda",
-                roomName: "Executive Suite",
-                guestName: "Maria Garcia",
-                checkIn: getFormattedDate(0),  // Today
-                checkOut: getFormattedDate(2),
+                id: "6970657369",
+                platform: "Booking.com",
+                roomName: "Deluxe Double Room",
+                guestName: "Manfred Bischof",
+                checkIn: "2025-08-21",
+                checkOut: "2025-08-23",
                 totalGuests: 2,
-                roomPrice: 22000,
-                currency: "LKR",
+                roomPrice: 235.32,
+                currency: "USD",
                 nights: 2,
-                breakfastIncluded: false
+                breakfastIncluded: true
             },
             {
-                id: "BK002",
-                platform: "Direct Booking",
-                roomName: "Family Suite",
-                guestName: "Chen Wei",
-                checkIn: getFormattedDate(3),  // 3 days from now
-                checkOut: getFormattedDate(6),
-                totalGuests: 4,
-                roomPrice: 28000,
+                id: "HMPTPPH38P",
+                platform: "Airbnb",
+                roomName: "Deluxe Double Room",
+                guestName: "Tom Merle Herrera",
+                checkIn: "2025-08-23",
+                checkOut: "2025-08-25",
+                totalGuests: 2,
+                roomPrice: 33624.08,
                 currency: "LKR",
-                nights: 3,
+                nights: 2,
+                breakfastIncluded: true
+            },
+            {
+                id: "HM2MY98ZQC",
+                platform: "Airbnb",
+                roomName: "Deluxe Double Room",
+                guestName: "Tasos Karagounis",
+                checkIn: "2025-08-25",
+                checkOut: "2025-08-26",
+                totalGuests: 2,
+                roomPrice: 24832.00,
+                currency: "LKR",
+                nights: 1,
+                breakfastIncluded: true
+            },
+            {
+                id: "5602665539",
+                platform: "Booking.com",
+                roomName: "Deluxe Double Room",
+                guestName: "Mathilde Puggaard",
+                checkIn: "2025-11-28",
+                checkOut: "2025-11-30",
+                totalGuests: 2,
+                roomPrice: 188.26,
+                currency: "USD",
+                nights: 2,
+                breakfastIncluded: true
+            },
+            {
+                id: "6792080544",
+                platform: "Booking.com",
+                roomName: "Deluxe Triple Room",
+                guestName: "Daria Guz",
+                checkIn: "2025-12-23",
+                checkOut: "2025-12-24",
+                totalGuests: 5,
+                roomPrice: 197.14,
+                currency: "USD",
+                nights: 1,
+                breakfastIncluded: true
+            },
+            {
+                id: "5589406621",
+                platform: "Booking.com",
+                roomName: "Deluxe Double Room",
+                guestName: "Philipp Schmid",
+                checkIn: "2026-01-01",
+                checkOut: "2026-01-03",
+                totalGuests: 2,
+                roomPrice: 235.32,
+                currency: "USD",
+                nights: 2,
                 breakfastIncluded: true
             }
         ];
 
-        // Helper function to get formatted date (YYYY-MM-DD) with day offset
+        // Helper functions
         function getFormattedDate(daysOffset) {
             const date = new Date();
             date.setDate(date.getDate() + daysOffset);
             return date.toISOString().split('T')[0];
         }
 
-        // Display current date
         function displayCurrentDate() {
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             const today = new Date();
@@ -385,13 +428,11 @@
             return today;
         }
 
-        // Format date for display
         function formatDisplayDate(dateString) {
             const options = { year: 'numeric', month: 'short', day: 'numeric' };
             return new Date(dateString).toLocaleDateString('en-US', options);
         }
 
-        // Format currency
         function formatCurrency(amount, currency) {
             if (currency === "USD") {
                 return '$' + amount.toFixed(2);
@@ -400,12 +441,7 @@
             }
         }
 
-        // Create booking card HTML
         function createBookingCard(booking) {
-            const breakfastStatus = booking.breakfastIncluded 
-                ? '<span class="breakfast-info breakfast-yes">✓ Breakfast included</span>'
-                : '<span class="breakfast-info breakfast-no">✗ No breakfast</span>';
-            
             return `
                 <div class="booking-card">
                     <div class="booking-header">
@@ -415,64 +451,65 @@
                     
                     <div class="guest-name">${booking.guestName}</div>
                     
-                    <div class="detail-grid">
-                        <div class="detail-item highlight">
-                            <span class="detail-label">Room Type</span>
-                            <span class="detail-value">${booking.roomName}</span>
+                    <div class="booking-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Room</div>
+                            <div class="detail-value">${booking.roomName}</div>
                         </div>
                         
                         <div class="detail-item">
-                            <span class="detail-label">Duration</span>
-                            <span class="detail-value">${booking.nights} night${booking.nights > 1 ? 's' : ''}</span>
+                            <div class="detail-label">Nights</div>
+                            <div class="detail-value">${booking.nights}</div>
                         </div>
                         
                         <div class="detail-item">
-                            <span class="detail-label">Guests</span>
-                            <span class="detail-value">${booking.totalGuests}</span>
+                            <div class="detail-label">Guests</div>
+                            <div class="detail-value">${booking.totalGuests}</div>
                         </div>
                         
-                        <div class="detail-item highlight">
-                            <span class="detail-label">Total</span>
-                            <span class="detail-value">${formatCurrency(booking.roomPrice, booking.currency)}</span>
+                        <div class="detail-item">
+                            <div class="detail-label">Price</div>
+                            <div class="detail-value">${formatCurrency(booking.roomPrice, booking.currency)}</div>
                         </div>
                     </div>
                     
                     <div class="dates-container">
                         <div class="date-box">
-                            <span class="detail-label">Check-in</span>
-                            <span class="detail-value">${formatDisplayDate(booking.checkIn)}</span>
+                            <div class="detail-label">Check-in</div>
+                            <div class="detail-value">${formatDisplayDate(booking.checkIn)}</div>
                         </div>
                         <div class="date-box">
-                            <span class="detail-label">Check-out</span>
-                            <span class="detail-value">${formatDisplayDate(booking.checkOut)}</span>
+                            <div class="detail-label">Check-out</div>
+                            <div class="detail-value">${formatDisplayDate(booking.checkOut)}</div>
                         </div>
                     </div>
                     
-                    ${breakfastStatus}
+                    <div class="breakfast-info">✓ Breakfast included</div>
                 </div>
             `;
         }
 
-        // Display bookings
+        function sortBookingsByDate(bookingsArray) {
+            return bookingsArray.sort((a, b) => {
+                return new Date(a.checkIn) - new Date(b.checkIn);
+            });
+        }
+
         function displayBookings() {
             const today = displayCurrentDate();
             const todayBookingsContainer = document.getElementById('today-bookings');
             const upcomingBookingsContainer = document.getElementById('upcoming-bookings');
             
-            // Format today's date for comparison (YYYY-MM-DD)
             const todayFormatted = today.toISOString().split('T')[0];
             
-            // Filter bookings (exclude past bookings)
             const activeBookings = bookings.filter(booking => {
                 const checkOutDate = new Date(booking.checkOut);
                 return checkOutDate >= today;
             });
             
-            // Categorize bookings
             const todayBookings = activeBookings.filter(booking => booking.checkIn === todayFormatted);
-            const upcomingBookings = activeBookings.filter(booking => booking.checkIn > todayFormatted);
+            const upcomingBookings = sortBookingsByDate(activeBookings.filter(booking => booking.checkIn > todayFormatted));
             
-            // Display today's bookings
             if (todayBookings.length > 0) {
                 todayBookingsContainer.innerHTML = todayBookings.map(booking => 
                     createBookingCard(booking)).join('');
@@ -480,7 +517,6 @@
                 todayBookingsContainer.innerHTML = '<div class="no-bookings">No arrivals scheduled for today</div>';
             }
             
-            // Display upcoming bookings
             if (upcomingBookings.length > 0) {
                 upcomingBookingsContainer.innerHTML = upcomingBookings.map(booking => 
                     createBookingCard(booking)).join('');
@@ -489,10 +525,8 @@
             }
         }
 
-        // Initialize the dashboard when the page loads
+        // Initialize
         document.addEventListener('DOMContentLoaded', displayBookings);
-        
-        // Add refresh functionality
         document.getElementById('refresh-btn').addEventListener('click', displayBookings);
         
         // Bottom nav interaction
