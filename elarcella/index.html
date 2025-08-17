@@ -296,7 +296,7 @@
             color: var(--success);
         }
         
-        .breakfast-badge.not-included {
+        .breakfast-badge.not-breakfast {
             background-color: #ffe6e6;
             color: var(--danger);
         }
@@ -420,7 +420,7 @@
                 amount: "115.88",
                 currency: "USD",
                 nights: 1,
-                breakfast: "Included"
+                breakfast: "breakfast"
             },
             {
                 id: 2,
@@ -434,7 +434,7 @@
                 amount: "79.20",
                 currency: "USD",
                 nights: 1,
-                breakfast: "Included"
+                breakfast: "breakfast"
             },
             {
                 id: 3,
@@ -448,7 +448,7 @@
                 amount: "82.52",
                 currency: "USD",
                 nights: 1,
-                breakfast: "Included"
+                breakfast: "breakfast"
             },
             {
                 id: 4,
@@ -462,7 +462,7 @@
                 amount: "231.77",
                 currency: "USD",
                 nights: 2,
-                breakfast: "Included"
+                breakfast: "breakfast"
             },
             {
                 id: 5,
@@ -476,7 +476,7 @@
                 amount: "66.47",
                 currency: "USD",
                 nights: 1,
-                breakfast: "Included"
+                breakfast: "breakfast"
             },
             {
                 id: 6,
@@ -490,7 +490,7 @@
                 amount: "152.16",
                 currency: "USD",
                 nights: 2,
-                breakfast: "Included"
+                breakfast: "breakfast"
             },
             {
                 id: 7,
@@ -504,7 +504,7 @@
                 amount: "66.47",
                 currency: "USD",
                 nights: 1,
-                breakfast: "Included"
+                breakfast: "breakfast"
             },
             {
                 id: 8,
@@ -518,7 +518,7 @@
                 amount: "176.92",
                 currency: "USD",
                 nights: 2,
-                breakfast: "Included"
+                breakfast: "breakfast"
             },
             {
                 id: 9,
@@ -532,7 +532,7 @@
                 amount: "80.59",
                 currency: "USD",
                 nights: 1,
-                breakfast: "Included"
+                breakfast: "breakfast"
             },
             {
                 id: 10,
@@ -546,7 +546,7 @@
                 amount: "90.90",
                 currency: "USD",
                 nights: 1,
-                breakfast: "Included"
+                breakfast: "breakfast"
             },
             {
                 id: 11,
@@ -560,7 +560,7 @@
                 amount: "73.12",
                 currency: "USD",
                 nights: 1,
-                breakfast: "Included"
+                breakfast: "breakfast"
             },
             {
                 id: 12,
@@ -574,7 +574,7 @@
                 amount: "309.48",
                 currency: "USD",
                 nights: 4,
-                breakfast: "Included"
+                breakfast: "breakfast"
             }
         ];
 
@@ -650,12 +650,12 @@
                     roomTypeClass = 'quadruple-room';
                 }
                 
-                const breakfastClass = booking.breakfast === 'Included' ? '' : 'not-included';
+                const breakfastClass = booking.breakfast === 'breakfast' ? '' : 'not-breakfast';
                 
                 // Determine platform icon and styling
                 let platformIcon, platformClass;
                 if (booking.platform === 'Booking.com') {
-                    platformIcon = 'fas fa-B';
+                    platformIcon = 'B';
                     platformClass = 'booking-com';
                 } else if (booking.platform === 'Airbnb') {
                     platformIcon = 'fab fa-airbnb';
@@ -706,7 +706,7 @@
                         <div class="amount">${formattedAmount}</div>
                         <div class="badge-group">
                             <div class="badge breakfast-badge ${breakfastClass}">
-                                <i class="fas ${booking.breakfast === 'Included' ? 'fa-check' : 'fa-times'} badge-icon"></i>
+                                <i class="fas ${booking.breakfast === 'breakfast' ? 'fa-check' : 'fa-times'} badge-icon"></i>
                                 ${booking.breakfast}
                             </div>
                             <div class="badge nights-badge">
