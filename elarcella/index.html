@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Dashboard</title>
+    <title>Booking Manager</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -151,6 +151,7 @@
             justify-content: center;
             border-radius: 6px;
             font-size: 1rem;
+            font-weight: bold;
         }
         
         .platform-details {
@@ -373,7 +374,7 @@
 <body>
     <header>
         <div class="header-content">
-            <div class="logo">Booking Dashboard</div>
+            <div class="logo">Booking Manager</div>
         </div>
     </header>
     
@@ -655,7 +656,7 @@
                 // Determine platform icon and styling
                 let platformIcon, platformClass;
                 if (booking.platform === 'Booking.com') {
-                    platformIcon = 'B';
+                    platformIcon = 'B'; // Changed from hotel icon to 'B'
                     platformClass = 'booking-com';
                 } else if (booking.platform === 'Airbnb') {
                     platformIcon = 'fab fa-airbnb';
@@ -672,7 +673,7 @@
                     <div class="booking-header">
                         <div class="platform-info">
                             <div class="platform-icon ${platformClass}">
-                                <i class="${platformIcon}"></i>
+                                ${booking.platform === 'Booking.com' ? 'B' : `<i class="${platformIcon}"></i>`}
                             </div>
                             <div class="platform-details">
                                 <div class="platform-name">${booking.platform}</div>
