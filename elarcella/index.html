@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #006ce4;
+            --secondary: #003580;
+            --accent: #ffb700;
+            --light: #f5f7fa;
+            --dark: #1a1a1a;
+            --success: #28a745;
+            --danger: #dc3545;
+            --text: #333333;
+            --text-light: #666666;
+            --booking-com: #003580;
+            --airbnb: #FF5A5F;
+            --website: #6f42c1;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 100%;
+            padding: 15px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .stat-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+            color: var(--secondary);
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .search-box, .filter-select, .month-select, .year-select {
+            flex: 1;
+            min-width: 150px;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background-color: white;
+        }
+        
+        .booking-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        
+        .booking-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .booking-card:active {
+            transform: scale(0.98);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            align-items: flex-start;
+        }
+        
+        .platform-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .platform-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        
+        .platform-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .platform-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .confirmation {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+        
+        .booking-com {
+            background-color: var(--booking-com);
+            color: white;
+        }
+        
+        .airbnb {
+            background-color: var(--airbnb);
+            color: white;
+        }
+        
+        .website {
+            background-color: var(--website);
+            color: white;
+        }
+        
+        .booking-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .room-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .room-type {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background-color: #e6f2ff;
+            color: var(--primary);
+            align-self: flex-start;
+        }
+        
+        .double-room {
+            background-color: #e6f7ff;
+        }
+        
+        .triple-room {
+            background-color: #fff2e6;
+            color: #e67e22;
+        }
+        
+        .quadruple-room {
+            background-color: #f0e6ff;
+            color: #8e44ad;
+        }
+        
+        .guest-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.95rem;
+        }
+        
+        .guest-icon {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .dates-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 8px;
+        }
+        
+        .date-group {
+            flex: 1;
+        }
+        
+        .date-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .date-value {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        
+        .booking-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .amount {
+            font-weight: 600;
+            color: var(--secondary);
+            font-size: 1rem;
+            flex: 1;
+            min-width: 100px;
+        }
+        
+        .badge-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            font-size: 0.8rem;
+            padding: 6px 10px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+        
+        .breakfast-badge {
+            background-color: #e6ffe6;
+            color: var(--success);
+        }
+        
+        .breakfast-badge.not-included {
+            background-color: #ffe6e6;
+            color: var(--danger);
+        }
+        
+        .nights-badge {
+            background-color: #e6f2ff;
+            color: var(--primary);
+        }
+        
+        .badge-icon {
+            font-size: 0.7rem;
+        }
+        
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            grid-column: 1 / -1;
+        }
+        
+        .empty-icon {
+            font-size: 2.5rem;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+        
+        .empty-text {
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+        
+        /* Responsive adjustments */
+        @media (min-width: 480px) {
+            .stats-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .booking-footer {
+                flex-wrap: nowrap;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 750px;
+                padding: 20px;
+            }
+            
+            .booking-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .container {
+                max-width: 970px;
+            }
+            
+            .booking-list {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1170px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">Booking Dashboard</div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="stats-container" id="statsContainer">
+            <!-- Stats will be auto-populated -->
+        </div>
+        
+        <div class="controls">
+            <input type="text" class="search-box" placeholder="Search by name or ID..." id="searchInput">
+            <select class="filter-select" id="platformFilter">
+                <option value="">All Platforms</option>
+                <option value="Booking.com">Booking.com</option>
+                <option value="Airbnb">Airbnb</option>
+                <option value="Website">Website</option>
+            </select>
+            <select class="month-select" id="monthFilter">
+                <option value="">All Months</option>
+                <option value="8">August</option>
+            </select>
+            <select class="year-select" id="yearFilter">
+                <option value="">All Years</option>
+                <option value="2025">2025</option>
+            </select>
+        </div>
+        
+        <div class="booking-list" id="bookingList">
+            <!-- Bookings will be loaded here -->
+        </div>
+    </div>
+    
+    <script>
+        // Updated booking data with only the specified bookings
+        let bookings = [
+            {
+                id: 1,
+                platform: "Booking.com",
+                confirmation: "5701492782",
+                roomType: "Deluxe Quadruple Room",
+                guestName: "Bauyrzhan Dumanuly",
+                checkIn: "2025-08-08",
+                checkOut: "2025-08-09",
+                guests: 2,
+                amount: "115.88",
+                currency: "USD",
+                nights: 1,
+                breakfast: "Included"
+            },
+            {
+                id: 2,
+                platform: "Airbnb",
+                confirmation: "HMW22K8ZZ3",
+                roomType: "Deluxe Double Room",
+                guestName: "Xanne Koldewijn",
+                checkIn: "2025-08-10",
+                checkOut: "2025-08-11",
+                guests: 2,
+                amount: "79.20",
+                currency: "USD",
+                nights: 1,
+                breakfast: "Included"
+            },
+            {
+                id: 3,
+                platform: "Airbnb",
+                confirmation: "HMH9QT2KZ3",
+                roomType: "Deluxe Double Room",
+                guestName: "Cyril Zambaux",
+                checkIn: "2025-08-11",
+                checkOut: "2025-08-12",
+                guests: 2,
+                amount: "82.52",
+                currency: "USD",
+                nights: 1,
+                breakfast: "Included"
+            },
+            {
+                id: 4,
+                platform: "Booking.com",
+                confirmation: "6939540431",
+                roomType: "Deluxe Quadruple Room",
+                guestName: "Sara Albiol",
+                checkIn: "2025-08-11",
+                checkOut: "2025-08-13",
+                guests: 2,
+                amount: "231.77",
+                currency: "USD",
+                nights: 2,
+                breakfast: "Included"
+            },
+            {
+                id: 5,
+                platform: "Website",
+                confirmation: "Google-0812",
+                roomType: "Deluxe Double Room",
+                guestName: "Muhadh",
+                checkIn: "2025-08-12",
+                checkOut: "2025-08-13",
+                guests: 2,
+                amount: "66.47",
+                currency: "USD",
+                nights: 1,
+                breakfast: "Included"
+            },
+            {
+                id: 6,
+                platform: "Airbnb",
+                confirmation: "HM4JFAKYWY",
+                roomType: "Deluxe Double Room",
+                guestName: "Jonas Amann",
+                checkIn: "2025-08-13",
+                checkOut: "2025-08-15",
+                guests: 2,
+                amount: "152.16",
+                currency: "USD",
+                nights: 2,
+                breakfast: "Included"
+            },
+            {
+                id: 7,
+                platform: "Website",
+                confirmation: "Google-0813",
+                roomType: "Deluxe Quadruple Room",
+                guestName: "Ahamed Akdhar",
+                checkIn: "2025-08-13",
+                checkOut: "2025-08-14",
+                guests: 2,
+                amount: "66.47",
+                currency: "USD",
+                nights: 1,
+                breakfast: "Included"
+            },
+            {
+                id: 8,
+                platform: "Airbnb",
+                confirmation: "HMQHBAQ8A",
+                roomType: "Deluxe Quadruple Room",
+                guestName: "Kristina Baumgarten",
+                checkIn: "2025-08-14",
+                checkOut: "2025-08-16",
+                guests: 3,
+                amount: "176.92",
+                currency: "USD",
+                nights: 2,
+                breakfast: "Included"
+            },
+            {
+                id: 9,
+                platform: "Airbnb",
+                confirmation: "HMMYREFK3Z",
+                roomType: "Deluxe Double Room",
+                guestName: "Sebastiaan Bosch",
+                checkIn: "2025-08-15",
+                checkOut: "2025-08-16",
+                guests: 2,
+                amount: "80.59",
+                currency: "USD",
+                nights: 1,
+                breakfast: "Included"
+            },
+            {
+                id: 10,
+                platform: "Booking.com",
+                confirmation: "6475932911",
+                roomType: "Deluxe Quadruple Room",
+                guestName: "Angus MacRae",
+                checkIn: "2025-08-16",
+                checkOut: "2025-08-17",
+                guests: 2,
+                amount: "90.90",
+                currency: "USD",
+                nights: 1,
+                breakfast: "Included"
+            },
+            {
+                id: 11,
+                platform: "Website",
+                confirmation: "Laki-0817",
+                roomType: "Deluxe Quadruple Room",
+                guestName: "Sumana",
+                checkIn: "2025-08-17",
+                checkOut: "2025-08-18",
+                guests: 2,
+                amount: "73.12",
+                currency: "USD",
+                nights: 1,
+                breakfast: "Included"
+            },
+            {
+                id: 12,
+                platform: "Airbnb",
+                confirmation: "HM4QRJXTNQ",
+                roomType: "Deluxe Double Room",
+                guestName: "Jessika Lange",
+                checkIn: "2025-08-16",
+                checkOut: "2025-08-20",
+                guests: 2,
+                amount: "309.48",
+                currency: "USD",
+                nights: 4,
+                breakfast: "Included"
+            }
+        ];
+
+        // DOM Elements
+        const bookingList = document.getElementById('bookingList');
+        const searchInput = document.getElementById('searchInput');
+        const platformFilter = document.getElementById('platformFilter');
+        const monthFilter = document.getElementById('monthFilter');
+        const yearFilter = document.getElementById('yearFilter');
+        const statsContainer = document.getElementById('statsContainer');
+
+        // Initialize the app
+        function init() {
+            updateStats();
+            renderBookings(bookings);
+            setupEventListeners();
+        }
+
+        // Calculate and update statistics
+        function updateStats(filteredBookings = bookings) {
+            const totalBookings = filteredBookings.length;
+            const totalNights = filteredBookings.reduce((sum, booking) => sum + booking.nights, 0);
+            const totalRevenueUSD = filteredBookings.reduce((sum, booking) => {
+                const amount = parseFloat(booking.amount);
+                return sum + amount;
+            }, 0);
+            const platformCount = new Set(filteredBookings.map(b => b.platform)).size;
+            
+            statsContainer.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-value">${totalBookings}</div>
+                    <div class="stat-label">Total Bookings</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${totalNights}</div>
+                    <div class="stat-label">Total Nights</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${platformCount}</div>
+                    <div class="stat-label">Platforms</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">$${totalRevenueUSD.toFixed(2)}</div>
+                    <div class="stat-label">Total Revenue (USD)</div>
+                </div>
+            `;
+        }
+
+        // Render bookings to the UI
+        function renderBookings(bookingsToRender) {
+            if (bookingsToRender.length === 0) {
+                bookingList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon"><i class="far fa-calendar-alt"></i></div>
+                        <div class="empty-text">No bookings found</div>
+                    </div>
+                `;
+                return;
+            }
+
+            bookingList.innerHTML = '';
+            
+            bookingsToRender.forEach(booking => {
+                const bookingCard = document.createElement('div');
+                bookingCard.className = 'booking-card';
+                bookingCard.dataset.id = booking.id;
+                
+                // Determine room type class
+                let roomTypeClass = 'double-room';
+                if (booking.roomType.includes('Triple')) {
+                    roomTypeClass = 'triple-room';
+                } else if (booking.roomType.includes('Quadruple')) {
+                    roomTypeClass = 'quadruple-room';
+                }
+                
+                const breakfastClass = booking.breakfast === 'Included' ? '' : 'not-included';
+                
+                // Determine platform icon and styling
+                let platformIcon, platformClass;
+                if (booking.platform === 'Booking.com') {
+                    platformIcon = 'fas fa-B';
+                    platformClass = 'booking-com';
+                } else if (booking.platform === 'Airbnb') {
+                    platformIcon = 'fab fa-airbnb';
+                    platformClass = 'airbnb';
+                } else {
+                    platformIcon = 'fas fa-globe';
+                    platformClass = 'website';
+                }
+                
+                // Format amount
+                const formattedAmount = `$${parseFloat(booking.amount).toFixed(2)}`;
+                
+                bookingCard.innerHTML = `
+                    <div class="booking-header">
+                        <div class="platform-info">
+                            <div class="platform-icon ${platformClass}">
+                                <i class="${platformIcon}"></i>
+                            </div>
+                            <div class="platform-details">
+                                <div class="platform-name">${booking.platform}</div>
+                                <div class="confirmation">${booking.confirmation}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-body">
+                        <div class="room-info">
+                            <div class="room-type ${roomTypeClass}">${booking.roomType}</div>
+                            <div class="guest-info">
+                                <i class="fas fa-user guest-icon"></i>
+                                ${booking.guestName}
+                            </div>
+                        </div>
+                        
+                        <div class="dates-container">
+                            <div class="date-group">
+                                <div class="date-label">Check-in</div>
+                                <div class="date-value">${formatDate(booking.checkIn)}</div>
+                            </div>
+                            <div class="date-group">
+                                <div class="date-label">Check-out</div>
+                                <div class="date-value">${formatDate(booking.checkOut)}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-footer">
+                        <div class="amount">${formattedAmount}</div>
+                        <div class="badge-group">
+                            <div class="badge breakfast-badge ${breakfastClass}">
+                                <i class="fas ${booking.breakfast === 'Included' ? 'fa-check' : 'fa-times'} badge-icon"></i>
+                                ${booking.breakfast}
+                            </div>
+                            <div class="badge nights-badge">
+                                <i class="fas fa-moon badge-icon"></i>
+                                ${booking.nights} night${booking.nights > 1 ? 's' : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                bookingList.appendChild(bookingCard);
+            });
+        }
+
+        // Format date for display
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        // Filter bookings based on search, platform, month and year
+        function filterBookings() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const platform = platformFilter.value;
+            const month = monthFilter.value;
+            const year = yearFilter.value;
+            
+            const filtered = bookings.filter(booking => {
+                // Search filter
+                const matchesSearch = 
+                    booking.guestName.toLowerCase().includes(searchTerm) ||
+                    booking.confirmation.toLowerCase().includes(searchTerm);
+                
+                // Platform filter
+                const matchesPlatform = platform === '' || booking.platform === platform;
+                
+                // Date filters
+                const checkInDate = new Date(booking.checkIn);
+                const checkOutDate = new Date(booking.checkOut);
+                
+                let matchesMonth = true;
+                if (month !== '') {
+                    const checkInMonth = checkInDate.getMonth() + 1;
+                    const checkOutMonth = checkOutDate.getMonth() + 1;
+                    matchesMonth = checkInMonth == month || checkOutMonth == month;
+                }
+                
+                let matchesYear = true;
+                if (year !== '') {
+                    const checkInYear = checkInDate.getFullYear();
+                    const checkOutYear = checkOutDate.getFullYear();
+                    matchesYear = checkInYear == year || checkOutYear == year;
+                }
+                
+                return matchesSearch && matchesPlatform && matchesMonth && matchesYear;
+            });
+            
+            renderBookings(filtered);
+            updateStats(filtered);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search and filter
+            searchInput.addEventListener('input', filterBookings);
+            platformFilter.addEventListener('change', filterBookings);
+            monthFilter.addEventListener('change', filterBookings);
+            yearFilter.addEventListener('change', filterBookings);
+        }
+
+        // Initialize the application
+        init();
+    </script>
+</body>
+</html>
