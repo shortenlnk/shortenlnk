@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Better Signal – Sri Lanka</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        :root {
+            --primary: #8E354A; /* Sri Lankan traditional color */
+            --secondary: #F8B500; /* Golden yellow */
+            --accent: #1C4E80; /* Deep blue */
+            --light: #F5F0E5; /* Cream */
+            --dark: #2D3748;
+            --gray: #e2e8f0;
+            --success: #38a169;
+            --danger: #e53e3e;
+            --warning: #dd6b20;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, var(--light) 0%, #e6e2d6 100%);
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            color: white;
+            padding: 1.2rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><path d="M15,15 L85,15 L85,85 L15,85 Z" fill="none" stroke="white" stroke-width="2"/><path d="M30,30 L70,30 L70,70 L30,70 Z" fill="none" stroke="white" stroke-width="1"/><circle cx="50" cy="50" r="20" fill="none" stroke="white" stroke-width="1"/></svg>');
+            background-size: 200px;
+            opacity: 0.1;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 400;
+            position: relative;
+        }
+        
+        .container {
+            max-width: 100%;
+            padding: 1.5rem 1rem;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        
+        .control-panel {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 0.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+        
+        select, button {
+            width: 100%;
+            padding: 0.9rem;
+            border-radius: 12px;
+            border: 1px solid var(--gray);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        select {
+            background-color: white;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(248, 181, 0, 0.2);
+        }
+        
+        .button-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+        
+        button {
+            background: linear-gradient(to bottom, var(--primary), #7a2d40);
+            color: white;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+            pointer-events: none;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:disabled {
+            background: linear-gradient(to bottom, #b0b0b0, #9c9c9c);
+            color: #e0e0e0;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        button.secondary {
+            background: linear-gradient(to bottom, #f1f1f1, #e1e1e1);
+            color: var(--dark);
+        }
+        
+        button.warning {
+            background: linear-gradient(to bottom, var(--warning), #c05621);
+        }
+        
+        button.danger {
+            background: linear-gradient(to bottom, var(--danger), #c53030);
+        }
+        
+        .compass-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .compass {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #f8f9fa, #e9ecef, #f8f9fa);
+            box-shadow: 
+                inset 0 0 0 10px white,
+                inset 0 0 0 11px #e2e8f0,
+                0 8px 24px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.5s ease;
+        }
+        
+        .compass-inner {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            background: white;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .compass-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: 120px solid var(--primary);
+            transform-origin: 50% 100%;
+            z-index: 10;
+            transition: transform 0.5s cubic-bezier(0.22, 1.61, 0.72, 0.98);
+            filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.2));
+        }
+        
+        .compass-markers {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+        
+        .compass-marker {
+            position: absolute;
+            width: 2px;
+            height: 12px;
+            background: var(--accent);
+            left: 50%;
+            transform-origin: bottom center;
+        }
+        
+        .compass-marker.major {
+            height: 18px;
+            width: 3px;
+            background: var(--primary);
+        }
+        
+        .direction-label {
+            position: absolute;
+            bottom: -2.5rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: var(--primary);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            background: var(--card-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: fit-content;
+            margin: 0 auto;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, var(--card-bg) 0%, #faf9f5 100%);
+            border-radius: 12px;
+            padding: 1.2rem;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            transition: transform 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .metric-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .metric-label {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .map-container {
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border: 2px solid white;
+        }
+        
+        .status-bar {
+            background: linear-gradient(to right, var(--accent), #2a5c8d);
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .disclaimer {
+            font-size: 0.8rem;
+            color: #718096;
+            text-align: center;
+            margin-top: 2rem;
+            padding: 0.8rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .help-section {
+            margin-top: 2rem;
+            padding: 1.2rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .help-title {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .help-title svg {
+            margin-right: 0.5rem;
+        }
+        
+        .help-content {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--dark);
+        }
+        
+        .help-steps {
+            margin-top: 0.8rem;
+            padding-left: 1.2rem;
+        }
+        
+        .help-steps li {
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 768px;
+                margin: 0 auto;
+            }
+            
+            .control-panel {
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+            }
+            
+            .button-group {
+                grid-column: span 2;
+            }
+            
+            .compass-container {
+                width: 320px;
+                height: 320px;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        /* Animation for scanning state */
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
+        .scanning {
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* Create compass markers */
+        .compass-markers {
+            transform: rotate(0deg);
+        }
+        
+        /* Create 12 markers (30 degrees apart) */
+        .compass-marker:nth-child(1) { transform: rotate(0deg) translateY(-130px); }
+        .compass-marker:nth-child(2) { transform: rotate(30deg) translateY(-130px); }
+        .compass-marker:nth-child(3) { transform: rotate(60deg) translateY(-130px); }
+        .compass-marker:nth-child(4) { transform: rotate(90deg) translateY(-130px); }
+        .compass-marker:nth-child(5) { transform: rotate(120deg) translateY(-130px); }
+        .compass-marker:nth-child(6) { transform: rotate(150deg) translateY(-130px); }
+        .compass-marker:nth-child(7) { transform: rotate(180deg) translateY(-130px); }
+        .compass-marker:nth-child(8) { transform: rotate(210deg) translateY(-130px); }
+        .compass-marker:nth-child(9) { transform: rotate(240deg) translateY(-130px); }
+        .compass-marker:nth-child(10) { transform: rotate(270deg) translateY(-130px); }
+        .compass-marker:nth-child(11) { transform: rotate(300deg) translateY(-130px); }
+        .compass-marker:nth-child(12) { transform: rotate(330deg) translateY(-130px); }
+        
+        /* Make every 3rd marker a major one */
+        .compass-marker:nth-child(3n) {
+            height: 18px;
+            width: 3px;
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Find Better Signal – Sri Lanka</h1>
+        <div class="subtitle">Optimize your mobile connection with direction-based scanning</div>
+    </header>
+    
+    <div class="container">
+        <div class="card">
+            <div class="control-panel">
+                <div class="form-group">
+                    <label for="provider-select">Mobile Provider</label>
+                    <select id="provider-select">
+                        <option value="dialog">Dialog</option>
+                        <option value="airtel">Airtel</option>
+                        <option value="mobitel">Mobitel</option>
+                        <option value="hutch">Hutch</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="button-group">
+                    <button id="start-btn">Start Scan</button>
+                    <button id="stop-btn" class="danger" disabled>Stop</button>
+                    <button id="save-btn" class="secondary" disabled>Save Result</button>
+                    <button id="reset-btn" class="warning">Reset</button>
+                    <button id="export-btn" class="secondary">Export CSV</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status-bar" id="status">
+            Ready to start scanning. Press Start to begin.
+        </div>
+        
+        <div class="card">
+            <div class="compass-container">
+                <div class="compass">
+                    <div class="compass-markers">
+                        <div class="compass-marker"></div>
+                        <div class="compass-marker"></div>
+                        <div class="compass-marker"></div>
+                        <div class="compass-marker"></div>
+                        <div class="compass-marker"></div>
+                        <div class="compass-marker"></div>
+                        <div class="compass-marker"></div>
+                        <div class="compass-marker"></div>
+                        <div class="compass-marker"></div>
+                        <div class="compass-marker"></div>
+                        <div class="compass-marker"></div>
+                        <div class="compass-marker"></div>
+                    </div>
+                    <div class="compass-inner">
+                        <div class="compass-arrow" id="compass-arrow"></div>
+                    </div>
+                </div>
+                <div class="direction-label" id="direction-label">Best: --° (--)</div>
+            </div>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value" id="heading-value">--°</div>
+                    <div class="metric-label">Heading</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="latency-value">-- ms</div>
+                    <div class="metric-label">Latency</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="download-value">-- Mbps</div>
+                    <div class="metric-label">Download</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="connection-value">--</div>
+                    <div class="metric-label">Connection Type</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="map-container" id="map"></div>
+        </div>
+        
+        <div class="help-section">
+            <div class="help-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                How to Use
+            </div>
+            <div class="help-content">
+                <p>This tool helps you find the best direction for mobile signal strength by measuring network performance as you rotate.</p>
+                <ol class="help-steps">
+                    <li>Select your mobile provider</li>
+                    <li>Press Start Scan and grant necessary permissions</li>
+                    <li>Slowly rotate 360 degrees while holding your device</li>
+                    <li>The arrow will point to the best signal direction</li>
+                    <li>Save your results or export the data for reference</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="disclaimer">
+            Browser cannot read raw signal bars; this uses speed/latency + compass as a proxy. All data stays on your device.
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // State management
+        const state = {
+            scanning: false,
+            heading: null,
+            bestDirection: null,
+            provider: 'dialog',
+            dataPoints: [],
+            currentTests: {
+                latency: null,
+                download: null
+            },
+            connectionInfo: {
+                effectiveType: 'unknown',
+                downlink: 0,
+                rtt: 0
+            },
+            smoothingWindow: 10, // Number of samples for moving average
+            headingBins: Array(12).fill().map(() => ({
+                latencies: [],
+                throughputs: [],
+                count: 0
+            }))
+        };
+
+        // DOM Elements
+        const compassArrow = document.getElementById('compass-arrow');
+        const directionLabel = document.getElementById('direction-label');
+        const headingValue = document.getElementById('heading-value');
+        const latencyValue = document.getElementById('latency-value');
+        const downloadValue = document.getElementById('download-value');
+        const connectionValue = document.getElementById('connection-value');
+        const statusElement = document.getElementById('status');
+        const startBtn = document.getElementById('start-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const saveBtn = document.getElementById('save-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const exportBtn = document.getElementById('export-btn');
+        const providerSelect = document.getElementById('provider-select');
+        let map = null;
+
+        // Initialize the application
+        function init() {
+            setupEventListeners();
+            checkCompatibility();
+            initMap();
+            loadSavedData();
+            updateUI();
+            createCompassMarkers();
+        }
+
+        // Create compass markers
+        function createCompassMarkers() {
+            const markersContainer = document.querySelector('.compass-markers');
+            markersContainer.innerHTML = '';
+            
+            for (let i = 0; i < 12; i++) {
+                const marker = document.createElement('div');
+                marker.className = 'compass-marker';
+                if (i % 3 === 0) marker.classList.add('major');
+                markersContainer.appendChild(marker);
+            }
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            startBtn.addEventListener('click', startScan);
+            stopBtn.addEventListener('click', stopScan);
+            saveBtn.addEventListener('click', saveToLocal);
+            resetBtn.addEventListener('click', resetData);
+            exportBtn.addEventListener('click', exportCSV);
+            providerSelect.addEventListener('change', (e) => {
+                state.provider = e.target.value;
+                loadSavedData();
+            });
+
+            // Handle device orientation with permission requests
+            if (typeof DeviceOrientationEvent !== 'undefined' && 
+                typeof DeviceOrientationEvent.requestPermission === 'function') {
+                // iOS 13+ devices need permission
+                startBtn.textContent = 'Request Permission & Start';
+            }
+        }
+
+        // Check browser compatibility
+        function checkCompatibility() {
+            const issues = [];
+            
+            if (typeof DeviceOrientationEvent === 'undefined') {
+                issues.push('Device orientation API not supported');
+            }
+            
+            if (!navigator.geolocation) {
+                issues.push('Geolocation API not supported');
+            }
+            
+            if (!window.fetch) {
+                issues.push('Fetch API not supported');
+            }
+            
+            if (issues.length > 0) {
+                statusElement.textContent = `Compatibility issues: ${issues.join(', ')}. Some features may not work.`;
+                statusElement.style.background = 'linear-gradient(to right, #e53e3e, #c53030)';
+            }
+        }
+
+        // Initialize the map
+        function initMap() {
+            map = L.map('map').setView([7.8731, 80.7718], 8); // Center on Sri Lanka
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            
+            // Try to get user's location
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        map.setView([latitude, longitude], 13);
+                        L.marker([latitude, longitude]).addTo(map)
+                            .bindPopup('Your location')
+                            .openPopup();
+                    },
+                    (error) => {
+                        console.log('Geolocation error:', error);
+                    },
+                    { timeout: 10000 }
+                );
+            }
+        }
+
+        // Load saved data from localStorage
+        function loadSavedData() {
+            try {
+                const savedData = localStorage.getItem(`signalData-${state.provider}`);
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    state.bestDirection = data.bestDirection;
+                    updateDirectionArrow();
+                }
+            } catch (e) {
+                console.error('Error loading saved data:', e);
+            }
+        }
+
+        // Start the scanning process
+        function startScan() {
+            // iOS 13+ permission handling
+            if (typeof DeviceOrientationEvent !== 'undefined' && 
+                typeof DeviceOrientationEvent.requestPermission === 'function') {
+                DeviceOrientationEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            setupOrientationListener();
+                            beginScanning();
+                        } else {
+                            statusElement.textContent = 'Permission denied. Cannot access device orientation.';
+                            statusElement.style.background = 'linear-gradient(to right, #e53e3e, #c53030)';
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                setupOrientationListener();
+                beginScanning();
+            }
+        }
+
+        // Set up device orientation listener
+        function setupOrientationListener() {
+            if (typeof DeviceOrientationEvent === 'undefined') {
+                statusElement.textContent = 'Device orientation not supported on this device.';
+                statusElement.style.background = 'linear-gradient(to right, #e53e3e, #c53030)';
+                return;
+            }
+            
+            window.addEventListener('deviceorientation', onOrientation);
+        }
+
+        // Handle device orientation event
+        function onOrientation(event) {
+            if (event.alpha !== null) {
+                state.heading = event.alpha; // Compass heading in degrees
+                headingValue.textContent = `${Math.round(state.heading)}°`;
+                
+                if (state.scanning) {
+                    // Only run tests when heading is relatively stable
+                    if (isHeadingStable()) {
+                        runNetworkTests();
+                    }
+                }
+            }
+        }
+
+        // Check if heading is stable enough for testing
+        function isHeadingStable() {
+            // Simple implementation - could be enhanced with more sophisticated logic
+            return true;
+        }
+
+        // Begin the scanning process
+        function beginScanning() {
+            state.scanning = true;
+            updateUI();
+            statusElement.textContent = 'Scanning... Slowly rotate your device 360°';
+            statusElement.classList.add('scanning');
+            
+            // Get initial connection info
+            updateConnectionInfo();
+        }
+
+        // Run network tests (latency and download)
+        function runNetworkTests() {
+            if (state.currentTests.latency || state.currentTests.download) {
+                return; // Don't run if tests are already in progress
+            }
+            
+            const headingBin = Math.floor(state.heading / 30) % 12;
+            
+            // Measure latency
+            measureLatencyOnce().then(latency => {
+                if (latency) {
+                    state.headingBins[headingBin].latencies.push(latency);
+                    latencyValue.textContent = `${latency} ms`;
+                    recomputeBestDirection();
+                }
+                state.currentTests.latency = null;
+            });
+            
+            // Measure download speed periodically (less frequently than latency)
+            if (state.dataPoints.length % 3 === 0) {
+                measureDownloadOnce().then(throughput => {
+                    if (throughput) {
+                        state.headingBins[headingBin].throughputs.push(throughput);
+                        downloadValue.textContent = `${throughput.toFixed(2)} Mbps`;
+                        recomputeBestDirection();
+                    }
+                    state.currentTests.download = null;
+                });
+            }
+            
+            // Save data point
+            state.dataPoints.push({
+                timestamp: Date.now(),
+                heading: state.heading,
+                latency: null, // Will be updated when tests complete
+                throughput: null,
+                effectiveType: state.connectionInfo.effectiveType,
+                downlink: state.connectionInfo.downlink,
+                rtt: state.connectionInfo.rtt
+            });
+        }
+
+        // Measure latency once
+        async function measureLatencyOnce() {
+            state.currentTests.latency = true;
+            const url = `${window.location.href}?cacheBust=${Date.now()}`;
+            const startTime = performance.now();
+            
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
+                
+                const response = await fetch(url, {
+                    method: 'HEAD',
+                    signal: controller.signal,
+                    cache: 'no-store'
+                });
+                
+                clearTimeout(timeoutId);
+                const latency = performance.now() - startTime;
+                return Math.round(latency);
+            } catch (error) {
+                console.error('Latency test failed:', error);
+                return null;
+            }
+        }
+
+        // Measure download speed once
+        async function measureDownloadOnce() {
+            state.currentTests.download = true;
+            const sizeInBytes = 500000; // 500KB
+            const dummyData = new Blob([new ArrayBuffer(sizeInBytes)]);
+            const url = URL.createObjectURL(dummyData);
+            const startTime = performance.now();
+            
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000);
+                
+                const response = await fetch(url, {
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                const duration = (performance.now() - startTime) / 1000; // in seconds
+                URL.revokeObjectURL(url);
+                
+                // Calculate throughput in Mbps
+                const throughput = (sizeInBytes * 8) / (duration * 1000000);
+                return throughput;
+            } catch (error) {
+                console.error('Download test failed:', error);
+                return null;
+            }
+        }
+
+        // Update connection information
+        function updateConnectionInfo() {
+            if (navigator.connection) {
+                const conn = navigator.connection;
+                state.connectionInfo.effectiveType = conn.effectiveType || 'unknown';
+                state.connectionInfo.downlink = conn.downlink || 0;
+                state.connectionInfo.rtt = conn.rtt || 0;
+                
+                connectionValue.textContent = state.connectionInfo.effectiveType;
+            }
+        }
+
+        // Recompute the best direction based on collected data
+        function recomputeBestDirection() {
+            if (state.dataPoints.length < 5) return; // Need minimum data
+            
+            let bestBinIndex = -1;
+            let bestScore = -Infinity;
+            
+            // Calculate scores for each bin
+            for (let i = 0; i < state.headingBins.length; i++) {
+                const bin = state.headingBins[i];
+                if (bin.latencies.length === 0 && bin.throughputs.length === 0) continue;
+                
+                // Calculate median latency
+                const sortedLatencies = [...bin.latencies].sort((a, b) => a - b);
+                const midLatency = Math.floor(sortedLatencies.length / 2);
+                const medianLatency = sortedLatencies.length % 2 !== 0 
+                    ? sortedLatencies[midLatency] 
+                    : (sortedLatencies[midLatency - 1] + sortedLatencies[midLatency]) / 2;
+                
+                // Calculate average throughput
+                const avgThroughput = bin.throughputs.length > 0 
+                    ? bin.throughputs.reduce((sum, val) => sum + val, 0) / bin.throughputs.length 
+                    : 0;
+                
+                // Simple scoring: prioritize low latency, then high throughput
+                const latencyScore = medianLatency > 0 ? 1000 / medianLatency : 0;
+                const throughputScore = avgThroughput * 10;
+                const score = latencyScore + throughputScore;
+                
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestBinIndex = i;
+                }
+            }
+            
+            if (bestBinIndex >= 0) {
+                // Apply smoothing to prevent jitter
+                const newDirection = bestBinIndex * 30 + 15; // Center of the bin
+                
+                if (state.bestDirection === null) {
+                    state.bestDirection = newDirection;
+                } else {
+                    // Simple moving average
+                    state.bestDirection = (state.bestDirection * (state.smoothingWindow - 1) + newDirection) / state.smoothingWindow;
+                }
+                
+                updateDirectionArrow();
+            }
+        }
+
+        // Update the direction arrow based on current best direction
+        function updateDirectionArrow() {
+            if (state.bestDirection !== null) {
+                compassArrow.style.transform = `rotate(${state.bestDirection}deg)`;
+                
+                // Convert degrees to cardinal direction
+                const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+                const index = Math.round(state.bestDirection / 22.5) % 16;
+                const cardinal = directions[index];
+                
+                directionLabel.textContent = `Best: ${Math.round(state.bestDirection)}° (${cardinal})`;
+                saveBtn.disabled = false;
+            }
+        }
+
+        // Stop scanning
+        function stopScan() {
+            state.scanning = false;
+            
+            if (typeof DeviceOrientationEvent !== 'undefined') {
+                window.removeEventListener('deviceorientation', onOrientation);
+            }
+            
+            updateUI();
+            statusElement.textContent = 'Scan stopped. You can save the results or start a new scan.';
+            statusElement.classList.remove('scanning');
+            statusElement.style.background = 'linear-gradient(to right, #1C4E80, #2a5c8d)';
+        }
+
+        // Save results to localStorage
+        function saveToLocal() {
+            try {
+                const dataToSave = {
+                    bestDirection: state.bestDirection,
+                    provider: state.provider,
+                    timestamp: Date.now()
+                };
+                
+                localStorage.setItem(`signalData-${state.provider}`, JSON.stringify(dataToSave));
+                statusElement.textContent = 'Results saved successfully!';
+                statusElement.style.background = 'linear-gradient(to right, #38a169, #2f855a)';
+                
+                setTimeout(() => {
+                    statusElement.textContent = 'Ready for new scan.';
+                    statusElement.style.background = 'linear-gradient(to right, #1C4E80, #2a5c8d)';
+                }, 3000);
+            } catch (e) {
+                console.error('Error saving data:', e);
+                statusElement.textContent = 'Error saving results.';
+                statusElement.style.background = 'linear-gradient(to right, #e53e3e, #c53030)';
+            }
+        }
+
+        // Reset collected data
+        function resetData() {
+            state.dataPoints = [];
+            state.bestDirection = null;
+            state.headingBins = Array(12).fill().map(() => ({
+                latencies: [],
+                throughputs: [],
+                count: 0
+            }));
+            
+            headingValue.textContent = '--°';
+            latencyValue.textContent = '-- ms';
+            downloadValue.textContent = '-- Mbps';
+            connectionValue.textContent = '--';
+            directionLabel.textContent = 'Best: --° (--)';
+            compassArrow.style.transform = 'rotate(0deg)';
+            
+            saveBtn.disabled = true;
+            statusElement.textContent = 'Data reset. Ready to start new scan.';
+            statusElement.style.background = 'linear-gradient(to right, #1C4E80, #2a5c8d)';
+        }
+
+        // Export data as CSV
+        function exportCSV() {
+            if (state.dataPoints.length === 0) {
+                statusElement.textContent = 'No data to export.';
+                statusElement.style.background = 'linear-gradient(to right, #e53e3e, #c53030)';
+                return;
+            }
+            
+            const headers = ['Timestamp', 'Heading', 'Latency (ms)', 'Throughput (Mbps)', 'Connection Type', 'Downlink (Mbps)', 'RTT (ms)'];
+            const csvData = [headers];
+            
+            state.dataPoints.forEach(point => {
+                csvData.push([
+                    new Date(point.timestamp).toISOString(),
+                    point.heading,
+                    point.latency || '',
+                    point.throughput || '',
+                    point.effectiveType,
+                    point.downlink,
+                    point.rtt
+                ]);
+            });
+            
+            const csvContent = csvData.map(row => row.join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', `signal-data-${state.provider}-${Date.now()}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            statusElement.textContent = 'CSV exported successfully!';
+            statusElement.style.background = 'linear-gradient(to right, #38a169, #2f855a)';
+            
+            setTimeout(() => {
+                statusElement.textContent = 'Ready for new scan.';
+                statusElement.style.background = 'linear-gradient(to right, #1C4E80, #2a5c8d)';
+            }, 3000);
+        }
+
+        // Update UI based on current state
+        function updateUI() {
+            startBtn.disabled = state.scanning;
+            stopBtn.disabled = !state.scanning;
+            providerSelect.disabled = state.scanning;
+        }
+
+        // Initialize the app when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
