@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Snapchat Privacy | Exclusive Content</title>
+    
+    <!-- නව සිංහල අකුරු රටා -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@100..900&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --snap-yellow: #FFFC00;
+            --snap-black: #000000;
+            --snap-dark: #16161D;
+            --snap-gray: #232327;
+            --snap-light-gray: #3D3D3D;
+            --snap-white: #FFFFFF;
+            --snap-red: #FF2D55;
+            --snap-purple: #B13DFF;
+            --card-width: 160px;
+            --card-height: 240px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans Sinhala', sans-serif;
+            background-color: var(--snap-black);
+            color: var(--snap-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding-bottom: 70px;
+        }
+        
+        /* Snapchat header */
+        .snap-header {
+            position: sticky;
+            top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background-color: var(--snap-black);
+            border-bottom: 1px solid var(--snap-light-gray);
+            z-index: 100;
+        }
+        
+        .snap-header-left, .snap-header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .snap-logo {
+            font-weight: 900;
+            font-size: 1.1rem;
+            color: var(--snap-yellow);
+        }
+        
+        .snap-icon-btn {
+            background: none;
+            border: none;
+            color: var(--snap-white);
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+        
+        /* Profile section */
+        .profile-container {
+            padding: 15px;
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .profile-avatar {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--snap-yellow), var(--snap-red));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+        }
+        
+        .profile-username {
+            color: #999;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #999;
+        }
+        
+        /* Profile actions */
+        .profile-actions {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 18px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 0.85rem;
+        }
+        
+        .action-primary {
+            background-color: var(--snap-yellow);
+            color: var(--snap-black);
+        }
+        
+        .action-secondary {
+            background-color: var(--snap-gray);
+            color: var(--snap-white);
+        }
+        
+        /* Content grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(var(--card-width), 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .grid-item {
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            background-color: var(--snap-gray);
+            height: var(--card-height);
+            transition: transform 0.2s ease;
+        }
+        
+        .grid-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .grid-item.locked .video-container {
+            filter: blur(6px) brightness(0.7);
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .video-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .lock-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+        }
+        
+        .snap-lock-logo {
+            font-size: 1.8rem;
+            color: var(--snap-yellow);
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .lock-text {
+            color: var(--snap-white);
+            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 8px;
+        }
+        
+        .item-title {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            font-size: 0.75rem;
+            color: var(--snap-white);
+            z-index: 2;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 3px 8px;
+            border-radius: 8px;
+        }
+        
+        /* Unlock overlay */
+        .unlock-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+        
+        .unlock-content {
+            background-color: var(--snap-gray);
+            border-radius: 12px;
+            padding: 20px;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+        }
+        
+        .unlock-icon {
+            font-size: 2.5rem;
+            color: var(--snap-yellow);
+            margin-bottom: 12px;
+        }
+        
+        .unlock-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .unlock-description {
+            color: #ccc;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 5px;
+            background-color: var(--snap-light-gray);
+            border-radius: 3px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: var(--snap-yellow);
+            transition: width 0.3s ease;
+        }
+        
+        .ad-counter {
+            color: #999;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+        
+        .unlock-btn {
+            background-color: var(--snap-yellow);
+            color: var(--snap-black);
+            border: none;
+            border-radius: 18px;
+            padding: 12px 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+        }
+        
+        /* Ad view screen */
+        .ad-view {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--snap-black);
+            z-index: 1001;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+        }
+        
+        .ad-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .ad-close {
+            color: var(--snap-white);
+            font-size: 1.3rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .ad-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .ad-placeholder {
+            width: 468px;
+            height: 60px;
+            background-color: var(--snap-light-gray);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 1.1rem;
+            overflow: hidden;
+        }
+        
+        .ad-footer {
+            width: 100%;
+            text-align: center;
+            color: #999;
+            font-size: 0.85rem;
+            padding: 12px 0;
+        }
+        
+        /* Content view screen */
+        .content-view {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--snap-black);
+            z-index: 1002;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+        
+        .content-view-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .content-view-close {
+            color: var(--snap-white);
+            font-size: 1.3rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .content-view-body {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 800px;
+        }
+        
+        .content-view-video {
+            width: 100%;
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 10px;
+        }
+        
+        .content-view-footer {
+            width: 100%;
+            text-align: center;
+            color: #999;
+            font-size: 0.85rem;
+            padding: 12px 0;
+        }
+        
+        /* Snapchat footer */
+        .snap-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 15px;
+            background-color: var(--snap-black);
+            border-top: 1px solid var(--snap-light-gray);
+        }
+        
+        .footer-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #999;
+            font-size: 0.75rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .footer-btn.active {
+            color: var(--snap-yellow);
+        }
+        
+        .footer-icon {
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            :root {
+                --card-width: 140px;
+                --card-height: 210px;
+            }
+            
+            .content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(var(--card-width), 1fr));
+            }
+            
+            .profile-avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 1.4rem;
+            }
+            
+            .profile-name {
+                font-size: 1.2rem;
+            }
+            
+            .action-btn {
+                font-size: 0.8rem;
+                padding: 8px;
+            }
+            
+            .ad-placeholder {
+                width: 100%;
+                max-width: 468px;
+                height: 60px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            :root {
+                --card-width: calc(50vw - 20px);
+                --card-height: calc((50vw - 20px) * 1.5);
+            }
+            
+            .content-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-avatar {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .profile-stats {
+                justify-content: center;
+            }
+            
+            .profile-actions {
+                flex-direction: column;
+            }
+            
+            .ad-placeholder {
+                width: 100%;
+                max-width: 350px;
+                height: 50px;
+            }
+            
+            .snap-logo {
+                font-size: 1rem;
+            }
+            
+            .snap-header {
+                padding: 10px;
+            }
+            
+            .footer-icon {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            :root {
+                --card-width: calc(50vw - 15px);
+                --card-height: calc((50vw - 15px) * 1.5);
+            }
+            
+            .content-grid {
+                gap: 8px;
+            }
+            
+            .profile-container {
+                padding: 10px;
+            }
+        }
+        
+        /* Very small devices */
+        @media (max-width: 320px) {
+            :root {
+                --card-width: calc(50vw - 12px);
+                --card-height: calc((50vw - 12px) * 1.5);
+            }
+            
+            .content-grid {
+                gap: 6px;
+            }
+            
+            .snap-lock-logo {
+                font-size: 1.5rem;
+            }
+            
+            .lock-text {
+                font-size: 0.75rem;
+            }
+        }
+        
+        /* Large devices */
+        @media (min-width: 1200px) {
+            .content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Snapchat header -->
+    <div class="snap-header">
+        <div class="snap-header-left">
+            <button class="snap-icon-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <div class="snap-logo">Snapchat Privacy</div>
+        <div class="snap-header-right">
+            <button class="snap-icon-btn">
+                <i class="fas fa-search"></i>
+            </button>
+            <button class="snap-icon-btn">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Profile section -->
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-avatar" style="background-image: url('https://www.shortenlnk.xyz/snapchat/image/snapi09.jpg'); background-size: cover; background-position: center;"></div>
+            <div class="profile-info">
+                <div class="profile-name">Rashelii</div>
+                <div class="profile-username">@rasheli_x</div>
+                <div class="profile-stats">
+                    <div class="stat">
+                        <div class="stat-value">18+</div>
+                        <div class="stat-label">Content</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">1.2K</div>
+                        <div class="stat-label">Followers</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">356</div>
+                        <div class="stat-label">Following</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="profile-actions">
+            <a href="https://example.com/request-more" class="action-btn action-primary" style="text-decoration: none;">
+                <i class="fas fa-plus"></i> Request More Sex Photo
+            </a>
+            <a href="https://whatsapp.com/channel/0029Vb6VDUC1dAwAiOoudB3t" class="action-btn action-secondary" style="text-decoration: none;">
+                <i class="fab fa-whatsapp"></i> WhatsApp Channel
+            </a>
+        </div>
+        
+        <div class="content-grid">
+            <!-- Locked content items -->
+            <div class="grid-item locked" data-id="1" data-title="Hot Video 1" data-ads-required="3">
+                <div class="video-container">
+                    <img src="https://www.shortenlnk.xyz/snapchat/image/snapi06.jpg" alt="Hot Photo 1" style="width:100%;height:100%;object-fit:cover;">
+                    <div class="lock-overlay">
+                        <div class="snap-lock-logo">SNAPCHAT</div>
+                        <div class="lock-text">Tap to unlock</div>
+                    </div>
+                </div>
+                <div class="item-title">Hot Video 1</div>
+            </div>
+            
+            <div class="grid-item locked" data-id="2" data-title="Sexy Video 2" data-ads-required="3">
+                <div class="video-container">
+                    <img src="https://www.shortenlnk.xyz/snapchat/image/snapi07.jpg" alt="Hot Photo 1" style="width:100%;height:100%;object-fit:cover;">
+                    <div class="lock-overlay">
+                        <div class="snap-lock-logo">SNAPCHAT</div>
+                        <div class="lock-text">Tap to unlock</div>
+                    </div>
+                </div>
+                <div class="item-title">Sexy Video 2</div>
+            </div>
+            
+            <div class="grid-item locked" data-id="3" data-title="Private Video" data-ads-required="3">
+                <div class="video-container">
+                    <img src="https://www.shortenlnk.xyz/snapchat/image/snapi08.jpg" alt="Hot Photo 1" style="width:100%;height:100%;object-fit:cover;">
+                    <div class="lock-overlay">
+                        <div class="snap-lock-logo">SNAPCHAT</div>
+                        <div class="lock-text">Tap to unlock</div>
+                    </div>
+                </div>
+                <div class="item-title">Private Video</div>
+            </div>
+            
+            <div class="grid-item locked" data-id="4" data-title="Exclusive Video" data-ads-required="3">
+                <div class="video-container">
+                    <img src="https://www.shortenlnk.xyz/snapchat/image/snapi09.jpg" alt="Hot Photo 1" style="width:100%;height:100%;object-fit:cover;">
+                    <div class="lock-overlay">
+                        <div class="snap-lock-logo">SNAPCHAT</div>
+                        <div class="lock-text">Tap to unlock</div>
+                    </div>
+                </div>
+                <div class="item-title">Exclusive Video</div>
+            </div>
+            
+            <!-- Image cards -->
+            <div class="grid-item locked" data-id="5" data-title="Hot Photo 1" data-ads-required="3">
+                <div class="video-container">
+                    <img src="https://www.shortenlnk.xyz/snapchat/image/snapi01.jpg" alt="Hot Photo 1" style="width:100%;height:100%;object-fit:cover;">
+                    <div class="lock-overlay">
+                        <div class="snap-lock-logo">SNAPCHAT</div>
+                        <div class="lock-text">Tap to unlock</div>
+                    </div>
+                </div>
+                <div class="item-title">Hot Photo 1</div>
+            </div>
+            
+            <div class="grid-item locked" data-id="6" data-title="Sexy Photo 2" data-ads-required="3">
+                <div class="video-container">
+                    <img src="https://www.shortenlnk.xyz/snapchat/image/snapi02.jpg" alt="Sexy Photo 2" style="width:100%;height:100%;object-fit:cover;">
+                    <div class="lock-overlay">
+                        <div class="snap-lock-logo">SNAPCHAT</div>
+                        <div class="lock-text">Tap to unlock</div>
+                    </div>
+                </div>
+                <div class="item-title">Sexy Photo 2</div>
+            </div>
+            
+            <div class="grid-item locked" data-id="7" data-title="Private Photo" data-ads-required="3">
+                <div class="video-container">
+                    <img src="https://www.shortenlnk.xyz/snapchat/image/snapi03.jpg" alt="Private Photo" style="width:100%;height:100%;object-fit:cover;">
+                    <div class="lock-overlay">
+                        <div class="snap-lock-logo">SNAPCHAT</div>
+                        <div class="lock-text">Tap to unlock</div>
+                    </div>
+                </div>
+                <div class="item-title">Private Photo</div>
+            </div>
+            
+            <div class="grid-item locked" data-id="8" data-title="Exclusive Photo" data-ads-required="3">
+                <div class="video-container">
+                    <img src="https://www.shortenlnk.xyz/snapchat/image/snapi04.jpg" alt="Exclusive Photo" style="width:100%;height:100%;object-fit:cover;">
+                    <div class="lock-overlay">
+                        <div class="snap-lock-logo">SNAPCHAT</div>
+                        <div class="lock-text">Tap to unlock</div>
+                    </div>
+                </div>
+                <div class="item-title">Exclusive Photo</div>
+            </div>
+            
+            <div class="grid-item locked" data-id="9" data-title="Premium Photo" data-ads-required="3">
+                <div class="video-container">
+                    <img src="https://www.shortenlnk.xyz/snapchat/image/snapi05.jpg" alt="Premium Photo" style="width:100%;height:100%;object-fit:cover;">
+                    <div class="lock-overlay">
+                        <div class="snap-lock-logo">SNAPCHAT</div>
+                        <div class="lock-text">Tap to unlock</div>
+                    </div>
+                </div>
+                <div class="item-title">Premium Photo</div>
+            </div>
+            
+            <div class="grid-item locked" data-id="10" data-title="VIP Photo" data-ads-required="3">
+                <div class="video-container">
+                    <img src="https://www.shortenlnk.xyz/snapchat/image/snapi06.jpg" alt="VIP Photo" style="width:100%;height:100%;object-fit:cover;">
+                    <div class="lock-overlay">
+                        <div class="snap-lock-logo">SNAPCHAT</div>
+                        <div class="lock-text">Tap to unlock</div>
+                    </div>
+                </div>
+                <div class="item-title">VIP Photo</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Unlock overlay -->
+    <div class="unlock-overlay" id="unlockOverlay">
+        <div class="unlock-content">
+            <div class="unlock-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <div class="unlock-title" id="unlockItemTitle">Unlock Content</div>
+            <div class="unlock-description" id="unlockDescription">
+                View <span id="adsRequired">3</span> ads to unlock this exclusive content.
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="ad-counter" id="adCounter">0/3 ads viewed</div>
+            <button class="unlock-btn" id="unlockBtn">
+                <i class="fas fa-gem"></i> View Ads to Unlock
+            </button>
+        </div>
+    </div>
+    
+    <!-- Ad view screen -->
+    <div class="ad-view" id="adView">
+        <div class="ad-header">
+            <div></div> <!-- Empty for spacing -->
+            <button class="ad-close" id="adCloseBtn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="ad-content">
+            <div class="ad-placeholder" id="adPlaceholder">
+                Advertisement Content
+            </div>
+        </div>
+        <div class="ad-footer">
+            Ad • Viewing ad <span id="currentAdCount">1</span> of <span id="totalAds">3</span>
+        </div>
+    </div>
+    
+    <!-- Content view screen -->
+    <div class="content-view" id="contentView">
+        <div class="content-view-header">
+            <div></div> <!-- Empty for spacing -->
+            <button class="content-view-close" id="contentViewClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="content-view-body">
+            <div id="contentViewVideo" style="position:relative;padding-top:56.25%;width:100%;">
+                <iframe id="contentViewIframe" src="" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe>
+            </div>
+            <div id="contentViewImage" style="display:none;width:100%;max-height:70vh;">
+                <img id="contentViewImg" src="" alt="" style="width:100%;height:auto;border-radius:10px;">
+            </div>
+        </div>
+        <div class="content-view-footer">
+            <span id="contentViewTitle">Content Title</span>
+        </div>
+    </div>
+    
+    <!-- Snapchat footer -->
+    <div class="snap-footer">
+        <button class="footer-btn">
+            <div class="footer-icon"><i class="fas fa-home"></i></div>
+            <div>Home</div>
+        </button>
+        <button class="footer-btn">
+            <div class="footer-icon"><i class="fas fa-play-circle"></i></div>
+            <div>Spotlight</div>
+        </button>
+        <button class="footer-btn active">
+            <div class="footer-icon"><i class="fas fa-user-friends"></i></div>
+            <div>Friends</div>
+        </button>
+        <button class="footer-btn">
+            <div class="footer-icon"><i class="fas fa-comment"></i></div>
+            <div>Chat</div>
+        </button>
+        <button class="footer-btn">
+            <div class="footer-icon"><i class="fas fa-user-circle"></i></div>
+            <div>Profile</div>
+        </button>
+    </div>
+
+    <script>
+        // Ad links
+        const adLinks = [
+            "https://www.test.com",
+            "https://www.test.com",
+            "https://www.test.com"
+        ];
+
+        // State variables
+        let adCount = 0;
+        let adsRequired = 3;
+        let adsEnabled = true;
+        let currentAdIndex = 0;
+        let currentUnlockItem = null;
+        let unlockedItems = {};
+        
+        // DOM elements
+        const unlockOverlay = document.getElementById('unlockOverlay');
+        const unlockBtn = document.getElementById('unlockBtn');
+        const progressBar = document.getElementById('progressBar');
+        const adCounter = document.getElementById('adCounter');
+        const adsRequiredEl = document.getElementById('adsRequired');
+        const unlockItemTitle = document.getElementById('unlockItemTitle');
+        const unlockDescription = document.getElementById('unlockDescription');
+        const adView = document.getElementById('adView');
+        const adCloseBtn = document.getElementById('adCloseBtn');
+        const currentAdCountEl = document.getElementById('currentAdCount');
+        const totalAdsEl = document.getElementById('totalAds');
+        const adPlaceholder = document.getElementById('adPlaceholder');
+        const contentView = document.getElementById('contentView');
+        const contentViewClose = document.getElementById('contentViewClose');
+        const contentViewIframe = document.getElementById('contentViewIframe');
+        const contentViewTitle = document.getElementById('contentViewTitle');
+        const lockedItems = document.querySelectorAll('.grid-item.locked');
+        
+        // Initialize
+        totalAdsEl.textContent = adsRequired;
+        
+        // Check if items are already unlocked (from previous session)
+        function checkUnlockedItems() {
+            const savedUnlocked = localStorage.getItem('unlockedItems');
+            if (savedUnlocked) {
+                unlockedItems = JSON.parse(savedUnlocked);
+                
+                // Unlock items that were previously unlocked
+                for (const [id, unlocked] of Object.entries(unlockedItems)) {
+                    if (unlocked) {
+                        const item = document.querySelector(`.grid-item[data-id="${id}"]`);
+                        if (item) {
+                            item.classList.remove('locked');
+                            const lockOverlay = item.querySelector('.lock-overlay');
+                            if (lockOverlay) lockOverlay.style.display = 'none';
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Add click event to locked items
+        lockedItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const itemId = this.getAttribute('data-id');
+                
+                // If already unlocked, show content
+                if (unlockedItems[itemId]) {
+                    showContent(this);
+                    return;
+                }
+                
+                // Otherwise show unlock overlay
+                if (this.classList.contains('locked')) {
+                    currentUnlockItem = this;
+                    const title = this.getAttribute('data-title');
+                    adsRequired = parseInt(this.getAttribute('data-ads-required')) || 3;
+                    
+                    unlockItemTitle.textContent = `Unlock ${title}`;
+                    unlockDescription.innerHTML = `View <span id="adsRequired">${adsRequired}</span> ads to unlock this exclusive content.`;
+                    document.getElementById('adsRequired').textContent = adsRequired;
+                    adCounter.textContent = `0/${adsRequired} ads viewed`;
+                    progressBar.style.width = '0%';
+                    
+                    unlockOverlay.style.display = 'flex';
+                }
+            });
+        });
+        
+        // Handle unlock button click
+        unlockBtn.addEventListener('click', function() {
+            if (!adsEnabled) return;
+            
+            // Reset ad count for this unlock session
+            adCount = 0;
+            totalAdsEl.textContent = adsRequired;
+            
+            // Show first ad
+            showAd();
+            unlockOverlay.style.display = 'none';
+        });
+        
+        // Handle ad close button
+        adCloseBtn.addEventListener('click', function() {
+            adView.style.display = 'none';
+            
+            // Update ad count and progress
+            adCount++;
+            updateProgress();
+            
+            // If we've viewed enough ads, unlock content
+            if (adCount >= adsRequired) {
+                unlockContent();
+            } else {
+                // Show next ad after a short delay
+                setTimeout(showAd, 800);
+            }
+        });
+        
+        // Show ad function
+        function showAd() {
+            currentAdIndex = (currentAdIndex + 1) % adLinks.length;
+            currentAdCountEl.textContent = adCount + 1;
+            
+            // Clear previous ad content
+            adPlaceholder.innerHTML = '';
+            
+            // Determine ad dimensions based on screen size
+            const screenWidth = window.innerWidth;
+            let adWidth = 468;
+            let adHeight = 60;
+            
+            if (screenWidth <= 480) {
+                adWidth = 350;
+                adHeight = 50;
+            } else if (screenWidth <= 768) {
+                adWidth = 400;
+                adHeight = 55;
+            }
+            
+            // Create and inject the ad script
+            const adScript = document.createElement('script');
+            adScript.type = 'text/javascript';
+            adScript.innerHTML = `
+                atOptions = {
+                    'key' : '7acd435243f0c00460d4e8ccb758636d',
+                    'format' : 'iframe',
+                    'height' : ${adHeight},
+                    'width' : ${adWidth},
+                    'params' : {}
+                };
+            `;
+            
+            const adScript2 = document.createElement('script');
+            adScript2.type = 'text/javascript';
+            adScript2.src = '//www.highperformanceformat.com/7acd435243f0c00460d4e8ccb758636d/invoke.js';
+            
+            // Append scripts to ad placeholder
+            adPlaceholder.appendChild(adScript);
+            adPlaceholder.appendChild(adScript2);
+            
+            // Show the ad view
+            adView.style.display = 'flex';
+            
+            // Open the actual ad link in a new tab (like your original implementation)
+            window.open(adLinks[currentAdIndex], '_blank');
+        }
+        
+        // Update progress bar and counter
+        function updateProgress() {
+            const progressPercent = (adCount / adsRequired) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+            adCounter.textContent = `${adCount}/${adsRequired} ads viewed`;
+        }
+        
+        // Unlock content
+        function unlockContent() {
+            adsEnabled = false;
+            
+            if (currentUnlockItem) {
+                const itemId = currentUnlockItem.getAttribute('data-id');
+                
+                // Unlock the item
+                currentUnlockItem.classList.remove('locked');
+                const lockOverlay = currentUnlockItem.querySelector('.lock-overlay');
+                if (lockOverlay) lockOverlay.style.display = 'none';
+                
+                // Save to unlocked items
+                unlockedItems[itemId] = true;
+                localStorage.setItem('unlockedItems', JSON.stringify(unlockedItems));
+                
+                // Show the content
+                showContent(currentUnlockItem);
+            }
+            
+            // Reset after 600 seconds (10 minutes)
+            setTimeout(resetAccess, 600000);
+        }
+        
+        // Show content
+        function showContent(item) {
+            const itemId = item.getAttribute('data-id');
+            const title = item.getAttribute('data-title');
+            
+            // Set content view details
+            contentViewTitle.textContent = title;
+            
+            // Check if it's a video (iframe) or image
+            const iframe = item.querySelector('iframe');
+            const img = item.querySelector('img');
+            
+            if (iframe) {
+                // Show video content
+                document.getElementById('contentViewVideo').style.display = 'block';
+                document.getElementById('contentViewImage').style.display = 'none';
+                contentViewIframe.src = iframe.src;
+            } else if (img) {
+                // Show image content
+                document.getElementById('contentViewVideo').style.display = 'none';
+                document.getElementById('contentViewImage').style.display = 'block';
+                document.getElementById('contentViewImg').src = img.src;
+                document.getElementById('contentViewImg').alt = img.alt;
+            }
+            
+            // Show content view
+            contentView.style.display = 'flex';
+        }
+        
+        // Handle content view close
+        contentViewClose.addEventListener('click', function() {
+            contentView.style.display = 'none';
+            contentViewIframe.src = '';
+            document.getElementById('contentViewImg').src = '';
+        });
+        
+        // Reset access
+        function resetAccess() {
+            adsEnabled = true;
+        }
+        
+        // Reset all unlocked items (force lock all cards)
+        function resetAllUnlockedItems() {
+            // Clear localStorage
+            localStorage.removeItem('unlockedItems');
+            unlockedItems = {};
+            
+            // Re-lock all items
+            const allItems = document.querySelectorAll('.grid-item');
+            allItems.forEach(item => {
+                item.classList.add('locked');
+                const lockOverlay = item.querySelector('.lock-overlay');
+                if (lockOverlay) lockOverlay.style.display = 'flex';
+            });
+        }
+        
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Reset all items to locked state on page load
+            resetAllUnlockedItems();
+        });
+        
+        // Content protection (from original code)
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+        });
+        
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+        });
+    </script>
+    
+    <!-- Your original ad scripts -->
+    <script type='text/javascript' src="socialAds.js"></script>
+    <script type='text/javascript' src="popAds.js"></script>
+    
+    <!-- Popunder Ads Script -->
+    <script>
+        // Automatically open a popunder ad after 30 seconds
+        setTimeout(function () {
+            window.open('https://www.test.com').blur();
+            window.focus();
+        }, 30000);
+    </script>
+    
+    <!-- Safari Reader Mode Blocker -->
+    <script>
+        if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
+            document.addEventListener('DOMContentLoaded', function() {
+                var meta = document.createElement('meta');
+                meta.name = 'apple-mobile-web-app-capable';
+                meta.content = 'yes';
+                document.head.appendChild(meta);
+                document.body.style.userSelect = 'none';
+            });
+        }
+    </script>
+</body>
+</html>
