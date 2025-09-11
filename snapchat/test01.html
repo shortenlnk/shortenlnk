@@ -369,8 +369,9 @@
         }
         
         .ad-placeholder {
-            width: 468px;
-            height: 60px;
+            width: 100%;
+            max-width: 280px;
+            height: 220px;
             background-color: var(--snap-light-gray);
             border-radius: 10px;
             display: flex;
@@ -378,7 +379,6 @@
             justify-content: center;
             color: #999;
             font-size: 1.1rem;
-            overflow: hidden;
         }
         
         .ad-footer {
@@ -504,12 +504,6 @@
                 font-size: 0.8rem;
                 padding: 8px;
             }
-            
-            .ad-placeholder {
-                width: 100%;
-                max-width: 468px;
-                height: 60px;
-            }
         }
         
         @media (max-width: 480px) {
@@ -538,12 +532,6 @@
             
             .profile-actions {
                 flex-direction: column;
-            }
-            
-            .ad-placeholder {
-                width: 100%;
-                max-width: 350px;
-                height: 50px;
             }
             
             .snap-logo {
@@ -977,39 +965,19 @@
             // Clear previous ad content
             adPlaceholder.innerHTML = '';
             
-            // Determine ad dimensions based on screen size
-            const screenWidth = window.innerWidth;
-            let adWidth = 468;
-            let adHeight = 60;
-            
-            if (screenWidth <= 480) {
-                adWidth = 350;
-                adHeight = 50;
-            } else if (screenWidth <= 768) {
-                adWidth = 400;
-                adHeight = 55;
-            }
-            
             // Create and inject the ad script
             const adScript = document.createElement('script');
-            adScript.type = 'text/javascript';
-            adScript.innerHTML = `
-                atOptions = {
-                    'key' : '7acd435243f0c00460d4e8ccb758636d',
-                    'format' : 'iframe',
-                    'height' : ${adHeight},
-                    'width' : ${adWidth},
-                    'params' : {}
-                };
-            `;
+            adScript.async = true;
+            adScript.setAttribute('data-cfasync', 'false');
+            adScript.src = '//pl23550287.revenuecpmgate.com/f777096412fc1f0fb2b9593576088aba/invoke.js';
             
-            const adScript2 = document.createElement('script');
-            adScript2.type = 'text/javascript';
-            adScript2.src = '//www.highperformanceformat.com/7acd435243f0c00460d4e8ccb758636d/invoke.js';
+            // Create the ad container div
+            const adContainer = document.createElement('div');
+            adContainer.id = 'container-f777096412fc1f0fb2b9593576088aba';
             
-            // Append scripts to ad placeholder
+            // Append scripts and container to ad placeholder
             adPlaceholder.appendChild(adScript);
-            adPlaceholder.appendChild(adScript2);
+            adPlaceholder.appendChild(adContainer);
             
             // Show the ad view
             adView.style.display = 'flex';
