@@ -627,7 +627,7 @@
                         <div class="stat-label">Content</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-value">1.2K</div>
+                        <div class="stat-value">61.2K</div>
                         <div class="stat-label">Followers</div>
                     </div>
                     <div class="stat">
@@ -848,9 +848,11 @@
     <script>
         // Ad links
         const adLinks = [
-            "https://www.test.com",
-            "https://www.test.com",
-            "https://www.test.com"
+            "https://test.com",
+            "https://test.com",
+            "https://test.com",
+            "https://test.com",
+            "https://test.com"
         ];
 
         // State variables
@@ -963,25 +965,73 @@
         
         // Show ad function
         function showAd() {
-            currentAdIndex = (currentAdIndex + 1) % adLinks.length;
+            // Randomly select an ad link
+            currentAdIndex = Math.floor(Math.random() * adLinks.length);
             currentAdCountEl.textContent = adCount + 1;
             
             // Clear previous ad content
             adPlaceholder.innerHTML = '';
             
-            // Create and inject the ad script
-            const adScript = document.createElement('script');
-            adScript.async = true;
-            adScript.setAttribute('data-cfasync', 'false');
-            adScript.src = '//pl23550287.revenuecpmgate.com/f777096412fc1f0fb2b9593576088aba/invoke.js';
+            // Define the three ad codes
+            const adCodes = [
+                // Ad 01
+                {
+                    script: '//www.highperformanceformat.com/7acd435243f0c00460d4e8ccb758636d/invoke.js',
+                    options: {
+                        key: '7acd435243f0c00460d4e8ccb758636d',
+                        format: 'iframe',
+                        height: 60,
+                        width: 468,
+                        params: {}
+                    }
+                },
+                // Ad 02
+                {
+                    script: '//www.highperformanceformat.com/18a0da840e23ea5dc5d688a84fa144f9/invoke.js',
+                    options: {
+                        key: '18a0da840e23ea5dc5d688a84fa144f9',
+                        format: 'iframe',
+                        height: 250,
+                        width: 300,
+                        params: {}
+                    }
+                },
+                // Ad 03
+                {
+                    script: '//pl23550287.revenuecpmgate.com/f777096412fc1f0fb2b9593576088aba/invoke.js',
+                    containerId: 'container-f777096412fc1f0fb2b9593576088aba'
+                }
+            ];
             
-            // Create the ad container div
-            const adContainer = document.createElement('div');
-            adContainer.id = 'container-f777096412fc1f0fb2b9593576088aba';
+            // Select ad based on current ad count (cycle through all three)
+            const adIndex = adCount % 3;
+            const selectedAd = adCodes[adIndex];
             
-            // Append scripts and container to ad placeholder
-            adPlaceholder.appendChild(adScript);
-            adPlaceholder.appendChild(adContainer);
+            if (selectedAd.options) {
+                // For ads 01 and 02 - create options script first
+                const optionsScript = document.createElement('script');
+                optionsScript.type = 'text/javascript';
+                optionsScript.textContent = `atOptions = ${JSON.stringify(selectedAd.options)};`;
+                adPlaceholder.appendChild(optionsScript);
+                
+                // Then create the invoke script
+                const adScript = document.createElement('script');
+                adScript.type = 'text/javascript';
+                adScript.src = selectedAd.script;
+                adPlaceholder.appendChild(adScript);
+            } else {
+                // For ad 03 - create async script and container
+                const adScript = document.createElement('script');
+                adScript.async = true;
+                adScript.setAttribute('data-cfasync', 'false');
+                adScript.src = selectedAd.script;
+                
+                const adContainer = document.createElement('div');
+                adContainer.id = selectedAd.containerId;
+                
+                adPlaceholder.appendChild(adScript);
+                adPlaceholder.appendChild(adContainer);
+            }
             
             // Show the ad view
             adView.style.display = 'flex';
@@ -1099,13 +1149,13 @@
     
     <!-- Your original ad scripts -->
     <script type='text/javascript' src="socialAds.js"></script>
-    <script type='text/javascript' src="popAds.js"></script>
+    
     
     <!-- Popunder Ads Script -->
     <script>
         // Automatically open a popunder ad after 30 seconds
         setTimeout(function () {
-            window.open('https://www.test.com').blur();
+            window.open('https://otieu.com/4/8724671').blur();
             window.focus();
         }, 30000);
     </script>
