@@ -935,7 +935,7 @@
         
         // Handle unlock button click
         unlockBtn.addEventListener('click', function() {
-            if (!adsEnabled) return;
+            // Remove adsEnabled check to allow continuous unlocking
             
             // Reset ad count for this unlock session
             adCount = 0;
@@ -1049,7 +1049,7 @@
         
         // Unlock content
         function unlockContent() {
-            adsEnabled = false;
+            // Remove adsEnabled restriction to allow continuous unlocking
             
             if (currentUnlockItem) {
                 const itemId = currentUnlockItem.getAttribute('data-id');
@@ -1067,8 +1067,7 @@
                 showContent(currentUnlockItem);
             }
             
-            // Reset after 600 seconds (10 minutes)
-            setTimeout(resetAccess, 600000);
+            // No timeout reset - users can unlock cards immediately
         }
         
         // Show content
@@ -1107,10 +1106,7 @@
             document.getElementById('contentViewImg').src = '';
         });
         
-        // Reset access
-        function resetAccess() {
-            adsEnabled = true;
-        }
+        // Reset access function removed - no longer needed for continuous unlocking
         
         // Reset all unlocked items (force lock all cards)
         function resetAllUnlockedItems() {
@@ -1129,8 +1125,8 @@
         
         // Initialize on load
         document.addEventListener('DOMContentLoaded', function() {
-            // Reset all items to locked state on page load
-            resetAllUnlockedItems();
+            // Check for previously unlocked items and keep them unlocked
+            checkUnlockedItems();
         });
         
         // Content protection (from original code)
