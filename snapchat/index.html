@@ -174,6 +174,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(var(--card-width), 1fr));
             gap: 10px;
+            margin-top: 10px;
             margin-bottom: 20px;
             justify-content: center;
         }
@@ -186,6 +187,7 @@
             background-color: var(--snap-gray);
             height: var(--card-height);
             transition: transform 0.2s ease;
+            isolation: isolate;
         }
         
         .grid-item:hover {
@@ -242,10 +244,12 @@
             left: 8px;
             font-size: 0.75rem;
             color: var(--snap-white);
-            z-index: 2;
+            z-index: 0;
             background-color: rgba(0, 0, 0, 0.6);
             padding: 3px 8px;
             border-radius: 8px;
+            max-width: calc(100% - 16px);
+            word-wrap: break-word;
         }
         
         /* Unlock overlay */
@@ -370,15 +374,15 @@
         
         .ad-placeholder {
             width: 100%;
-            max-width: 280px;
-            height: 220px;
-            background-color: var(--snap-light-gray);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            font-size: 1.1rem;
+            max-width: 100%;
+            height: auto;
+            background-color: transparent;
+            border-radius: 0;
+            display: block;
+            color: transparent;
+            font-size: 0;
+            overflow: visible;
+            position: relative;
         }
         
         .ad-footer {
@@ -623,7 +627,7 @@
                         <div class="stat-label">Content</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-value">1.2K</div>
+                        <div class="stat-value">61.2K</div>
                         <div class="stat-label">Followers</div>
                     </div>
                     <div class="stat">
@@ -844,9 +848,11 @@
     <script>
         // Ad links
         const adLinks = [
-            "https://www.revenuecpmgate.com/s4xxhk66f?key=67dae9b7dd0680cc6d72a8bfa1aad8a5",
-            "https://www.revenuecpmgate.com/v37cfafhr?key=cc12415044cd7578b9a4c3abf7e8a7f7",
-            "https://otieu.com/4/9835089"
+            "https://otieu.com/4/8724671",
+            "https://nervousbelievable.com/h8junpek?key=26fe0739e1e80a8ffa5ecfab44189a38",
+            "https://nervousbelievable.com/wydvnkk8?key=f309dfb4ebd925293f0da3da6dbccfe9",
+            "https://nervousbelievable.com/i3n96tga?key=f93645dad9fc187d70a8de04c113d742",
+            "https://nervousbelievable.com/h25f7spp?key=68e7adcb41a693b2d39221c53b95d192"
         ];
 
         // State variables
@@ -959,12 +965,26 @@
         
         // Show ad function
         function showAd() {
-            currentAdIndex = (currentAdIndex + 1) % adLinks.length;
+            // Randomly select an ad link
+            currentAdIndex = Math.floor(Math.random() * adLinks.length);
             currentAdCountEl.textContent = adCount + 1;
             
-            // In a real implementation, you would load the actual ad content
-            // For demonstration, we're just showing a placeholder
-            adPlaceholder.textContent = `Advertisement ${adCount + 1}`;
+            // Clear previous ad content
+            adPlaceholder.innerHTML = '';
+            
+            // Create and inject the ad script
+            const adScript = document.createElement('script');
+            adScript.async = true;
+            adScript.setAttribute('data-cfasync', 'false');
+            adScript.src = '//pl23550287.revenuecpmgate.com/f777096412fc1f0fb2b9593576088aba/invoke.js';
+            
+            // Create the ad container div
+            const adContainer = document.createElement('div');
+            adContainer.id = 'container-f777096412fc1f0fb2b9593576088aba';
+            
+            // Append scripts and container to ad placeholder
+            adPlaceholder.appendChild(adScript);
+            adPlaceholder.appendChild(adContainer);
             
             // Show the ad view
             adView.style.display = 'flex';
@@ -1082,13 +1102,13 @@
     
     <!-- Your original ad scripts -->
     <script type='text/javascript' src="socialAds.js"></script>
-    <script type='text/javascript' src="popAds.js"></script>
+    <script type='text/javascript' src='//pl23550221.revenuecpmgate.com/0c/50/e1/0c50e1a806245e0a50e6423ec4b143e9.js'></script>
     
     <!-- Popunder Ads Script -->
     <script>
         // Automatically open a popunder ad after 30 seconds
         setTimeout(function () {
-            window.open('https://www.revenuecpmgate.com/s4xxhk66f?key=67dae9b7dd0680cc6d72a8bfa1aad8a5').blur();
+            window.open('https://otieu.com/4/8724671').blur();
             window.focus();
         }, 30000);
     </script>
