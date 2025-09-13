@@ -316,6 +316,25 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
+        .pinterest-embed {
+            display: flex;
+            justify-content: center;
+            margin: 25px 0;
+            width: 100%;
+        }
+
+        .pinterest-embed iframe {
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            animation: fadeIn 0.8s ease-out both;
+        }
+
+        .pinterest-embed iframe:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
         .image-caption {
             text-align: center;
             font-style: italic;
@@ -882,11 +901,10 @@
         </div>
 
         <div class="article-content">
-            <img src="https://i.pinimg.com/originals/12/34/56/123456789abcdef.jpg" 
-     alt="Pinterest Image" 
-     style="max-width:100%; height:auto; border-radius:8px;">
-            <img src="https://www.shortenlnk.xyz/wearverse/images/Image06design.jpg" alt="Delicious Korean Bulgogi Beef" class="article-image">
-            <p class="image-caption">Tender, succulent beef marinated in a sweet and savory sauce with a smoky flavor!</p>
+            
+            <div class="pinterest-embed">
+                <iframe src="https://assets.pinterest.com/ext/embed.html?id=46232333733386728" height="618" width="345" frameborder="0" scrolling="no" ></iframe>
+            </div>
 
             <h2>Ingredients</h2>
             <ul class="ingredients-list">
