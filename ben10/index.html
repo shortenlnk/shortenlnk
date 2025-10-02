@@ -2,7 +2,7 @@
 <html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <title>Ben 10 - Series & Movies</title>
     <meta name="description" content="Platforma streamingowa anime">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,10 +14,64 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
+        /* Content Protection */
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            -khtml-user-select: none;
+        }
+
+        img {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Allow pointer events for clickable images */
+        .anime-card img, .news-image img, .hero-logo {
+            pointer-events: auto;
+        }
+
+        /* Disable zoom with CSS */
         html {
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
             scroll-behavior: smooth;
+        }
+
+        /* Additional Protection */
+        ::selection {
+            background: transparent;
+        }
+
+        ::-moz-selection {
+            background: transparent;
+        }
+
+        /* Disable print styles */
+        @media print {
+            body {
+                display: none !important;
+            }
         }
 
         body {
@@ -26,6 +80,42 @@
             color: #f7faf9;
             line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ben 10 Background Image */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('http://www.videohub.space/day/ben10.JPG');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.2;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Clickable overlay for the background */
+        .ben10-background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .ben10-background-overlay:hover {
+            opacity: 0.1;
+            background: rgba(74, 222, 128, 0.05);
         }
 
         /* CSS Variables */
@@ -132,7 +222,8 @@
         .header-right {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.5rem;
+            margin-right: 01%;
         }
 
         .search-box {
@@ -143,6 +234,35 @@
             border: 1px solid var(--border);
             border-radius: 6px;
             padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box.mobile-visible {
+            display: flex;
+            position: fixed;
+            top: 70px;
+            right: 1rem;
+            left: 1rem;
+            margin: 0;
+            background: linear-gradient(135deg, rgba(30, 58, 46, 0.98) 0%, rgba(42, 74, 58, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(74, 222, 128, 0.1);
+            z-index: 1001;
+            padding: 1rem 1.25rem;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .search-input {
@@ -156,12 +276,47 @@
 
         @media (max-width: 767px) {
             .search-input {
-                width: 8rem;
-                font-size: 0.8rem;
+                width: 100%;
+                font-size: 1rem;
+                padding: 0.5rem 0;
+                color: var(--foreground);
+                font-weight: 500;
             }
             
             .search-box {
                 padding: 0.4rem 0.75rem;
+            }
+
+            .search-box.mobile-visible .search-input {
+                font-size: 1.1rem;
+                padding: 0.75rem 0;
+            }
+
+            .search-box.mobile-visible .search-icon {
+                color: var(--primary);
+                width: 20px;
+                height: 20px;
+            }
+
+            .mobile-search-close {
+                background: none;
+                border: none;
+                color: var(--muted-foreground);
+                cursor: pointer;
+                padding: 0.25rem;
+                border-radius: 4px;
+                transition: all 0.2s ease;
+                margin-left: 0.5rem;
+            }
+
+            .search-box.mobile-visible .mobile-search-close {
+                display: block !important;
+                color: var(--primary);
+            }
+
+            .mobile-search-close:hover {
+                background: rgba(74, 222, 128, 0.1);
+                color: var(--primary);
             }
         }
 
@@ -185,9 +340,23 @@
 
         @media (max-width: 767px) {
             .btn-icon {
-                padding: 0.4rem;
-                min-width: 40px;
-                min-height: 40px;
+                padding: 0.5rem;
+                min-width: 44px;
+                min-height: 44px;
+                border-radius: 8px;
+                transition: all 0.3s ease;
+            }
+
+            .btn-icon:hover, .btn-icon:active {
+                background: rgba(74, 222, 128, 0.1);
+                border: 1px solid rgba(74, 222, 128, 0.2);
+                transform: scale(1.05);
+            }
+
+            #mobile-search-btn.active {
+                background: rgba(74, 222, 128, 0.15);
+                border: 1px solid rgba(74, 222, 128, 0.3);
+                color: var(--primary);
             }
         }
 
@@ -223,6 +392,7 @@
             background-position: center center;
             background-repeat: no-repeat;
             transition: all 0.5s ease;
+            cursor: pointer;
         }
 
         .hero-overlay {
@@ -266,6 +436,51 @@
             width: auto;
             max-width: 100%;
             object-fit: contain;
+        }
+
+/* Hero Text Title - Adjusted Font Size */
+        .hero-text-title {
+            font-size: 2.5rem !important;
+            font-weight: 800 !important;
+            color: var(--primary) !important;
+            text-shadow: 0 4px 8px rgba(74, 222, 128, 0.3) !important;
+            letter-spacing: 0.05em !important;
+            text-transform: uppercase !important;
+            margin-bottom: 1rem !important;
+            line-height: 1.1 !important;
+            transition: all 0.3s ease !important;
+        }
+
+        /* Desktop size */
+        @media (min-width: 1024px) {
+            .hero-text-title {
+                font-size: 3rem !important;
+            }
+        }
+
+        /* Tablet size */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .hero-text-title {
+                font-size: 2.75rem !important;
+            }
+        }
+
+        /* Mobile size */
+        @media (max-width: 767px) {
+            .hero-text-title {
+                font-size: 1.8rem !important;
+                margin-bottom: 0.75rem !important;
+                text-shadow: 0 3px 6px rgba(74, 222, 128, 0.3) !important;
+            }
+        }
+
+        /* Small mobile size */
+        @media (max-width: 480px) {
+            .hero-text-title {
+                font-size: 1.5rem !important;
+                margin-bottom: 0.5rem !important;
+                letter-spacing: 0.03em !important;
+            }
         }
 
         .hero-meta {
@@ -868,22 +1083,56 @@
             
             /* Hero Dots Mobile */
             .hero-dots {
-                bottom: 1.25rem;
-                gap: 0.35rem;
+                bottom: 0.75rem;
+                gap: 0.4rem;
+                z-index: 10;
             }
             
             .dot {
-                width: 0.35rem;
-                height: 0.35rem;
+                width: 0.4rem;
+                height: 0.4rem;
+                background: rgba(247, 250, 249, 0.4);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
             }
             
             .dot.active {
-                width: 1.25rem;
+                width: 1.5rem;
+                background: var(--primary);
+                box-shadow: 0 2px 12px rgba(74, 222, 128, 0.4);
+            }
+        }
+
+        /* Responsive Background */
+        @media (max-width: 1024px) {
+            body::before {
+                background-size: contain;
+                background-position: center top;
+                opacity: 0.15;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body::before {
+                background-size: cover;
+                background-position: center center;
+                opacity: 0.12;
+                background-attachment: scroll;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body::before {
+                background-size: cover;
+                background-position: center top;
+                opacity: 0.1;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Clickable Background Overlay -->
+    <div class="ben10-background-overlay" id="ben10-bg-overlay"></div>
+    
     <!-- Header -->
     <header class="header">
         <div class="container header-content">
@@ -910,9 +1159,15 @@
                         <circle cx="11" cy="11" r="8"></circle>
                         <path d="m21 21-4.35-4.35"></path>
                     </svg>
+                    <button class="mobile-search-close" style="display: none;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
                 </div>
 
-                <button class="btn-icon mobile-only">
+                <button class="btn-icon mobile-only" id="mobile-search-btn">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="11" cy="11" r="8"></circle>
                         <path d="m21 21-4.35-4.35"></path>
@@ -989,7 +1244,7 @@
                 </div>
 
                 <div class="content-grid">
-                    <div class="anime-card" data-link="https://example.com/alien-swarm">
+                    <div class="anime-card" data-link="https://example.com/alien-swarm" data-image-link="https://example.com/alien-swarm-gallery">
                         <div class="anime-card-image">
                             <img src="ben10-alien-swarm.jpg" alt="BEN 10: ALIEN SWARM">
                             <div class="dub-badge">DUB</div>
@@ -997,7 +1252,7 @@
                         <h3 class="anime-card-title">BEN 10: ALIEN SWARM</h3>
                     </div>
 
-                    <div class="anime-card" data-link="https://example.com/race-against-time">
+                    <div class="anime-card" data-link="https://example.com/race-against-time" data-image-link="https://example.com/race-against-time-gallery">
                         <div class="anime-card-image">
                             <img src="ben10-race-against-time.jpg" alt="BEN 10: RACE AGAINST TIME">
                             <div class="dub-badge">DUB</div>
@@ -1005,7 +1260,7 @@
                         <h3 class="anime-card-title">BEN 10: RACE AGAINST TIME</h3>
                     </div>
 
-                    <div class="anime-card" data-link="https://example.com/destroy-all-aliens">
+                    <div class="anime-card" data-link="https://example.com/destroy-all-aliens" data-image-link="https://example.com/destroy-all-aliens-gallery">
                         <div class="anime-card-image">
                             <img src="ben10-destroy-all-aliens.jpg" alt="BEN 10: DESTROY ALL ALIENS">
                             <div class="dub-badge">DUB</div>
@@ -1013,7 +1268,7 @@
                         <h3 class="anime-card-title">BEN 10: DESTROY ALL ALIENS</h3>
                     </div>
 
-                    <div class="anime-card" data-link="https://example.com/vs-the-universe">
+                    <div class="anime-card" data-link="https://example.com/vs-the-universe" data-image-link="https://example.com/vs-the-universe-gallery">
                         <div class="anime-card-image">
                             <img src="ben-10-vs-the-universe.jpg" alt="BEN 10 VS THE UNIVERSE">
                             <div class="dub-badge">DUB</div>
@@ -1021,7 +1276,7 @@
                         <h3 class="anime-card-title">BEN 10 VS THE UNIVERSE</h3>
                     </div>
 
-                    <div class="anime-card" data-link="https://example.com/secret-omnitrix">
+                    <div class="anime-card" data-link="https://example.com/secret-omnitrix" data-image-link="https://example.com/secret-omnitrix-gallery">
                         <div class="anime-card-image">
                             <img src="ben10-secret-omnitrix.jpg" alt="BEN 10: SECRET OF THE OMNITRIX">
                             <div class="dub-badge">DUB</div>
@@ -1045,7 +1300,7 @@
                 </div>
 
                 <div class="content-grid">
-                    <div class="anime-card" data-link="https://example.com/original-2005">
+                    <div class="anime-card" data-link="https://example.com/original-2005" data-image-link="https://example.com/original-2005-gallery">
                         <div class="anime-card-image">
                             <img src="ben10-original-series.jpg" alt="BEN 10 (2005)">
                             <div class="dub-badge">DUB</div>
@@ -1053,7 +1308,7 @@
                         <h3 class="anime-card-title">BEN 10 (2005)</h3>
                     </div>
 
-                    <div class="anime-card" data-link="https://example.com/alien-force">
+                    <div class="anime-card" data-link="https://example.com/alien-force" data-image-link="https://example.com/alien-force-gallery">
                         <div class="anime-card-image">
                             <img src="ben10-alien-force.jpg" alt="BEN 10: ALIEN FORCE">
                             <div class="dub-badge">DUB</div>
@@ -1061,7 +1316,7 @@
                         <h3 class="anime-card-title">BEN 10: ALIEN FORCE</h3>
                     </div>
 
-                    <div class="anime-card" data-link="https://example.com/ultimate-alien">
+                    <div class="anime-card" data-link="https://example.com/ultimate-alien" data-image-link="https://example.com/ultimate-alien-gallery">
                         <div class="anime-card-image">
                             <img src="ben10-ultimate-alien.jpg" alt="BEN 10: ULTIMATE ALIEN">
                             <div class="dub-badge">DUB</div>
@@ -1069,7 +1324,7 @@
                         <h3 class="anime-card-title">BEN 10: ULTIMATE ALIEN</h3>
                     </div>
 
-                    <div class="anime-card" data-link="https://example.com/omniverse">
+                    <div class="anime-card" data-link="https://example.com/omniverse" data-image-link="https://example.com/omniverse-gallery">
                         <div class="anime-card-image">
                             <img src="ben10-omniverse.jpg" alt="BEN 10: OMNIVERSE">
                             <div class="dub-badge">DUB</div>
@@ -1077,7 +1332,7 @@
                         <h3 class="anime-card-title">BEN 10: OMNIVERSE</h3>
                     </div>
 
-                    <div class="anime-card" data-link="https://example.com/reboot-2016">
+                    <div class="anime-card" data-link="https://example.com/reboot-2016" data-image-link="https://example.com/reboot-2016-gallery">
                         <div class="anime-card-image">
                             <img src="ben10-reboot.jpg" alt="BEN 10 (2016)">
                             <div class="dub-badge">DUB</div>
@@ -1304,6 +1559,14 @@
                     });
                 });
 
+                // Add click functionality to hero background
+                this.heroBg.addEventListener('click', () => {
+                    const link = this.heroBg.getAttribute('data-link');
+                    if (link) {
+                        window.open(link, '_blank');
+                    }
+                });
+
                 // Auto-slide every 5 seconds
                 setInterval(() => {
                     this.nextSlide();
@@ -1334,13 +1597,26 @@
 
             updateBackground() {
                 const backgrounds = [
-                    'url(ben10-hero-bg.jpg)',
-                    'url(ben10-alien-force-poster.jpg)',
-                    'url(ben10-ultimate-alien-poster.jpg)',
-                    'url(ben10-omniverse-poster.jpg)'
+                    {
+                        image: 'url(ben10-hero-bg.jpg)',
+                        link: 'https://example.com/ben10-original'
+                    },
+                    {
+                        image: 'url(ben10-alien-force-poster.jpg)',
+                        link: 'https://example.com/ben10-alien-force'
+                    },
+                    {
+                        image: 'url(ben10-ultimate-alien-poster.jpg)',
+                        link: 'https://example.com/ben10-ultimate-alien'
+                    },
+                    {
+                        image: 'url(ben10-omniverse-poster.jpg)',
+                        link: 'https://example.com/ben10-omniverse'
+                    }
                 ];
                 
-                this.heroBg.style.backgroundImage = backgrounds[this.activeSlide];
+                this.heroBg.style.backgroundImage = backgrounds[this.activeSlide].image;
+                this.heroBg.setAttribute('data-link', backgrounds[this.activeSlide].link);
             }
         }
 
@@ -1349,6 +1625,10 @@
             constructor() {
                 this.searchInput = document.querySelector('.search-input');
                 this.searchIcon = document.querySelector('.search-icon');
+                this.searchBox = document.querySelector('.search-box');
+                this.mobileSearchBtn = document.getElementById('mobile-search-btn');
+                this.mobileSearchClose = document.querySelector('.mobile-search-close');
+                this.isMobileSearchVisible = false;
                 this.init();
             }
 
@@ -1369,6 +1649,63 @@
                     this.searchIcon.addEventListener('click', () => {
                         this.performSearch();
                     });
+                }
+
+                // Mobile search button functionality
+                if (this.mobileSearchBtn) {
+                    this.mobileSearchBtn.addEventListener('click', () => {
+                        this.toggleMobileSearch();
+                    });
+                }
+
+                // Mobile search close button functionality
+                if (this.mobileSearchClose) {
+                    this.mobileSearchClose.addEventListener('click', () => {
+                        this.hideMobileSearch();
+                    });
+                }
+
+                // Close mobile search when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (this.isMobileSearchVisible && 
+                        !this.searchBox.contains(e.target) && 
+                        !this.mobileSearchBtn.contains(e.target)) {
+                        this.hideMobileSearch();
+                    }
+                });
+            }
+
+            toggleMobileSearch() {
+                if (this.isMobileSearchVisible) {
+                    this.hideMobileSearch();
+                } else {
+                    this.showMobileSearch();
+                }
+            }
+
+            showMobileSearch() {
+                if (this.searchBox) {
+                    this.searchBox.classList.add('mobile-visible');
+                    this.mobileSearchBtn.classList.add('active');
+                    this.isMobileSearchVisible = true;
+                    // Focus on the search input
+                    setTimeout(() => {
+                        if (this.searchInput) {
+                            this.searchInput.focus();
+                        }
+                    }, 100);
+                }
+            }
+
+            hideMobileSearch() {
+                if (this.searchBox) {
+                    this.searchBox.classList.remove('mobile-visible');
+                    this.mobileSearchBtn.classList.remove('active');
+                    this.isMobileSearchVisible = false;
+                    // Clear search input when hiding
+                    if (this.searchInput) {
+                        this.searchInput.blur();
+                    }
                 }
             }
 
@@ -1477,10 +1814,24 @@
 
             handleCardClick(card) {
                 const link = card.getAttribute('data-link');
+                const imageLink = card.getAttribute('data-image-link');
                 const title = card.querySelector('.anime-card-title');
-                if (title && link) {
-                    console.log('Clicked on:', title.textContent, 'Link:', link);
-                    window.open(link, '_blank');
+                
+                if (title) {
+                    console.log('Clicked on:', title.textContent);
+                    
+                    // Check if clicked on image area
+                    const clickedElement = event.target;
+                    const isImageArea = clickedElement.tagName === 'IMG' || 
+                                       clickedElement.closest('.anime-card-image');
+                    
+                    if (isImageArea && imageLink) {
+                        console.log('Opening image link:', imageLink);
+                        window.open(imageLink, '_blank');
+                    } else if (link) {
+                        console.log('Opening card link:', link);
+                        window.open(link, '_blank');
+                    }
                 }
             }
 
@@ -1628,8 +1979,328 @@
             }
         }
 
+        // Website Protection Manager
+        class ProtectionManager {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.disableRightClick();
+                this.disableKeyboardShortcuts();
+                this.disableDevTools();
+                this.disableZoom();
+                this.disableDragAndDrop();
+                this.disableTextSelection();
+                this.preventImageSaving();
+            }
+
+            disableRightClick() {
+                document.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    return false;
+                });
+            }
+
+            disableKeyboardShortcuts() {
+                document.addEventListener('keydown', (e) => {
+                    // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+S, Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+P
+                    if (
+                        e.key === 'F12' ||
+                        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+                        (e.ctrlKey && (e.key === 'u' || e.key === 'U')) ||
+                        (e.ctrlKey && (e.key === 's' || e.key === 'S')) ||
+                        (e.ctrlKey && (e.key === 'a' || e.key === 'A')) ||
+                        (e.ctrlKey && (e.key === 'c' || e.key === 'C')) ||
+                        (e.ctrlKey && (e.key === 'v' || e.key === 'V')) ||
+                        (e.ctrlKey && (e.key === 'p' || e.key === 'P')) ||
+                        (e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '0'))
+                    ) {
+                        e.preventDefault();
+                        return false;
+                    }
+                });
+            }
+
+            disableDevTools() {
+                // Detect if DevTools is open
+                let devtools = {open: false, orientation: null};
+                const threshold = 160;
+
+                setInterval(() => {
+                    if (window.outerHeight - window.innerHeight > threshold || 
+                        window.outerWidth - window.innerWidth > threshold) {
+                        if (!devtools.open) {
+                            devtools.open = true;
+                            console.clear();
+                            document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;font-size:2rem;color:#f7faf9;">Access Denied</div>';
+                        }
+                    } else {
+                        devtools.open = false;
+                    }
+                }, 500);
+            }
+
+            disableZoom() {
+                // Disable zoom with mouse wheel
+                document.addEventListener('wheel', (e) => {
+                    if (e.ctrlKey) {
+                        e.preventDefault();
+                        return false;
+                    }
+                }, { passive: false });
+
+                // Disable pinch zoom on touch devices
+                document.addEventListener('touchstart', (e) => {
+                    if (e.touches.length > 1) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+
+                document.addEventListener('touchmove', (e) => {
+                    if (e.touches.length > 1) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+            }
+
+            disableDragAndDrop() {
+                document.addEventListener('dragstart', (e) => {
+                    e.preventDefault();
+                    return false;
+                });
+
+                document.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    return false;
+                });
+            }
+
+            disableTextSelection() {
+                document.addEventListener('selectstart', (e) => {
+                    e.preventDefault();
+                    return false;
+                });
+            }
+
+            preventImageSaving() {
+                // Disable image context menu and dragging
+                document.querySelectorAll('img').forEach(img => {
+                    img.addEventListener('contextmenu', (e) => {
+                        e.preventDefault();
+                        return false;
+                    });
+                    
+                    img.addEventListener('dragstart', (e) => {
+                        e.preventDefault();
+                        return false;
+                    });
+                });
+            }
+        }
+
+        // Random Card Preview Manager
+        class CardPreviewManager {
+            constructor() {
+                this.previewCards = [
+                    {
+                        title: "Ben 10: Alien X-Tinction",
+                        image: "ben10-alien-x-tinction.jpg",
+                        rating: "7+",
+                        genres: ["ACTION", "SCI-FI", "ADVENTURE"],
+                        description: "Ben faces his greatest challenge yet when Alien X threatens the entire multiverse. With reality itself at stake, Ben must master new alien forms to save all existence.",
+                        dataLink: "https://example.com/alien-x-tinction",
+                        imageLink: "https://example.com/alien-x-tinction-gallery"
+                    },
+                    {
+                        title: "Ben 10: Generator Rex Heroes United",
+                        image: "ben10-generator-rex.jpg",
+                        rating: "8+",
+                        genres: ["ACTION", "CROSSOVER", "ADVENTURE"],
+                        description: "Two heroes from different dimensions unite! Ben Tennyson meets Rex Salazar in an epic crossover adventure to stop a threat that spans multiple realities.",
+                        dataLink: "https://example.com/heroes-united",
+                        imageLink: "https://example.com/heroes-united-gallery"
+                    },
+                    {
+                        title: "Ben 10: Omniverse Galactic Monsters",
+                        image: "ben10-galactic-monsters.jpg",
+                        rating: "7+",
+                        genres: ["ACTION", "HORROR", "ADVENTURE"],
+                        description: "Ben encounters terrifying galactic monsters from the darkest corners of space. Can the Omnitrix handle these cosmic nightmares?",
+                        dataLink: "https://example.com/galactic-monsters",
+                        imageLink: "https://example.com/galactic-monsters-gallery"
+                    },
+                    {
+                        title: "Ben 10: Time War Chronicles",
+                        image: "ben10-time-war.jpg",
+                        rating: "8+",
+                        genres: ["ACTION", "TIME-TRAVEL", "EPIC"],
+                        description: "A war across time itself threatens to unravel history. Ben must travel through different eras to prevent the destruction of the timeline.",
+                        dataLink: "https://example.com/time-war",
+                        imageLink: "https://example.com/time-war-gallery"
+                    },
+                    {
+                        title: "Ben 10: Ultimate Evolution",
+                        image: "ben10-ultimate-evolution.jpg",
+                        rating: "7+",
+                        genres: ["ACTION", "EVOLUTION", "ADVENTURE"],
+                        description: "The Ultimatrix evolves beyond its limits, giving Ben access to never-before-seen ultimate forms. But with great power comes great responsibility.",
+                        dataLink: "https://example.com/ultimate-evolution",
+                        imageLink: "https://example.com/ultimate-evolution-gallery"
+                    }
+                ];
+                this.currentIndex = 0;
+                this.usedIndices = [];
+                this.init();
+            }
+
+            init() {
+                this.updateHeroContent();
+                // Auto-rotate every 8 seconds
+                setInterval(() => {
+                    this.rotateCard();
+                }, 8000);
+            }
+
+            getRandomCard() {
+                // If all cards have been used, reset the used list
+                if (this.usedIndices.length >= this.previewCards.length) {
+                    this.usedIndices = [];
+                }
+
+                // Get available indices
+                const availableIndices = this.previewCards
+                    .map((_, index) => index)
+                    .filter(index => !this.usedIndices.includes(index));
+
+                // Pick random from available
+                const randomIndex = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+                this.usedIndices.push(randomIndex);
+                this.currentIndex = randomIndex;
+
+                return this.previewCards[randomIndex];
+            }
+
+            rotateCard() {
+                const card = this.getRandomCard();
+                this.updateHeroContent(card);
+            }
+
+            updateHeroContent(card = null) {
+                if (!card) {
+                    card = this.previewCards[0]; // Default to first card
+                }
+
+                const heroLogo = document.querySelector('.hero-logo');
+                const heroRating = document.querySelector('.rating');
+                const heroGenres = document.querySelectorAll('.genre');
+                const heroDescription = document.querySelector('.hero-description');
+                const heroBg = document.querySelector('.hero-bg');
+                const heroButtons = document.querySelectorAll('.btn');
+
+                // Update logo (create text logo if no image)
+                if (heroLogo) {
+                    heroLogo.style.display = 'none';
+                    
+                    // Create or update text title
+                    let textTitle = document.querySelector('.hero-text-title');
+                    if (!textTitle) {
+                        textTitle = document.createElement('h1');
+                        textTitle.className = 'hero-text-title';
+                        textTitle.style.cssText = `
+                            font-size: 3rem;
+                            font-weight: 900;
+                            color: var(--primary);
+                            text-shadow: 0 4px 8px rgba(74, 222, 128, 0.3);
+                            letter-spacing: 0.05em;
+                            text-transform: uppercase;
+                            margin-bottom: 1rem;
+                            line-height: 1.1;
+                        `;
+                        heroLogo.parentNode.insertBefore(textTitle, heroLogo);
+                    }
+                    textTitle.textContent = card.title;
+                }
+
+                // Update rating
+                if (heroRating) {
+                    heroRating.textContent = card.rating;
+                }
+
+                // Update genres
+                if (heroGenres.length >= card.genres.length) {
+                    card.genres.forEach((genre, index) => {
+                        if (heroGenres[index]) {
+                            heroGenres[index].textContent = genre;
+                        }
+                    });
+                }
+
+                // Update description
+                if (heroDescription) {
+                    heroDescription.textContent = card.description;
+                }
+
+                // Update background
+                if (heroBg) {
+                    heroBg.style.backgroundImage = `url('${card.image}')`;
+                    heroBg.setAttribute('data-link', card.dataLink);
+                }
+
+                // Update button links
+                heroButtons.forEach(btn => {
+                    if (btn.textContent.includes('WATCH NOW')) {
+                        btn.onclick = () => window.open(card.dataLink, '_blank');
+                    } else if (btn.textContent.includes('READ MORE')) {
+                        btn.onclick = () => window.open(card.imageLink, '_blank');
+                    }
+                });
+            }
+
+            // Manual control functions
+            nextCard() {
+                const card = this.getRandomCard();
+                this.updateHeroContent(card);
+            }
+
+            addPreviewCard(cardData) {
+                this.previewCards.push(cardData);
+            }
+
+            removePreviewCard(title) {
+                this.previewCards = this.previewCards.filter(card => card.title !== title);
+            }
+
+            getCurrentCard() {
+                return this.previewCards[this.currentIndex];
+            }
+        }
+
+        // Background Click Handler
+        class BackgroundManager {
+            constructor() {
+                this.backgroundOverlay = document.getElementById('ben10-bg-overlay');
+                this.init();
+            }
+
+            init() {
+                if (this.backgroundOverlay) {
+                    this.backgroundOverlay.addEventListener('click', () => {
+                        this.handleBackgroundClick();
+                    });
+                }
+            }
+
+            handleBackgroundClick() {
+                // Open Ben 10 image source page
+                console.log('Background clicked - Opening Ben 10 image source');
+                window.open('http://www.videohub.space/day/ben10.JPG', '_blank');
+            }
+        }
+
         // Initialize all components when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
+            new ProtectionManager();
             new HeroSlider();
             new SearchManager();
             new NavigationManager();
@@ -1637,28 +2308,139 @@
             new ButtonManager();
             new HeaderScrollEffect();
             new MobileMenu();
+            new BackgroundManager();
+            window.cardPreviewManager = new CardPreviewManager();
 
             console.log('Ben 10 Website initialized successfully!');
         });
 
+        // Additional protection - disable console
+        (function() {
+            try {
+                var $_console$$ = console;
+                Object.defineProperty(window, "console", {
+                    get: function() {
+                        if ($_console$$._commandLineAPI)
+                            throw "Sorry, for security reasons, the script console is deactivated on this website";
+                        return $_console$$
+                    },
+                    set: function($val$$) {
+                        $_console$$ = $val$$
+                    }
+                })
+            } catch ($ignore$$) {
+            }
+        })();
+
+        // Disable view source
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.keyCode === 85)) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Clear console periodically
+        setInterval(() => {
+            console.clear();
+        }, 1000);
+
         // Add some utility functions
         window.Ben10Website = {
-            // Function to add new anime cards dynamically
-            addAnimeCard: function(title, image, link, container = '.content-grid') {
+            // Enhanced function to add new anime cards with custom links
+            addAnimeCard: function(options) {
+                const {
+                    title,
+                    image,
+                    dataLink,
+                    imageLink,
+                    container = '.content-grid',
+                    badge = 'DUB',
+                    position = 'append' // 'append', 'prepend', or index number
+                } = options;
+
                 const grid = document.querySelector(container);
                 if (grid) {
                     const card = document.createElement('div');
                     card.className = 'anime-card';
-                    card.setAttribute('data-link', link);
+                    card.setAttribute('data-link', dataLink);
+                    if (imageLink) {
+                        card.setAttribute('data-image-link', imageLink);
+                    }
+                    
                     card.innerHTML = `
                         <div class="anime-card-image">
                             <img src="${image}" alt="${title}">
-                            <div class="dub-badge">DUB</div>
+                            <div class="dub-badge">${badge}</div>
                         </div>
                         <h3 class="anime-card-title">${title}</h3>
                     `;
-                    grid.appendChild(card);
+
+                    // Add event listeners for the new card
+                    card.addEventListener('click', () => {
+                        const cardEffects = new CardEffects();
+                        cardEffects.handleCardClick(card);
+                    });
+
+                    // Position the card
+                    if (position === 'prepend') {
+                        grid.insertBefore(card, grid.firstChild);
+                    } else if (typeof position === 'number') {
+                        const children = grid.children;
+                        if (position < children.length) {
+                            grid.insertBefore(card, children[position]);
+                        } else {
+                            grid.appendChild(card);
+                        }
+                    } else {
+                        grid.appendChild(card);
+                    }
+
+                    return card;
                 }
+                return null;
+            },
+
+            // Function to add multiple cards at once
+            addMultipleCards: function(cardsArray, container = '.content-grid') {
+                cardsArray.forEach(cardOptions => {
+                    cardOptions.container = container;
+                    this.addAnimeCard(cardOptions);
+                });
+            },
+
+            // Function to update existing card links
+            updateCardLinks: function(cardSelector, dataLink, imageLink) {
+                const card = document.querySelector(cardSelector);
+                if (card) {
+                    if (dataLink) card.setAttribute('data-link', dataLink);
+                    if (imageLink) card.setAttribute('data-image-link', imageLink);
+                    return true;
+                }
+                return false;
+            },
+
+            // Function to get card information
+            getCardInfo: function(cardSelector) {
+                const card = document.querySelector(cardSelector);
+                if (card) {
+                    const title = card.querySelector('.anime-card-title')?.textContent;
+                    const image = card.querySelector('img')?.src;
+                    const dataLink = card.getAttribute('data-link');
+                    const imageLink = card.getAttribute('data-image-link');
+                    return { title, image, dataLink, imageLink };
+                }
+                return null;
+            },
+
+            // Function to remove a card
+            removeCard: function(cardSelector) {
+                const card = document.querySelector(cardSelector);
+                if (card) {
+                    card.remove();
+                    return true;
+                }
+                return false;
             },
 
             // Function to scroll to top
@@ -1673,6 +2455,171 @@
             toggleDarkMode: function() {
                 document.documentElement.classList.toggle('dark');
                 localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+            },
+
+            // Function to change background image
+            changeBackgroundImage: function(imagePath, opacity = 0.2) {
+                const style = document.createElement('style');
+                style.textContent = `
+                    body::before {
+                        background-image: url('${imagePath}') !important;
+                        opacity: ${opacity} !important;
+                    }
+                `;
+                document.head.appendChild(style);
+            },
+
+            // Function to change background link
+            changeBackgroundLink: function(newLink) {
+                const backgroundManager = new BackgroundManager();
+                backgroundManager.handleBackgroundClick = function() {
+                    window.open(newLink, '_blank');
+                };
+            },
+
+            // Bulk operations for cards
+            bulkUpdateCards: function(updates) {
+                updates.forEach(update => {
+                    const { selector, dataLink, imageLink } = update;
+                    this.updateCardLinks(selector, dataLink, imageLink);
+                });
+            },
+
+            // Create card from template
+            createCardFromTemplate: function(template) {
+                const templates = {
+                    movie: {
+                        badge: 'MOVIE',
+                        container: '.content-grid'
+                    },
+                    series: {
+                        badge: 'SERIES',
+                        container: '.content-grid'
+                    },
+                    episode: {
+                        badge: 'EP',
+                        container: '.content-grid'
+                    }
+                };
+
+                const templateConfig = templates[template] || templates.movie;
+                return { ...templateConfig };
+            },
+
+            // Quick add functions for different types
+            addMovie: function(title, image, dataLink, imageLink) {
+                return this.addAnimeCard({
+                    title,
+                    image,
+                    dataLink,
+                    imageLink,
+                    badge: 'MOVIE'
+                });
+            },
+
+            addSeries: function(title, image, dataLink, imageLink) {
+                return this.addAnimeCard({
+                    title,
+                    image,
+                    dataLink,
+                    imageLink,
+                    badge: 'SERIES'
+                });
+            },
+
+            addEpisode: function(title, image, dataLink, imageLink) {
+                return this.addAnimeCard({
+                    title,
+                    image,
+                    dataLink,
+                    imageLink,
+                    badge: 'EP'
+                });
+            },
+
+            // Get all cards information
+            getAllCards: function(container = '.content-grid') {
+                const grid = document.querySelector(container);
+                if (grid) {
+                    const cards = grid.querySelectorAll('.anime-card');
+                    return Array.from(cards).map(card => {
+                        const title = card.querySelector('.anime-card-title')?.textContent;
+                        const image = card.querySelector('img')?.src;
+                        const dataLink = card.getAttribute('data-link');
+                        const imageLink = card.getAttribute('data-image-link');
+                        return { title, image, dataLink, imageLink, element: card };
+                    });
+                }
+                return [];
+            },
+
+            // Card Preview Management Functions
+            addPreviewCard: function(cardData) {
+                if (window.cardPreviewManager) {
+                    window.cardPreviewManager.addPreviewCard(cardData);
+                    return true;
+                }
+                return false;
+            },
+
+            removePreviewCard: function(title) {
+                if (window.cardPreviewManager) {
+                    window.cardPreviewManager.removePreviewCard(title);
+                    return true;
+                }
+                return false;
+            },
+
+            nextPreviewCard: function() {
+                if (window.cardPreviewManager) {
+                    window.cardPreviewManager.nextCard();
+                    return true;
+                }
+                return false;
+            },
+
+            getCurrentPreviewCard: function() {
+                if (window.cardPreviewManager) {
+                    return window.cardPreviewManager.getCurrentCard();
+                }
+                return null;
+            },
+
+            // Quick add preview card from existing card
+            addCardToPreview: function(cardSelector, customData = {}) {
+                const cardInfo = this.getCardInfo(cardSelector);
+                if (cardInfo) {
+                    const previewCard = {
+                        title: customData.title || cardInfo.title,
+                        image: customData.image || cardInfo.image,
+                        rating: customData.rating || "7+",
+                        genres: customData.genres || ["ACTION", "ADVENTURE"],
+                        description: customData.description || `Experience the amazing adventures of ${cardInfo.title}. Join Ben Tennyson as he uses the power of the Omnitrix to save the world!`,
+                        dataLink: customData.dataLink || cardInfo.dataLink,
+                        imageLink: customData.imageLink || cardInfo.imageLink
+                    };
+                    return this.addPreviewCard(previewCard);
+                }
+                return false;
+            },
+
+            // Bulk add cards to preview
+            addMultipleToPreview: function(cardsData) {
+                let addedCount = 0;
+                cardsData.forEach(cardData => {
+                    if (this.addPreviewCard(cardData)) {
+                        addedCount++;
+                    }
+                });
+                return addedCount;
+            },
+
+            // Get all preview cards
+            getAllPreviewCards: function() {
+                if (window.cardPreviewManager) {
+                    return window.cardPreviewManager.previewCards;
+                }
+                return [];
             }
         };
     </script>
