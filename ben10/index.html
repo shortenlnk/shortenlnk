@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ben 10 - Series & Movies</title>
+    <meta name="description" content="Platforma streamingowa anime">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #1e3a2e;
+            color: #f7faf9;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* CSS Variables */
+        :root {
+            --background: #1e3a2e;
+            --foreground: #f7faf9;
+            --card: #2a4a3a;
+            --card-foreground: #f7faf9;
+            --primary: #4ade80;
+            --primary-foreground: #1a2e1f;
+            --secondary: #334d40;
+            --secondary-foreground: #f7faf9;
+            --muted: #334d40;
+            --muted-foreground: #a5b5a8;
+            --border: #3f5a4f;
+            --radius: 10px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(30, 58, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(63, 90, 79, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+            min-height: 70px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-left: 01%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-main {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-shadow: 0 3px 4px rgba(74, 222, 128, 0.3);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .logo-sub {
+            font-size: 0.7rem;
+            color: var(--muted-foreground);
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .nav {
+            display: none;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--foreground);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-box {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(51, 77, 64, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+        }
+
+        .search-input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--foreground);
+            font-size: 0.875rem;
+            width: 12rem;
+        }
+
+        @media (max-width: 767px) {
+            .search-input {
+                width: 8rem;
+                font-size: 0.8rem;
+            }
+            
+            .search-box {
+                padding: 0.4rem 0.75rem;
+            }
+        }
+
+        .search-input::placeholder {
+            color: var(--muted-foreground);
+        }
+
+        .search-icon {
+            color: var(--muted-foreground);
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            color: var(--foreground);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+
+        @media (max-width: 767px) {
+            .btn-icon {
+                padding: 0.4rem;
+                min-width: 40px;
+                min-height: 40px;
+            }
+        }
+
+        .btn-icon:hover {
+            background: rgba(51, 77, 64, 0.5);
+        }
+
+        /* Main Content */
+        .main {
+            padding-top: 70px;
+            min-height: 100vh;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 70vh;
+            min-height: 600px;
+            max-height: 800px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('ben10-hero-bg.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            transition: all 0.5s ease;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, var(--background), rgba(30, 58, 46, 0.8), transparent);
+        }
+
+        .hero-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, var(--background), transparent, transparent);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .hero-info {
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .hero-logo {
+            height: 8rem;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .rating {
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .genre {
+            color: var(--muted-foreground);
+        }
+
+        .separator {
+            color: var(--muted-foreground);
+        }
+
+        .hero-description {
+            color: rgba(247, 250, 249, 0.95);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            max-width: 500px;
+            font-weight: 400;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1rem;
+            min-height: 48px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--primary-foreground);
+        }
+
+        .btn-primary:hover {
+            background: rgba(74, 222, 128, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 222, 128, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--foreground);
+            border: 2px solid rgba(247, 250, 249, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-outline:hover {
+            background: rgba(247, 250, 249, 0.1);
+            border-color: rgba(247, 250, 249, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .hero-dots {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            border: none;
+            background: rgba(247, 250, 249, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--primary);
+            width: 2rem;
+            border-radius: 0.25rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 4rem 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(30, 58, 46, 0.02) 100%);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--foreground);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            letter-spacing: -0.02em;
+        }
+
+        .section-arrow {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .section-arrow:hover {
+            color: rgba(74, 222, 128, 0.8);
+        }
+
+        .content-grid {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding: 1rem 0 2rem 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            scroll-behavior: smooth;
+        }
+
+        .content-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Anime Card */
+        .anime-card {
+            flex-shrink: 0;
+            width: 14rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--card);
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .anime-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.1) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .anime-card:hover::after {
+            opacity: 1;
+        }
+
+        .anime-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(74, 222, 128, 0.2);
+            border-color: var(--primary);
+        }
+
+        .anime-card:active {
+            transform: translateY(-4px) scale(1.01);
+            transition: all 0.1s ease;
+        }
+
+        .anime-card-image {
+            position: relative;
+            aspect-ratio: 2/3;
+            border-radius: 0;
+            overflow: hidden;
+            background: var(--secondary);
+        }
+
+        .anime-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .anime-card:hover .anime-card-image img {
+            transform: scale(1.08);
+        }
+
+        .dub-badge {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .anime-card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--foreground);
+            transition: color 0.3s ease;
+            padding: 1rem 1rem 1.5rem 1rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .anime-card:hover .anime-card-title {
+            color: var(--primary);
+        }
+
+        /* News Section */
+        .news-section {
+            padding: 4rem 0;
+            background: linear-gradient(180deg, rgba(30, 58, 46, 0.02) 0%, transparent 100%);
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .news-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .news-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.05) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .news-card:hover::after {
+            opacity: 1;
+        }
+
+        .news-card:hover {
+            border-color: rgba(74, 222, 128, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(74, 222, 128, 0.1);
+        }
+
+        .news-card:active {
+            transform: translateY(-2px);
+            transition: all 0.1s ease;
+        }
+
+        .news-card-content {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .news-image {
+            flex-shrink: 0;
+            width: 7rem;
+            height: 9rem;
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--secondary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .news-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .news-title {
+            font-weight: 700;
+            color: var(--foreground);
+            margin-bottom: 0.75rem;
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
+            line-height: 1.3;
+        }
+
+        .news-card:hover .news-title {
+            color: var(--primary);
+        }
+
+        .news-description {
+            font-size: 0.95rem;
+            color: var(--muted-foreground);
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .news-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            font-weight: 600;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .news-button:hover {
+            gap: 0.75rem;
+            color: rgba(74, 222, 128, 0.8);
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .nav {
+                display: flex;
+            }
+            
+            .search-box {
+                display: flex;
+            }
+            
+            .hero {
+                height: 80vh;
+                min-height: 700px;
+            }
+            
+            .hero-logo {
+                height: 10rem;
+            }
+            
+            .hero-description {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .anime-card {
+                width: 16rem;
+            }
+            
+            .news-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .content-grid {
+                gap: 2rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .news-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .hero-info {
+                max-width: 700px;
+            }
+            
+            .section-title {
+                font-size: 2.75rem;
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .container {
+                max-width: 1400px;
+            }
+            
+            .news-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Mobile-only utility */
+        .mobile-only {
+            display: block;
+        }
+
+        @media (min-width: 768px) {
+            .mobile-only {
+                display: none;
+            }
+        }
+
+        /* Enhanced hover effects */
+        .anime-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(74, 222, 128, 0.15);
+        }
+
+        .news-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.1);
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 767px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            /* Header Mobile */
+            .header-content {
+                padding: 0.75rem 0;
+                min-height: 60px;
+            }
+            
+            .logo-main {
+                font-size: 1.4rem;
+                font-weight: 800;
+            }
+            
+            .logo-sub {
+                font-size: 0.6rem;
+                font-weight: 500;
+            }
+            
+            .main {
+                padding-top: 60px;
+            }
+            
+            /* Hero Section Mobile */
+            .hero {
+                height: 50vh;
+                min-height: 400px;
+                max-height: 550px;
+            }
+            
+            .hero-info {
+                max-width: 100%;
+                padding: 0.75rem 0;
+                gap: 1rem;
+            }
+            
+            .hero-logo {
+                height: 4rem;
+                max-width: 250px;
+            }
+            
+            .hero-meta {
+                gap: 0.5rem;
+                font-size: 0.8rem;
+                flex-wrap: wrap;
+            }
+            
+            .hero-description {
+                font-size: 0.9rem;
+                line-height: 1.6;
+                max-width: 100%;
+            }
+            
+            .hero-buttons {
+                gap: 1rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .btn {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
+                min-height: 44px;
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            /* Content Sections Mobile */
+            .content-section {
+                padding: 2rem 0;
+            }
+            
+            .section-header {
+                margin-bottom: 1.25rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+                font-weight: 700;
+            }
+            
+            /* Anime Cards Mobile */
+            .content-grid {
+                gap: 0.875rem;
+                padding: 0.5rem 0 1.5rem 0;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .anime-card {
+                width: 9.5rem;
+                min-width: 9.5rem;
+                border-radius: 10px;
+            }
+            
+            .anime-card-title {
+                font-size: 0.8rem;
+                padding: 0.6rem 0.6rem 0.8rem 0.6rem;
+                line-height: 1.3;
+            }
+            
+            .dub-badge {
+                top: 0.5rem;
+                right: 0.5rem;
+                font-size: 0.65rem;
+                padding: 0.3rem 0.6rem;
+            }
+            
+            /* News Section Mobile */
+            .news-section {
+                padding: 2rem 0;
+            }
+            
+            .news-card {
+                border-radius: 12px;
+            }
+            
+            .news-card-content {
+                padding: 0.875rem;
+                gap: 0.75rem;
+                flex-direction: row;
+            }
+            
+            .news-image {
+                width: 4.5rem;
+                height: 6rem;
+                flex-shrink: 0;
+            }
+            
+            .news-title {
+                font-size: 0.9rem;
+                margin-bottom: 0.4rem;
+                line-height: 1.3;
+            }
+            
+            .news-description {
+                font-size: 0.8rem;
+                line-height: 1.4;
+                -webkit-line-clamp: 2;
+                margin-bottom: 0.6rem;
+            }
+            
+            .news-button {
+                font-size: 0.8rem;
+                padding: 0.3rem 0;
+            }
+            
+            /* Hero Dots Mobile */
+            .hero-dots {
+                bottom: 1.25rem;
+                gap: 0.35rem;
+            }
+            
+            .dot {
+                width: 0.35rem;
+                height: 0.35rem;
+            }
+            
+            .dot.active {
+                width: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="header-left">
+                <div class="logo">
+                    <span class="logo-main">BEN 10</span>
+                    <span class="logo-sub">SERIES & MOVIES</span>
+                </div>
+
+                <nav class="nav">
+                    <a href="#" class="nav-link">MOVIES</a>
+                    <a href="#" class="nav-link">SERIES</a>
+                    <a href="#" class="nav-link">NEW RELEASES</a>
+                    <a href="#" class="nav-link">POPULAR</a>
+                    <a href="#" class="nav-link">ACTION</a>
+                    <a href="#" class="nav-link">BLOG</a>
+                </nav>
+            </div>
+
+            <div class="header-right">
+                <div class="search-box">
+                    <input type="text" placeholder="SEARCH SERIES" class="search-input">
+                    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </div>
+
+                <button class="btn-icon mobile-only">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+
+                <button class="btn-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-bg">
+                <div class="hero-overlay"></div>
+            </div>
+
+            <div class="container hero-content">
+                <div class="hero-info">
+                    <img src="ben10-logo.jpg" alt="Ben 10" class="hero-logo">
+
+                    <div class="hero-meta">
+                        <span class="rating">7+</span>
+                        <span class="genre">ACTION</span>
+                        <span class="separator">•</span>
+                        <span class="genre">SCI-FI</span>
+                        <span class="separator">•</span>
+                        <span class="genre">ADVENTURE</span>
+                    </div>
+
+                    <p class="hero-description">
+                        The story of Ben Tennyson, a 10-year-old boy who discovers a mysterious watch called the Omnitrix. The
+                        device allows him to transform into ten different aliens, each with unique powers. Ben uses his new
+                        abilities to fight evil and protect the world.
+                    </p>
+
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5,3 19,12 5,21"></polygon>
+                            </svg>
+                            WATCH NOW
+                        </button>
+                        <button class="btn btn-outline">READ MORE</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-dots">
+                <button class="dot active" data-slide="0"></button>
+                <button class="dot" data-slide="1"></button>
+                <button class="dot" data-slide="2"></button>
+                <button class="dot" data-slide="3"></button>
+            </div>
+        </section>
+
+        <!-- Movies of the Day -->
+        <section class="content-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">MOVIES OF THE DAY</h2>
+                    <button class="section-arrow">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9,18 15,12 9,6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="content-grid">
+                    <div class="anime-card" data-link="https://example.com/alien-swarm">
+                        <div class="anime-card-image">
+                            <img src="ben10-alien-swarm.jpg" alt="BEN 10: ALIEN SWARM">
+                            <div class="dub-badge">DUB</div>
+                        </div>
+                        <h3 class="anime-card-title">BEN 10: ALIEN SWARM</h3>
+                    </div>
+
+                    <div class="anime-card" data-link="https://example.com/race-against-time">
+                        <div class="anime-card-image">
+                            <img src="ben10-race-against-time.jpg" alt="BEN 10: RACE AGAINST TIME">
+                            <div class="dub-badge">DUB</div>
+                        </div>
+                        <h3 class="anime-card-title">BEN 10: RACE AGAINST TIME</h3>
+                    </div>
+
+                    <div class="anime-card" data-link="https://example.com/destroy-all-aliens">
+                        <div class="anime-card-image">
+                            <img src="ben10-destroy-all-aliens.jpg" alt="BEN 10: DESTROY ALL ALIENS">
+                            <div class="dub-badge">DUB</div>
+                        </div>
+                        <h3 class="anime-card-title">BEN 10: DESTROY ALL ALIENS</h3>
+                    </div>
+
+                    <div class="anime-card" data-link="https://example.com/vs-the-universe">
+                        <div class="anime-card-image">
+                            <img src="ben-10-vs-the-universe.jpg" alt="BEN 10 VS THE UNIVERSE">
+                            <div class="dub-badge">DUB</div>
+                        </div>
+                        <h3 class="anime-card-title">BEN 10 VS THE UNIVERSE</h3>
+                    </div>
+
+                    <div class="anime-card" data-link="https://example.com/secret-omnitrix">
+                        <div class="anime-card-image">
+                            <img src="ben10-secret-omnitrix.jpg" alt="BEN 10: SECRET OF THE OMNITRIX">
+                            <div class="dub-badge">DUB</div>
+                        </div>
+                        <h3 class="anime-card-title">BEN 10: SECRET OF THE OMNITRIX</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Series -->
+        <section class="content-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">POPULAR SERIES</h2>
+                    <button class="section-arrow">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9,18 15,12 9,6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="content-grid">
+                    <div class="anime-card" data-link="https://example.com/original-2005">
+                        <div class="anime-card-image">
+                            <img src="ben10-original-series.jpg" alt="BEN 10 (2005)">
+                            <div class="dub-badge">DUB</div>
+                        </div>
+                        <h3 class="anime-card-title">BEN 10 (2005)</h3>
+                    </div>
+
+                    <div class="anime-card" data-link="https://example.com/alien-force">
+                        <div class="anime-card-image">
+                            <img src="ben10-alien-force.jpg" alt="BEN 10: ALIEN FORCE">
+                            <div class="dub-badge">DUB</div>
+                        </div>
+                        <h3 class="anime-card-title">BEN 10: ALIEN FORCE</h3>
+                    </div>
+
+                    <div class="anime-card" data-link="https://example.com/ultimate-alien">
+                        <div class="anime-card-image">
+                            <img src="ben10-ultimate-alien.jpg" alt="BEN 10: ULTIMATE ALIEN">
+                            <div class="dub-badge">DUB</div>
+                        </div>
+                        <h3 class="anime-card-title">BEN 10: ULTIMATE ALIEN</h3>
+                    </div>
+
+                    <div class="anime-card" data-link="https://example.com/omniverse">
+                        <div class="anime-card-image">
+                            <img src="ben10-omniverse.jpg" alt="BEN 10: OMNIVERSE">
+                            <div class="dub-badge">DUB</div>
+                        </div>
+                        <h3 class="anime-card-title">BEN 10: OMNIVERSE</h3>
+                    </div>
+
+                    <div class="anime-card" data-link="https://example.com/reboot-2016">
+                        <div class="anime-card-image">
+                            <img src="ben10-reboot.jpg" alt="BEN 10 (2016)">
+                            <div class="dub-badge">DUB</div>
+                        </div>
+                        <h3 class="anime-card-title">BEN 10 (2016)</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Releases -->
+        <section class="news-section">
+            <div class="container">
+                <h2 class="section-title">NEW RELEASES</h2>
+
+                <div class="news-grid">
+                    <div class="news-card" data-link="https://example.com/alien-force-series">
+                        <div class="news-card-content">
+                            <div class="news-image">
+                                <img src="ben10-alien-force-poster.jpg" alt="BEN 10: ALIEN FORCE">
+                            </div>
+                            <div class="news-info">
+                                <h3 class="news-title">BEN 10: ALIEN FORCE</h3>
+                                <p class="news-description">
+                                    15-year-old Ben Tennyson must use the Omnitrix again and assemble his team to stop a new threat to Earth...
+                                </p>
+                                <button class="news-button">
+                                    WATCH NOW
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12,5 19,12 12,19"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="news-card" data-link="https://example.com/ultimate-alien-series">
+                        <div class="news-card-content">
+                            <div class="news-image">
+                                <img src="ben10-ultimate-alien-poster.jpg" alt="BEN 10: ULTIMATE ALIEN">
+                            </div>
+                            <div class="news-info">
+                                <h3 class="news-title">BEN 10: ULTIMATE ALIEN</h3>
+                                <p class="news-description">
+                                    Ben continues his fight against evil with the new Ultimatrix, which allows him to evolve his alien forms...
+                                </p>
+                                <button class="news-button">
+                                    WATCH NOW
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12,5 19,12 12,19"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="news-card" data-link="https://example.com/omniverse-series">
+                        <div class="news-card-content">
+                            <div class="news-image">
+                                <img src="ben10-omniverse-poster.jpg" alt="BEN 10: OMNIVERSE">
+                            </div>
+                            <div class="news-info">
+                                <h3 class="news-title">BEN 10: OMNIVERSE</h3>
+                                <p class="news-description">
+                                    Ben teams up with new partner Rook Blonko to protect the galaxy from new threats...
+                                </p>
+                                <button class="news-button">
+                                    WATCH NOW
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12,5 19,12 12,19"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="news-card" data-link="https://example.com/reboot-series">
+                        <div class="news-card-content">
+                            <div class="news-image">
+                                <img src="ben10-reboot-poster.jpg" alt="BEN 10 (2016 REBOOT)">
+                            </div>
+                            <div class="news-info">
+                                <h3 class="news-title">BEN 10 (2016 REBOOT)</h3>
+                                <p class="news-description">
+                                    A new version of the classic series featuring the adventures of 10-year-old Ben with the Omnitrix in a modern style...
+                                </p>
+                                <button class="news-button">
+                                    WATCH NOW
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12,5 19,12 12,19"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="news-card" data-link="https://example.com/alien-swarm-movie">
+                        <div class="news-card-content">
+                            <div class="news-image">
+                                <img src="ben10-alien-swarm-movie.jpg" alt="BEN 10: ALIEN SWARM">
+                            </div>
+                            <div class="news-info">
+                                <h3 class="news-title">BEN 10: ALIEN SWARM</h3>
+                                <p class="news-description">
+                                    Ben and his team must stop an invasion of alien chips that take control of people...
+                                </p>
+                                <button class="news-button">
+                                    WATCH NOW
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12,5 19,12 12,19"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="news-card" data-link="https://example.com/secret-omnitrix-movie">
+                        <div class="news-card-content">
+                            <div class="news-image">
+                                <img src="ben10-secret-omnitrix-movie.jpg" alt="BEN 10: SECRET OF THE OMNITRIX">
+                            </div>
+                            <div class="news-info">
+                                <h3 class="news-title">BEN 10: SECRET OF THE OMNITRIX</h3>
+                                <p class="news-description">
+                                    Ben discovers the secret origin of the Omnitrix and must save the universe from self-destruction...
+                                </p>
+                                <button class="news-button">
+                                    WATCH NOW
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12,5 19,12 12,19"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="news-card" data-link="https://example.com/destroy-all-aliens-movie">
+                        <div class="news-card-content">
+                            <div class="news-image">
+                                <img src="ben-10-destroy-all-aliens.jpg" alt="BEN 10: DESTROY ALL ALIENS">
+                            </div>
+                            <div class="news-info">
+                                <h3 class="news-title">BEN 10: DESTROY ALL ALIENS</h3>
+                                <p class="news-description">
+                                    Ben must face the consequences of his actions when aliens arrive on Earth seeking revenge...
+                                </p>
+                                <button class="news-button">
+                                    WATCH NOW
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12,5 19,12 12,19"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="news-card" data-link="https://example.com/vs-universe-movie">
+                        <div class="news-card-content">
+                            <div class="news-image">
+                                <img src="ben-10-vs-the-universe.jpg" alt="BEN 10 VS THE UNIVERSE">
+                            </div>
+                            <div class="news-info">
+                                <h3 class="news-title">BEN 10 VS THE UNIVERSE</h3>
+                                <p class="news-description">
+                                    Ben is accused of destroying a planet and must prove his innocence to the entire universe...
+                                </p>
+                                <button class="news-button">
+                                    WATCH NOW
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12,5 19,12 12,19"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="news-card" data-link="https://example.com/race-against-time-movie">
+                        <div class="news-card-content">
+                            <div class="news-image">
+                                <img src="ben10-race-against-time.jpg" alt="BEN 10: RACE AGAINST TIME">
+                            </div>
+                            <div class="news-info">
+                                <h3 class="news-title">BEN 10: RACE AGAINST TIME</h3>
+                                <p class="news-description">
+                                    Ben must stop the sinister Eon, who wants to change the past and take control of time...
+                                </p>
+                                <button class="news-button">
+                                    WATCH NOW
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        <polyline points="12,5 19,12 12,19"></polyline>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Hero Section Slider
+        class HeroSlider {
+            constructor() {
+                this.activeSlide = 0;
+                this.dots = document.querySelectorAll('.dot');
+                this.heroBg = document.querySelector('.hero-bg');
+                this.init();
+            }
+
+            init() {
+                this.dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        this.setActiveSlide(index);
+                    });
+                });
+
+                // Auto-slide every 5 seconds
+                setInterval(() => {
+                    this.nextSlide();
+                }, 5000);
+            }
+
+            setActiveSlide(index) {
+                this.activeSlide = index;
+                this.updateDots();
+                this.updateBackground();
+            }
+
+            nextSlide() {
+                this.activeSlide = (this.activeSlide + 1) % this.dots.length;
+                this.updateDots();
+                this.updateBackground();
+            }
+
+            updateDots() {
+                this.dots.forEach((dot, index) => {
+                    if (index === this.activeSlide) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+
+            updateBackground() {
+                const backgrounds = [
+                    'url(ben10-hero-bg.jpg)',
+                    'url(ben10-alien-force-poster.jpg)',
+                    'url(ben10-ultimate-alien-poster.jpg)',
+                    'url(ben10-omniverse-poster.jpg)'
+                ];
+                
+                this.heroBg.style.backgroundImage = backgrounds[this.activeSlide];
+            }
+        }
+
+        // Search Functionality
+        class SearchManager {
+            constructor() {
+                this.searchInput = document.querySelector('.search-input');
+                this.searchIcon = document.querySelector('.search-icon');
+                this.init();
+            }
+
+            init() {
+                if (this.searchInput) {
+                    this.searchInput.addEventListener('input', (e) => {
+                        this.handleSearch(e.target.value);
+                    });
+
+                    this.searchInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            this.performSearch();
+                        }
+                    });
+                }
+
+                if (this.searchIcon) {
+                    this.searchIcon.addEventListener('click', () => {
+                        this.performSearch();
+                    });
+                }
+            }
+
+            handleSearch(query) {
+                // Filter anime cards based on search query
+                const animeCards = document.querySelectorAll('.anime-card, .news-card');
+                const searchTerm = query.toLowerCase();
+
+                animeCards.forEach(card => {
+                    const title = card.querySelector('.anime-card-title, .news-title');
+                    if (title) {
+                        const cardText = title.textContent.toLowerCase();
+                        const cardElement = card.closest('.anime-card') || card.closest('.news-card');
+                        
+                        if (cardText.includes(searchTerm) || searchTerm === '') {
+                            cardElement.style.display = 'block';
+                        } else {
+                            cardElement.style.display = 'none';
+                        }
+                    }
+                });
+            }
+
+            performSearch() {
+                const query = this.searchInput.value.trim();
+                if (query) {
+                    console.log('Searching for:', query);
+                    this.handleSearch(query);
+                }
+            }
+        }
+
+        // Smooth Scrolling for Navigation Links
+        class NavigationManager {
+            constructor() {
+                this.navLinks = document.querySelectorAll('.nav-link');
+                this.init();
+            }
+
+            init() {
+                this.navLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const targetId = link.getAttribute('href');
+                        
+                        if (targetId === '#') {
+                            this.scrollToSection('hero');
+                        } else {
+                            this.scrollToSection(targetId);
+                        }
+                    });
+                });
+            }
+
+            scrollToSection(sectionId) {
+                const section = document.getElementById(sectionId) || document.querySelector('.hero');
+                if (section) {
+                    const offsetTop = section.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        }
+
+        // Card Hover Effects
+        class CardEffects {
+            constructor() {
+                this.animeCards = document.querySelectorAll('.anime-card');
+                this.newsCards = document.querySelectorAll('.news-card');
+                this.init();
+            }
+
+            init() {
+                this.animeCards.forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        this.addHoverEffect(card);
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        this.removeHoverEffect(card);
+                    });
+
+                    card.addEventListener('click', () => {
+                        this.handleCardClick(card);
+                    });
+                });
+
+                this.newsCards.forEach(card => {
+                    card.addEventListener('click', () => {
+                        this.handleNewsCardClick(card);
+                    });
+                });
+            }
+
+            addHoverEffect(card) {
+                card.style.transform = 'translateY(-8px)';
+                card.style.boxShadow = '0 10px 25px rgba(74, 222, 128, 0.2)';
+            }
+
+            removeHoverEffect(card) {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'none';
+            }
+
+            handleCardClick(card) {
+                const link = card.getAttribute('data-link');
+                const title = card.querySelector('.anime-card-title');
+                if (title && link) {
+                    console.log('Clicked on:', title.textContent, 'Link:', link);
+                    window.open(link, '_blank');
+                }
+            }
+
+            handleNewsCardClick(card) {
+                const link = card.getAttribute('data-link');
+                const title = card.querySelector('.news-title');
+                if (title && link) {
+                    console.log('Clicked on news:', title.textContent, 'Link:', link);
+                    window.open(link, '_blank');
+                }
+            }
+
+            showCardDetails(title) {
+                alert(`Opening details for: ${title}`);
+            }
+        }
+
+        // Button Interactions
+        class ButtonManager {
+            constructor() {
+                this.buttons = document.querySelectorAll('.btn, .news-button');
+                this.init();
+            }
+
+            init() {
+                this.buttons.forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        this.handleButtonClick(e);
+                    });
+                });
+            }
+
+            handleButtonClick(e) {
+                const button = e.currentTarget;
+                const buttonText = button.textContent.trim();
+
+                // Add click animation
+                button.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    button.style.transform = 'scale(1)';
+                }, 150);
+
+                // Handle different button types
+                if (buttonText.includes('WATCH NOW')) {
+                    this.handleWatchNow(button);
+                } else if (buttonText.includes('READ MORE')) {
+                    this.handleReadMore(button);
+                } else {
+                    console.log('Button clicked:', buttonText);
+                }
+            }
+
+            handleWatchNow(button) {
+                console.log('Starting playback...');
+                // Open link for watch now button
+                window.open('https://example.com/watch-now', '_blank');
+            }
+
+            handleReadMore(button) {
+                console.log('Showing more details...');
+                // Open link for read more button
+                window.open('https://example.com/read-more', '_blank');
+            }
+        }
+
+        // Header Scroll Effect
+        class HeaderScrollEffect {
+            constructor() {
+                this.header = document.querySelector('.header');
+                this.lastScrollY = 0;
+                this.init();
+            }
+
+            init() {
+                window.addEventListener('scroll', () => {
+                    this.handleScroll();
+                });
+            }
+
+            handleScroll() {
+                const currentScrollY = window.scrollY;
+
+                if (currentScrollY > 100) {
+                    this.header.style.background = 'rgba(30, 58, 46, 0.98)';
+                    this.header.style.backdropFilter = 'blur(20px)';
+                } else {
+                    this.header.style.background = 'rgba(30, 58, 46, 0.95)';
+                    this.header.style.backdropFilter = 'blur(10px)';
+                }
+
+                this.lastScrollY = currentScrollY;
+            }
+        }
+
+        // Mobile Menu Toggle
+        class MobileMenu {
+            constructor() {
+                this.menuButton = document.querySelector('.btn-icon:last-child');
+                this.nav = document.querySelector('.nav');
+                this.isOpen = false;
+                this.init();
+            }
+
+            init() {
+                if (this.menuButton) {
+                    this.menuButton.addEventListener('click', () => {
+                        this.toggleMenu();
+                    });
+                }
+
+                // Close menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (this.isOpen && !this.nav.contains(e.target) && !this.menuButton.contains(e.target)) {
+                        this.closeMenu();
+                    }
+                });
+            }
+
+            toggleMenu() {
+                if (this.isOpen) {
+                    this.closeMenu();
+                } else {
+                    this.openMenu();
+                }
+            }
+
+            openMenu() {
+                this.nav.style.display = 'flex';
+                this.nav.style.position = 'absolute';
+                this.nav.style.top = '100%';
+                this.nav.style.left = '0';
+                this.nav.style.right = '0';
+                this.nav.style.background = 'rgba(30, 58, 46, 0.98)';
+                this.nav.style.backdropFilter = 'blur(20px)';
+                this.nav.style.flexDirection = 'column';
+                this.nav.style.padding = '1rem';
+                this.nav.style.gap = '1rem';
+                this.nav.style.borderTop = '1px solid rgba(63, 90, 79, 0.4)';
+                this.isOpen = true;
+            }
+
+            closeMenu() {
+                this.nav.style.display = 'none';
+                this.isOpen = false;
+            }
+        }
+
+        // Initialize all components when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new HeroSlider();
+            new SearchManager();
+            new NavigationManager();
+            new CardEffects();
+            new ButtonManager();
+            new HeaderScrollEffect();
+            new MobileMenu();
+
+            console.log('Ben 10 Website initialized successfully!');
+        });
+
+        // Add some utility functions
+        window.Ben10Website = {
+            // Function to add new anime cards dynamically
+            addAnimeCard: function(title, image, link, container = '.content-grid') {
+                const grid = document.querySelector(container);
+                if (grid) {
+                    const card = document.createElement('div');
+                    card.className = 'anime-card';
+                    card.setAttribute('data-link', link);
+                    card.innerHTML = `
+                        <div class="anime-card-image">
+                            <img src="${image}" alt="${title}">
+                            <div class="dub-badge">DUB</div>
+                        </div>
+                        <h3 class="anime-card-title">${title}</h3>
+                    `;
+                    grid.appendChild(card);
+                }
+            },
+
+            // Function to scroll to top
+            scrollToTop: function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            },
+
+            // Function to toggle dark mode (if needed in future)
+            toggleDarkMode: function() {
+                document.documentElement.classList.toggle('dark');
+                localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+            }
+        };
+    </script>
+</body>
+</html>
